@@ -7,6 +7,7 @@ class Customer:
         self.arrival_time = arrival_time
         self.start_time = None
         self.end_time = None
+        self.fun = None
 
     def __repr__(self):
         return f"Customer {self.id}"
