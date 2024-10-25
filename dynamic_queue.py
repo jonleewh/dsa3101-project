@@ -5,9 +5,10 @@ class Customer: # generate unique customers
     def __init__(self, id, arrival_time):
         self.id = id # unique
         self.fast_pass = None # 0 for no fast_pass, 1 for have fast_pass
-        self.arrival_time = arrival_time
-        self.start_time = None
-        self.end_time = None
+        self.arrival_time = arrival_time # when they enter the queue
+        self.start_time = None # when they start the ride
+        self.end_time = None # when they finish the ride
+        self.waiting_time = None # waiting time before they get served
 
     def __repr__(self): # representation method 
         return f"Customer {self.id, self.fast_pass}"
@@ -16,10 +17,10 @@ class RideQueues:
     def __init__(self, ride_time, ride_capacity):
         self.regular_queue = deque()  
         self.fast_pass_queue = deque()
-        self.ride_time = ride_time  # Time of each rides
-        self.ride_capacity = ride_capacity # Number of max number of ppl a ride can take
+        self.ride_time = ride_time  # Time of each ride
+        self.ride_capacity = ride_capacity # Max number of ppl a ride can take
         self.current_time = 0  # Simulation time in seconds
-        self.total_served = 0  # Counter for served customers
+        self.total_served = 0  # Counter for served customers WITHIN WHICH TIME FRAME? ONE RIDE?
 
     def add_customer(self, customer):
         if isinstance(customer, Customer):
@@ -34,72 +35,45 @@ class RideQueues:
         
 
     def process_queue(self):
-        while self.queue: # while queue has customers
-            riding_customers = []
-            for i in (self.ride_capacity):
-                riding_customers.append(self.fast_pass_queue.popleft()) # Get customers in fast_pass_queue
-                riding_customers.append(self.regular_queue.popleft()) # Get customers in regular_queue
+        # assumption: ride_capacity is EVEN number; fast-pass vs regular queue each take up 1/2 of ride_capacity
+        # operation: take min(1/2*ride_capacity customeres out of fast_pass_queue, len(fast_pass_queue)), the rest from regular_queue
+        
+        riding_customers = []
+        
+        # take min(1/2*ride_capacity customeres out of fast_pass_queue, len(fast_pass_queue))
+        if self.fast_pass_queue: # while fast_pass_queue has customers
+            for i in range(1, min(self.ride_capacity//2, len(fast_pass_queue))):
+                person = self.fast_pass_queue.popleft()
+                riding_customers.append(person) # Get customers in fast_pass_queue
+                print(f"{person} from Fast Pass Queue is being served.") # for debugging
                 self.total_served += 1
+                print("total serving so far:", self.total_served) # for debugging
+        
+        fast_pass_filled_ride = len(riding_customers) # number of fast_pass customers going to the current ride
+        
+        # the rest from regular_queue
+        if self.regular_queue:
+            for i in range(1, self.ride_capacity - fast_pass_filled_ride):
+                person = self.regular_queue.popleft()
+                riding_customers.append(person) # Get customers in regular_queue
+                print(f"{person} from Regular Queue is being served.") # for debugging
+                self.total_served += 1
+                print("total serving so far:", self.total_served) # for debugging
+        
+        else:
+            print("No one is waiting in the queues.")
+        
+        # now we update the time
+        for customer in riding_customers: 
             customer.start_time = self.current_time  # When customer starts the ride
             customer.end_time = self.current_time + self.ride_time
             self.current_time += self.ride_time  # Simulate time passing
-
             print(f"{customer} started at {customer.start_time} and finished at {customer.end_time}.") # for debugtest
             self.calculate_waiting_time(customer)
+            
 
     def calculate_waiting_time(self, customer):
-        """Calculate the waiting time for each customer"""
-        waiting_time = customer.start_time - customer.arrival_time
+        customer.waiting_time = customer.start_time - customer.arrival_time
         print(f"{customer} waited for {waiting_time} seconds.")
 
 
-# Function to serve customers, giving priority to the fast-pass queue
-def serve_next():
-    if fast_pass_queue:
-        # Serve from the fast-pass queue if it's not empty
-        person = fast_pass_queue.popleft()
-        print(f"{person} from Fast Pass Queue is being served.")
-    elif regular_queue:
-        # Serve from the regular queue if fast-pass queue is empty
-        person = regular_queue.popleft()
-        print(f"{person} from Regular Queue is being served.")
-    else:
-        print("No one is waiting in the queues.")
-
-# Create two separate queues: one for regular customers and one for fast-pass customers
-regular_queue = deque()
-fast_pass_queue = deque()
-
-# Adding people to the queues
-regular_queue.append("Person 1 (Regular)")
-regular_queue.append("Person 2 (Regular)")
-fast_pass_queue.append("Person 3 (Fast Pass)")
-fast_pass_queue.append("Person 4 (Fast Pass)")
-
-
-# Usage example
-ride_queue = RideQueue(ride_time=5)  # Each ride takes 5 seconds
-
-# Simulate customers arriving at different times
-customers = [Customer(id=i, arrival_time=i*2) for i in range(5)]  # Customers arriving every 2 seconds
-
-# Add customers to the queue
-for customer in customers:
-    ride_queue.add_customer(customer)
-
-# Process the queue and serve the customers
-ride_queue.process_queue()
-
-
-
-
-
-
-
-
-# Simulate serving people
-serve_next()  # Person 3 (Fast Pass)
-serve_next()  # Person 4 (Fast Pass)
-serve_next()  # Person 1 (Regular)
-serve_next()  # Person 2 (Regular)
-serve_next()  # No one is waiting in the queues
