@@ -1,6 +1,14 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
+# ideal: try to make the graph interactive where the person can hover around the circle and view details about each attraction
+
+# issues:
+# 1. the name of each attraction should attempt to fit within the confines of the circle
+# 2. Showing of key details of each attraction
+# 3. Inputting of accurate data for each zone and each attraction
+# 4. Enter nodes first followed by edges
+
 G = nx.Graph()
 
 class Attraction:
@@ -46,18 +54,19 @@ G.add_node('Far Far Away Castle', type = 'attraction', zone = 'Far Far Away', cr
 G.add_node('Toilet', type = 'toilet', zone = 'Hollywood', cleanliness=90, proximity=5, usage=30)
 
 # add edges, each number represents the node
-G.add_edge('Transformers', 'Revenge of the Mummy', distance=150)
-G.add_edge('Revenge of the Mummy', 'Jurassic Park Rapids', distance=200)
-G.add_edge('Jurassic Park Rapids', 'Battlestar Galactica', distance=250)
-G.add_edge('Battlestar Galactica', 'Shrek 4D', distance=100)
-G.add_edge('Shrek 4D', 'Puss in Boots’ Giant Journey', distance=80)
-G.add_edge('Puss in Boots’ Giant Journey', 'WaterWorld', distance=100)
-G.add_edge('WaterWorld', 'Far Far Away Castle', distance=150)
-G.add_edge('Hawker’s Market', 'Toilets', distance=30)
-G.add_edge('Jurassic Park Rapids', 'The Lost World', distance=120)
-G.add_edge('Revenge of the Mummy', 'Ancient Egypt Maze', distance=90)
-G.add_edge('The Lost World', 'Ancient Egypt', distance=170)
-G.add_edge('Battlestar Galactica', 'Hawker’s Market', distance=200)
+G.add_edge('Transformers', 'Revenge of the Mummy', distance = 150)
+G.add_edge('Revenge of the Mummy', 'Jurassic Park Rapids', distance = 200)
+G.add_edge('Jurassic Park Rapids', 'Battlestar Galactica', distance = 250)
+G.add_edge('Battlestar Galactica', 'Shrek 4D', distance = 100)
+G.add_edge('Shrek 4D', 'Puss in Boots’ Giant Journey', distance = 80)
+G.add_edge('Puss in Boots’ Giant Journey', 'WaterWorld', distance = 100)
+G.add_edge('WaterWorld', 'Far Far Away Castle', distance = 150)
+G.add_edge('Hawker’s Market', 'Toilets', distance = 30)
+G.add_edge('Jurassic Park Rapids', 'The Lost World', distance = 120)
+G.add_edge('Revenge of the Mummy', 'Ancient Egypt Maze', distance = 90)
+G.add_edge('The Lost World', 'Ancient Egypt', distance = 170)
+G.add_edge('Battlestar Galactica', 'Hawker’s Market', distance = 200)
+
 
 # visualisation of graph
 plt.figure(figsize=(10, 8))
