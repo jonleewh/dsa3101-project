@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 # 3. Inputting of accurate data for each zone and each attraction
 # 4. Enter nodes first followed by edges
 
+# use plotly or bokeh
+
 G = nx.Graph()
 
 class Attraction:
