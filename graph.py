@@ -1,6 +1,10 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
+import plotly.graph_objects as go
+import plotly.io as pio
+import webbrowser
+import random
 
 # ideal: try to make the graph interactive where the person can hover around the circle and view details about each attraction
 
@@ -142,10 +146,99 @@ G.add_edge('Battlestar Galactica', 'Hawker’s Market', distance = 200)
 # peak hours, special events, seasonal variations
 
 # visualisation of graph
-plt.figure(figsize=(10, 8))
-pos = nx.spring_layout(G)  # positions for all nodes
-nx.draw(G, pos, with_labels=True, node_color='skyblue', node_size=3000, font_size=10, font_weight='bold', edge_color='gray')
-labels = nx.get_edge_attributes(G, 'distance')
-nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
-plt.title("Universal Studios Singapore Attractions and Rides with Zones")
-plt.show()
+# plt.figure(figsize=(10, 8))
+# pos = nx.spring_layout(G)  # positions for all nodes
+# nx.draw(G, pos, with_labels=True, node_color='skyblue', node_size=3000, font_size=10, font_weight='bold', edge_color='gray')
+# labels = nx.get_edge_attributes(G, 'distance')
+# nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+# plt.title("Universal Studios Singapore Attractions and Rides with Zones")
+# plt.show()
+
+# visualisation with plotly
+pos = nx.spring_layout(G)
+edge_x = []
+edge_y = []
+
+
+for edge in G.edges(data=True):
+
+    x0, y0 = pos[edge[0]]
+    x1, y1 = pos[edge[1]]
+    edge_x += [x0, x1, None]
+    edge_y += [y0, y1, None]
+
+
+# Edge traces
+edge_trace = go.Scatter(
+    x=edge_x, y=edge_y,
+    hoverinfo='text',                  
+    mode='lines',
+    line=dict(width=5)
+)
+
+node_x = []
+node_y = []
+node_text = []
+customdata = []  # Store the detailed tooltip information separately
+node_colors = ['#%06x' % random.randint(0, 0xFFFFFF) for _ in G.nodes()]
+
+for node, data in G.nodes(data=True):
+    x, y = pos[node]
+    node_x.append(x)
+    node_y.append(y)
+    
+    # Basic name for node label
+    node_text.append(node)
+    
+    # Detailed hover information
+    tooltip_text = f"Name: {node}<br>Type: {data.get('type', 'N/A')}"
+    tooltip_text += f"<br>Zone: {data.get('zone', 'N/A')}"
+    tooltip_text += f"<br>Crowd Level: {data.get('crowd_level', 'N/A')}"
+    tooltip_text += f"<br>Capacity: {data.get('capacity', 'N/A')}"
+    tooltip_text += f"<br>Speed: {data.get('speed', 'N/A')}"
+    tooltip_text += f"<br>Menu Variety: {data.get('menu_variety', 'N/A')}"
+    tooltip_text += f"<br>Popularity: {data.get('popularity', 'N/A')}"
+    tooltip_text += f"<br>Cleanliness: {data.get('cleanliness', 'N/A')}"
+    customdata.append(tooltip_text)
+
+# Update the Scatter trace
+node_trace = go.Scatter(
+    x=node_x, y=node_y,
+    mode='markers+text',
+    text=node_text,            # Show node names directly on nodes
+    customdata=customdata,     # Store detailed information for hover
+    hovertemplate='%{customdata}',  # Use customdata for the hover text
+    textposition="middle center",
+    textfont=dict(
+        size=8,               
+        color="white"          
+    ),
+    marker=dict(
+        size=90,               
+        color=node_colors,
+        line=dict(width=2)
+    )
+)
+
+
+# Plotting the graph
+fig = go.Figure(data=[edge_trace, node_trace],
+                layout=go.Layout(
+                    title="Theme Park Attractions",
+                    titlefont_size=16,
+                    showlegend=False,
+                    hovermode='closest',
+                    margin=dict(b=0, l=0, r=0, t=40),
+                    xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                    yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
+                )
+
+fig = go.Figure(data=[edge_trace, node_trace])  
+
+# Save the figure to an HTML file
+html_file = 'graph_output.html'
+pio.write_html(fig, file=html_file, auto_open=False)
+
+# Open the HTML file in the default web browser
+webbrowser.open_new_tab(html_file)
+
