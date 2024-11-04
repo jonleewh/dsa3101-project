@@ -16,8 +16,6 @@ import random
 
 # use plotly or bokeh
 
-# Every 30 minutes update expected_duration? 10am, 10:30am, 11am, 11:30am, 12pm, ...., 5pm
-
 G = nx.Graph()
 
 class Attraction:
@@ -52,23 +50,32 @@ class Attraction:
 # add nodes, ensure properties are in the format (key = value)
 # we can use the waiting time as a proxy for the crowd level using the csv file
 # replace with the csv file data rather than generating it by ourselves
-def dynamic_crowd_wait(time_of_day, base_wait, base_crowd):
+def dynamic_crowd_wait(time_of_day, expected_waiting_time):
     # Approach:
     # get the expected waiting time from the csv file
     # actual waiting time = expected waiting time + random value
     # update this every 5 min
     # loop over the csv file to collect the data we want
     # Change the simulation of peak crowd/wait times:
-    crowd_level = base_crowd + 20 * np.sin(time_of_day * np.pi / 12)
-    wait_time = base_wait + 10 * np.sin(time_of_day * np.pi / 12)
-    return max(0, wait_time), max(0, crowd_level)
+    actual_wait_time = expected_waiting_time + np.random(0, 10) # may need to change the random function
+    return actual_wait_time
+
+# loop over the csv file to collect the data we want
+# code to read csv file
+for row in csv_file: # i will change csv_file
+    actual_wait_time = dynamic_crowd_wait(
+        # extract the time of the day
+        # extract the expected_waiting_time
+    )
+    crowd_level = actual_wait_time * 5
 
 # Calculate satisfaction/desirability score based on crowd level, wait time, and popularity
 # Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
-def calculate_satisfaction(wait_time, crowd_level, popularity):
+def calculate_satisfaction(actual_wait_time, crowd_level, popularity):
     # Satisfaction score example: higher with low crowd/wait and high popularity
     # may want to use multiple LR here
-    return max(0, popularity - wait_time - crowd_level)
+    # b0 + b1 * actual_wait_time + b2 * crowd_level + b3 * popularity + b4 * menu_variety + 
+    return max(0, popularity - actual_wait_time - crowd_level)
 
 # Simulate park experience over a day (time range: 10am to 7pm)
 for hour in range(10, 20):
