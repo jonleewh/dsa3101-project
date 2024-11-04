@@ -29,17 +29,18 @@ class Attraction:
     def get_info(self):
         print(f"{self.name} is a {self.node_type} in {self.zone} with a current crowd level of {self.crowd_level}")
 
+"""
+for every visitor, we need to know, what attraction types do they prefer and have to visit?
+Have a "checklist" of what attraction types to visit
+maximise satisfaction and minimise wait time
+run through all possible paths that are present from jamie's csv file and change parameters (but cannot change waiting time)
+might have to come up with a ML model to change parameters (e.g. defining a range of values for each parameter)
+maximise satisfaction overall
 
-# for every visitor, we need to know, what attraction types do they prefer and have to visit?
-# Have a "checklist" of what attraction types to visit
-# maximise satisfaction and minimise wait time
-# run through all possible paths that are present from jamie's csv file and change parameters (but cannot change waiting time)
-# might have to come up with a ML model to change parameters (e.g. defining a range of values for each parameter)
-# maximise satisfaction overall
-
-# Other things we need to do:
-# optimise guest flow and resource allocation (staff variable)
-# seasonal variation (after Group A gives us the weather index, etc)
+Other things we need to do:
+optimise guest flow and resource allocation (staff variable)
+seasonal variation (after Group A gives us the weather index, etc)
+"""
 
 # add nodes, ensure properties are in the format (key = value)
 # we can use the waiting time as a proxy for the crowd level using the csv file
@@ -147,14 +148,15 @@ def optimized_itinerary(start, attractions_list, current_hour):
     
     return itinerary, total_time
 
-
-# let's import data from the csv file instead of hard coding it
-# if the ride doesn't exist in the csv file, keep it but
-# current columns in csv file: index, name of attraction, duration, popularity score (Jamie is doing this)
-# add columns like usage, crowd level, cleanliness etc
-# cleanliness taken from the survey (justify this)
-# crowd level from dynamic queue
-# menu variety from survey
+"""
+let's import data from the csv file instead of hard coding it
+if the ride doesn't exist in the csv file, keep it but
+- current columns in csv file: index, name of attraction, duration, popularity score (Jamie is doing this)
+- add columns like usage, crowd level, cleanliness etc
+- cleanliness taken from the survey (justify this)
+- crowd level from dynamic queue
+- menu variety from survey
+"""
 
 # create another similar csv file with the same column names and play around with the values
 
