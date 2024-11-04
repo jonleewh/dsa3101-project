@@ -54,19 +54,15 @@ class Attraction:
 # add nodes, ensure properties are in the format (key = value)
 # we can use the waiting time as a proxy for the crowd level using the csv file
 # replace with the csv file data rather than generating it by ourselves
-def dynamic_crowd_wait(time_of_day, expected_waiting_time):
-    # Approach:
-    # get the expected waiting time from the csv file
-    # actual waiting time = expected waiting time + random value
+def dynamic_crowd_wait(time_of_day, expected_waiting_time): # get the expected waiting time from the csv file
     # update this every 5 min
     # loop over the csv file to collect the data we want
-    # Change the simulation of peak crowd/wait times:
     actual_wait_time = expected_waiting_time + np.random(0, 10) # may need to change the random function
     return actual_wait_time
 
 # loop over the csv file to collect the data we want
 # code to read csv file
-for row in csv_file: # i will change csv_file
+for row in csv_file: # need to change the csv_file
     actual_wait_time = dynamic_crowd_wait(
         # extract the time of the day
         # extract the expected_waiting_time
