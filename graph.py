@@ -50,6 +50,7 @@ def dynamic_crowd_wait(time_of_day, base_wait, base_crowd):
 # Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
 def calculate_satisfaction(wait_time, crowd_level, popularity):
     # Satisfaction score example: higher with low crowd/wait and high popularity
+    # may want to use multiple LR here
     return max(0, popularity - wait_time - crowd_level)
 
 # Simulate park experience over a day (time range: 10am to 7pm)
