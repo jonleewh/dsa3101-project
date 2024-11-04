@@ -101,8 +101,7 @@ def optimized_itinerary(start, attractions_list, current_hour):
 
 # Hollywood
 G.add_node("Mel's Mixtape", type = "show", zone = "Hollywood", duration = 30, capacity=100, crowd_level=60)
-G.add_node("Restroom1", type = "restroom", zone = "Hollywood", cleanliness = 90, usage = 30)
-G.add_node("Restroom2", type = "restroom", zone = "Hollywood", cleanliness = 90, usage = 30)
+G.add_node("Restroom 1", type = "restroom", zone = "Hollywood", cleanliness = 90, usage = 30)
 G.add_node("Starbucks", type = "F&B", zone = "Hollywood", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Mel's Drive-In", type = "F&B", zone = "Hollywood", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("KT's Grill", type = "F&B", zone = "Hollywood", menu_variety = 10, capacity = 150, crowd_size = 80)
@@ -116,8 +115,8 @@ G.add_node("Minion Mart", type = "retail", zone = "Hollywood", crowd_size = 80)
 G.add_node("UNIVRS", type = "retail", zone = "Hollywood", crowd_size = 80)
 
 # add edges within Hollywood
-G.add_edge("Restroom")
-G.add_edge()
+G.add_edge("Restroom 1", "Mel's Mixtape", distance = 3)
+
 
 # New York
 G.add_node("Lights Camera Action Hosted by Steven Spielberg", type = "ride", zone = "New York",
@@ -125,9 +124,13 @@ G.add_node("Lights Camera Action Hosted by Steven Spielberg", type = "ride", zon
 G.add_node("Sesame Street Spaghetti Space Chase", type = "ride", zone = "New York",
            ride_duration = 10, capacity = 150, crowd_size = 80, popularity = 99)
 G.add_node("Rhythm Truck", type = "show", zone = "New York", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Restroom", type = "restroom", zone = "New York", cleanliness = 90, usage = 30)
+G.add_node("Restroom 2", type = "restroom", zone = "New York", cleanliness = 90, usage = 30)
 G.add_node("Loui's NY Pizza Parlor", type = "F&B", zone = "New York", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Big Bird's Emporium", type = "retail", zone = "New York", crowd_size = 80)
+
+# add edges within New York
+G.add_edge("Restroom 2", "Loui's NY Pizza Parlor", distance = 3)
+
 
 # Sci-Fi City
 G.add_node("Transformers", type = "ride", zone = "Sci-Fi City",
@@ -137,34 +140,47 @@ G.add_node("Battlestar Galactica: Human", type = "ride", zone = "Sci-Fi City", e
            crowd_level = 100, actual_duration = 60, popularity = 100) # values will change based on the time, every 30 min?
 G.add_node("Battlestar Galactica: Cylon", type = "ride", zone = "Sci-Fi City", expected_duration = 30,
            crowd_level = 100, actual_duration = 60, popularity = 100) # values will change based on the time, every 30 min?
-G.add_node("Restroom", type = "restroom", zone = "Sci-Fi City", cleanliness = 90, usage = 30)
+G.add_node("Restroom 3", type = "restroom", zone = "Sci-Fi City", cleanliness = 90, usage = 30)
 G.add_node("StarBot Cafe", type = "F&B", zone = "Sci-Fi City", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Galactic Treats", type = "F&B", zone = "Sci-Fi City", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Frozen Fuel", type = "F&B", zone = "Sci-Fi City", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Planet Yen", type = "F&B", zone = "Sci-Fi City", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Transformers Supply Vault", type = "retail", zone = "Sci-Fi City", crowd_size = 80)
 
+# add edges within Sci-Fi City
+G.add_edge("Restroom 3", "Accelerator", distance = 3)
+
+
 # Ancient Egypt
 G.add_node("Revenge of the Mummy", type = "ride", zone = "Ancient Egypt", popularity = 100)
 G.add_node("Treasure Hunters", type = "ride", zone = "Ancient Egypt", popularity = 90, crowd_level = 10)
-G.add_node("Restroom", type = "restroom", zone = "Ancient Egypt", cleanliness = 90, usage = 30)
+G.add_node("Restroom 4", type = "restroom", zone = "Ancient Egypt", cleanliness = 90, usage = 30)
 G.add_node("Oasis Spice Cafe", type = "F&B", zone = "Ancient Egypt", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Cairo Market", type = "F&B", zone = "Ancient Egypt", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Pharaoh's Dessert Oasis", type = "F&B", zone = "Ancient Egypt", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Carter's Curiosities", type = "retail", zone = "Ancient Egypt", crowd_size = 80)
+
+# add edges within Ancient Egypt
+G.add_edge("Restroom 4", "Treasure Hunters", distance = 3)
+
 
 # The Lost World
 G.add_node("Jurassic Park Rapids", type = "ride", zone = "The Lost World", popularity = 85)
 G.add_node("Dino-Soarin", type = "ride", zone = "The Lost World", popularity = 85)
 G.add_node("Canopy Flyer", type = "ride", zone = "The Lost World", popularity = 85)
 G.add_node("WaterWorld", type = "show", zone = "The Lost World", popularity = 80)
-G.add_node("Restroom", type = "restroom", zone = "The Lost World", cleanliness = 90, usage = 30)
-G.add_node("Restroom", type = "restroom", zone = "The Lost World", cleanliness = 90, usage = 30)
+G.add_node("Restroom 5", type = "restroom", zone = "The Lost World", cleanliness = 90, usage = 30)
+G.add_node("Restroom 6", type = "restroom", zone = "The Lost World", cleanliness = 90, usage = 30)
 G.add_node("Discovery Food Court", type = "F&B", zone = "The Lost World", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Mariner's Market", type = "F&B", zone = "The Lost World", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Jungle Bites", type = "F&B", zone = "The Lost World", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Drying Pod", type = "drying pod", zone = "The Lost World", capacity = 5)
 G.add_node("The Dino-Store", type = "retail", zone = "Hollywood", crowd_size = 80)
+
+# add edges within The Lost World
+G.add_edge("Restroom 5", "Discovery Food Court", distance = 3)
+G.add_edge("Restroom 6", "WaterWorld", distance = 3)
+
 
 # Far Far Away
 G.add_node("Puss In Boots", type = "ride", zone = "Far Far Away", popularity = 75)
@@ -173,24 +189,28 @@ G.add_node("Shrek 4D Adventure", type = "ride", zone = "Far Far Away", popularit
 G.add_node("Enchanted Airways", type = "ride", zone = "Far Far Away", crowd_level = 70)
 G.add_node("Donkey Live", type = "ride", zone = "Far Far Away", crowd_level = 70)
 G.add_node("Fortune Favours The Furry", type = "ride", zone = "Far Far Away", crowd_level = 70)
-G.add_node("Restroom", type = "restroom", zone = "Far Far Away", cleanliness = 90, usage = 30)
+G.add_node("Restroom 7", type = "restroom", zone = "Far Far Away", cleanliness = 90, usage = 30)
 G.add_node("Friar's Good Food", type = "F&B", zone = "Far Far Away", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Goldilocks", type = "F&B", zone = "Far Far Away", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Fairy Godmother's Potion Shop", type = "retail", zone = "Far Far Away", crowd_size = 80)
 
-# add edges, each number represents the node
-G.add_edge("Transformers", "Revenge of the Mummy", distance = 150)
-G.add_edge("Revenge of the Mummy", "Jurassic Park Rapids", distance = 200)
-G.add_edge("Jurassic Park Rapids", "Battlestar Galactica", distance = 250)
-G.add_edge("Battlestar Galactica", "Shrek 4D", distance = 100)
-G.add_edge("Shrek 4D", "Puss in Boots’ Giant Journey", distance = 80)
-G.add_edge("Puss in Boots’ Giant Journey", "WaterWorld", distance = 100)
-G.add_edge("WaterWorld", "Far Far Away Castle", distance = 150)
-G.add_edge("Hawker’s Market", "Toilets", distance = 30)
-G.add_edge("Jurassic Park Rapids", "The Lost World", distance = 120)
-G.add_edge("Revenge of the Mummy", "Ancient Egypt Maze", distance = 90)
-G.add_edge("The Lost World", "Ancient Egypt", distance = 170)
-G.add_edge("Battlestar Galactica", "Hawker’s Market", distance = 200)
+# add edges within New York
+G.add_edge("Restroom 7", "Goldilocks", distance = 3)
+
+
+# add edges, each number represents the node (to be updated)
+# G.add_edge("Transformers", "Revenge of the Mummy", distance = 150)
+# G.add_edge("Revenge of the Mummy", "Jurassic Park Rapids", distance = 200)
+# G.add_edge("Jurassic Park Rapids", "Battlestar Galactica", distance = 250)
+# G.add_edge("Battlestar Galactica", "Shrek 4D", distance = 100)
+# G.add_edge("Shrek 4D", "Puss in Boots’ Giant Journey", distance = 80)
+# G.add_edge("Puss in Boots’ Giant Journey", "WaterWorld", distance = 100)
+# G.add_edge("WaterWorld", "Far Far Away Castle", distance = 150)
+# G.add_edge("Hawker’s Market", "Toilets", distance = 30)
+# G.add_edge("Jurassic Park Rapids", "The Lost World", distance = 120)
+# G.add_edge("Revenge of the Mummy", "Ancient Egypt Maze", distance = 90)
+# G.add_edge("The Lost World", "Ancient Egypt", distance = 170)
+# G.add_edge("Battlestar Galactica", "Hawker’s Market", distance = 200)
 # assume roads won"t be congested
 
 # walkthrough: change parameters of nodes and edges so that the satisfactory score is maximised and time spent in total is minimised
