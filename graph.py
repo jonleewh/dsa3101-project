@@ -49,8 +49,8 @@ def calculate_satisfaction(wait_time, crowd_level, popularity):
     # Satisfaction score example: higher with low crowd/wait and high popularity
     return max(0, popularity - wait_time - crowd_level)
 
-# Simulate park experience over a day (time range: 0 to 24 hours)
-for hour in range(24):
+# Simulate park experience over a day (time range: 10am to 7pm)
+for hour in range(10, 20):
     print(f"\n--- Time: {hour}:00 ---")
     for node in G.nodes(data=True):
         base_wait = node[1]["base_wait"]
@@ -65,7 +65,6 @@ for hour in range(24):
         
         # Print status
         print(f"{node[0]} - Wait Time: {wait_time:.1f} mins, Crowd Level: {crowd_level:.1f}, Satisfaction: {satisfaction:.1f}")
-
 
 # Shortest-path optimization based on Dijkstra’s algorithm
 def find_shortest_path(graph, start, end):
@@ -102,8 +101,8 @@ def optimized_itinerary(start, attractions_list, current_hour):
 
 # Hollywood
 G.add_node("Mel's Mixtape", type = "show", zone = "Hollywood", duration = 30, capacity=100, crowd_level=60)
-G.add_node("Restroom", type = "restroom", zone = "Hollywood", cleanliness = 90, usage = 30)
-G.add_node("Restroom", type = "restroom", zone = "Hollywood", cleanliness = 90, usage = 30)
+G.add_node("Restroom1", type = "restroom", zone = "Hollywood", cleanliness = 90, usage = 30)
+G.add_node("Restroom2", type = "restroom", zone = "Hollywood", cleanliness = 90, usage = 30)
 G.add_node("Starbucks", type = "F&B", zone = "Hollywood", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Mel's Drive-In", type = "F&B", zone = "Hollywood", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("KT's Grill", type = "F&B", zone = "Hollywood", menu_variety = 10, capacity = 150, crowd_size = 80)
@@ -115,6 +114,10 @@ G.add_node("Universal Studios Store", type = "retail", zone = "Hollywood", crowd
 G.add_node("Hello Kitty Studio", type = "retail", zone = "Hollywood", crowd_size = 80)
 G.add_node("Minion Mart", type = "retail", zone = "Hollywood", crowd_size = 80)
 G.add_node("UNIVRS", type = "retail", zone = "Hollywood", crowd_size = 80)
+
+# add edges within Hollywood
+G.add_edge("Restroom")
+G.add_edge()
 
 # New York
 G.add_node("Lights Camera Action Hosted by Steven Spielberg", type = "ride", zone = "New York",
@@ -205,89 +208,86 @@ plt.title("Universal Studios Singapore Attractions and Rides with Zones")
 plt.show()
 
 # visualisation with plotly
-# pos = nx.spring_layout(G)
-# edge_x = []
-# edge_y = []
+pos = nx.spring_layout(G)
+edge_x = []
+edge_y = []
 
+for edge in G.edges(data=True):
+    x0, y0 = pos[edge[0]]
+    x1, y1 = pos[edge[1]]
+    edge_x += [x0, x1, None]
+    edge_y += [y0, y1, None]
 
-# for edge in G.edges(data=True):
+# Edge traces
+edge_trace = go.Scatter(
+    x=edge_x, y=edge_y,
+    hoverinfo="text",                  
+    mode="lines",
+    line=dict(width=5)
+)
 
-#     x0, y0 = pos[edge[0]]
-#     x1, y1 = pos[edge[1]]
-#     edge_x += [x0, x1, None]
-#     edge_y += [y0, y1, None]
+node_x = []
+node_y = []
+node_text = []
+customdata = []  # Store the detailed tooltip information separately
+node_colors = ["#%06x" % random.randint(0, 0xFFFFFF) for _ in G.nodes()]
 
-
-# # Edge traces
-# edge_trace = go.Scatter(
-#     x=edge_x, y=edge_y,
-#     hoverinfo="text",                  
-#     mode="lines",
-#     line=dict(width=5)
-# )
-
-# node_x = []
-# node_y = []
-# node_text = []
-# customdata = []  # Store the detailed tooltip information separately
-# node_colors = ["#%06x" % random.randint(0, 0xFFFFFF) for _ in G.nodes()]
-
-# for node, data in G.nodes(data=True):
-#     x, y = pos[node]
-#     node_x.append(x)
-#     node_y.append(y)
+for node, data in G.nodes(data=True):
+    x, y = pos[node]
+    node_x.append(x)
+    node_y.append(y)
     
-#     # Basic name for node label
-#     node_text.append(node)
+    # Basic name for node label
+    node_text.append(node)
     
-#     # Detailed hover information
-#     tooltip_text = f"Name: {node}<br>Type: {data.get("type", "N/A")}"
-#     tooltip_text += f"<br>Zone: {data.get("zone", "N/A")}"
-#     tooltip_text += f"<br>Crowd Level: {data.get("crowd_level", "N/A")}"
-#     tooltip_text += f"<br>Capacity: {data.get("capacity", "N/A")}"
-#     tooltip_text += f"<br>Speed: {data.get("speed", "N/A")}"
-#     tooltip_text += f"<br>Menu Variety: {data.get("menu_variety", "N/A")}"
-#     tooltip_text += f"<br>Popularity: {data.get("popularity", "N/A")}"
-#     tooltip_text += f"<br>Cleanliness: {data.get("cleanliness", "N/A")}"
-#     customdata.append(tooltip_text)
+    # Detailed hover information
+    tooltip_text = f"Name: {node}<br>Type: {data.get("type", "N/A")}"
+    tooltip_text += f"<br>Zone: {data.get("zone", "N/A")}"
+    tooltip_text += f"<br>Crowd Level: {data.get("crowd_level", "N/A")}"
+    tooltip_text += f"<br>Capacity: {data.get("capacity", "N/A")}"
+    tooltip_text += f"<br>Speed: {data.get("speed", "N/A")}"
+    tooltip_text += f"<br>Menu Variety: {data.get("menu_variety", "N/A")}"
+    tooltip_text += f"<br>Popularity: {data.get("popularity", "N/A")}"
+    tooltip_text += f"<br>Cleanliness: {data.get("cleanliness", "N/A")}"
+    customdata.append(tooltip_text)
 
-# # Update the Scatter trace
-# node_trace = go.Scatter(
-#     x=node_x, y=node_y,
-#     mode="markers+text",
-#     text=node_text,            # Show node names directly on nodes
-#     customdata=customdata,     # Store detailed information for hover
-#     hovertemplate="%{customdata}",  # Use customdata for the hover text
-#     textposition="middle center",
-#     textfont=dict(
-#         size=8,               
-#         color="white"          
-#     ),
-#     marker=dict(
-#         size=90,               
-#         color=node_colors,
-#         line=dict(width=2)
-#     )
-# )
+# Update the Scatter trace
+node_trace = go.Scatter(
+    x=node_x, y=node_y,
+    mode="markers+text",
+    text=node_text,            # Show node names directly on nodes
+    customdata=customdata,     # Store detailed information for hover
+    hovertemplate="%{customdata}",  # Use customdata for the hover text
+    textposition="middle center",
+    textfont=dict(
+        size=8,               
+        color="white"          
+    ),
+    marker=dict(
+        size=90,               
+        color=node_colors,
+        line=dict(width=2)
+    )
+)
 
 
-# # Plotting the graph
-# fig = go.Figure(data=[edge_trace, node_trace],
-#                 layout=go.Layout(
-#                     title="Theme Park Attractions",
-#                     titlefont_size=16,
-#                     showlegend=False,
-#                     hovermode="closest",
-#                     margin=dict(b=0, l=0, r=0, t=40),
-#                     xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-#                     yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
-#                 )
+# Plotting the graph
+fig = go.Figure(data=[edge_trace, node_trace],
+                layout=go.Layout(
+                    title="Theme Park Attractions",
+                    titlefont_size=16,
+                    showlegend=False,
+                    hovermode="closest",
+                    margin=dict(b=0, l=0, r=0, t=40),
+                    xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                    yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
+                )
 
-# fig = go.Figure(data=[edge_trace, node_trace])  
+fig = go.Figure(data=[edge_trace, node_trace])  
 
-# # Save the figure to an HTML file
-# html_file = "graph_output.html"
-# pio.write_html(fig, file=html_file, auto_open=False)
+# Save the figure to an HTML file
+html_file = "graph_output.html"
+pio.write_html(fig, file=html_file, auto_open=False)
 
-# # Open the HTML file in the default web browser
-# webbrowser.open_new_tab(html_file)
+# Open the HTML file in the default web browser
+webbrowser.open_new_tab(html_file)
