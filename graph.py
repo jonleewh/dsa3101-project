@@ -271,14 +271,14 @@ for node, data in G.nodes(data=True):
     node_text.append(node)
     
     # Detailed hover information
-    tooltip_text = f"Name: {node}<br>Type: {data.get("type", "N/A")}"
-    tooltip_text += f"<br>Zone: {data.get("zone", "N/A")}"
-    tooltip_text += f"<br>Crowd Level: {data.get("crowd_level", "N/A")}"
-    tooltip_text += f"<br>Capacity: {data.get("capacity", "N/A")}"
-    tooltip_text += f"<br>Speed: {data.get("speed", "N/A")}"
-    tooltip_text += f"<br>Menu Variety: {data.get("menu_variety", "N/A")}"
-    tooltip_text += f"<br>Popularity: {data.get("popularity", "N/A")}"
-    tooltip_text += f"<br>Cleanliness: {data.get("cleanliness", "N/A")}"
+    tooltip_text = f"Name: {node}<br>Type: {data.get('type', 'N/A')}"
+    tooltip_text += f"<br>Zone: {data.get('zone', 'N/A')}"
+    tooltip_text += f"<br>Crowd Level: {data.get('crowd_level', 'N/A')}"
+    tooltip_text += f"<br>Capacity: {data.get('capacity', 'N/A')}"
+    tooltip_text += f"<br>Speed: {data.get('speed', 'N/A')}"
+    tooltip_text += f"<br>Menu Variety: {data.get('menu_variety', 'N/A')}"
+    tooltip_text += f"<br>Popularity: {data.get('popularity', 'N/A')}"
+    tooltip_text += f"<br>Cleanliness: {data.get('cleanliness', 'N/A')}"
     customdata.append(tooltip_text)
 
 # Update the Scatter trace
