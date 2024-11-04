@@ -109,6 +109,12 @@ G.add_node("Mel's Drive-In", type = "F&B", zone = "Hollywood", menu_variety = 10
 G.add_node("KT's Grill", type = "F&B", zone = "Hollywood", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Star Snacks", type = "F&B", zone = "Hollywood", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Pops! Popcorn Delight", type = "F&B", zone = "Hollywood", menu_variety = 10, capacity = 150, crowd_size = 80)
+G.add_node("That's a Wrap!", type = "retail", zone = "Hollywood", crowd_size = 80)
+G.add_node("Candylicious", type = "retail", zone = "Hollywood", crowd_size = 80)
+G.add_node("Universal Studios Store", type = "retail", zone = "Hollywood", crowd_size = 80)
+G.add_node("Hello Kitty Studio", type = "retail", zone = "Hollywood", crowd_size = 80)
+G.add_node("Minion Mart", type = "retail", zone = "Hollywood", crowd_size = 80)
+G.add_node("UNIVRS", type = "retail", zone = "Hollywood", crowd_size = 80)
 
 # New York
 G.add_node("Lights Camera Action Hosted by Steven Spielberg", type = "ride", zone = "New York",
@@ -118,6 +124,7 @@ G.add_node("Sesame Street Spaghetti Space Chase", type = "ride", zone = "New Yor
 G.add_node("Rhythm Truck", type = "show", zone = "New York", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Restroom", type = "restroom", zone = "New York", cleanliness = 90, usage = 30)
 G.add_node("Loui's NY Pizza Parlor", type = "F&B", zone = "New York", menu_variety = 10, capacity = 150, crowd_size = 80)
+G.add_node("Big Bird's Emporium", type = "retail", zone = "New York", crowd_size = 80)
 
 # Sci-Fi City
 G.add_node("Transformers", type = "ride", zone = "Sci-Fi City",
@@ -132,6 +139,7 @@ G.add_node("StarBot Cafe", type = "F&B", zone = "Sci-Fi City", menu_variety = 10
 G.add_node("Galactic Treats", type = "F&B", zone = "Sci-Fi City", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Frozen Fuel", type = "F&B", zone = "Sci-Fi City", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Planet Yen", type = "F&B", zone = "Sci-Fi City", menu_variety = 10, capacity = 150, crowd_size = 80)
+G.add_node("Transformers Supply Vault", type = "retail", zone = "Sci-Fi City", crowd_size = 80)
 
 # Ancient Egypt
 G.add_node("Revenge of the Mummy", type = "ride", zone = "Ancient Egypt", popularity = 100)
@@ -140,6 +148,7 @@ G.add_node("Restroom", type = "restroom", zone = "Ancient Egypt", cleanliness = 
 G.add_node("Oasis Spice Cafe", type = "F&B", zone = "Ancient Egypt", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Cairo Market", type = "F&B", zone = "Ancient Egypt", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Pharaoh's Dessert Oasis", type = "F&B", zone = "Ancient Egypt", menu_variety = 10, capacity = 150, crowd_size = 80)
+G.add_node("Carter's Curiosities", type = "retail", zone = "Ancient Egypt", crowd_size = 80)
 
 # The Lost World
 G.add_node("Jurassic Park Rapids", type = "ride", zone = "The Lost World", popularity = 85)
@@ -151,6 +160,8 @@ G.add_node("Restroom", type = "restroom", zone = "The Lost World", cleanliness =
 G.add_node("Discovery Food Court", type = "F&B", zone = "The Lost World", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Mariner's Market", type = "F&B", zone = "The Lost World", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Jungle Bites", type = "F&B", zone = "The Lost World", menu_variety = 10, capacity = 150, crowd_size = 80)
+G.add_node("Drying Pod", type = "drying pod", zone = "The Lost World", capacity = 5)
+G.add_node("The Dino-Store", type = "retail", zone = "Hollywood", crowd_size = 80)
 
 # Far Far Away
 G.add_node("Puss In Boots", type = "ride", zone = "Far Far Away", popularity = 75)
@@ -162,6 +173,7 @@ G.add_node("Fortune Favours The Furry", type = "ride", zone = "Far Far Away", cr
 G.add_node("Restroom", type = "restroom", zone = "Far Far Away", cleanliness = 90, usage = 30)
 G.add_node("Friar's Good Food", type = "F&B", zone = "Far Far Away", menu_variety = 10, capacity = 150, crowd_size = 80)
 G.add_node("Goldilocks", type = "F&B", zone = "Far Far Away", menu_variety = 10, capacity = 150, crowd_size = 80)
+G.add_node("Fairy Godmother's Potion Shop", type = "retail", zone = "Far Far Away", crowd_size = 80)
 
 # add edges, each number represents the node
 G.add_edge("Transformers", "Revenge of the Mummy", distance = 150)
@@ -184,98 +196,98 @@ G.add_edge("Battlestar Galactica", "Hawker’s Market", distance = 200)
 # peak hours, special events, seasonal variations
 
 # visualisation of graph
-# plt.figure(figsize=(10, 8))
-# pos = nx.spring_layout(G)  # positions for all nodes
-# nx.draw(G, pos, with_labels=True, node_color="skyblue", node_size=3000, font_size=10, font_weight="bold", edge_color="gray")
-# labels = nx.get_edge_attributes(G, "distance")
-# nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
-# plt.title("Universal Studios Singapore Attractions and Rides with Zones")
-# plt.show()
+plt.figure(figsize=(10, 8))
+pos = nx.spring_layout(G)  # positions for all nodes
+nx.draw(G, pos, with_labels=True, node_color="skyblue", node_size=3000, font_size=10, font_weight="bold", edge_color="gray")
+labels = nx.get_edge_attributes(G, "distance")
+nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+plt.title("Universal Studios Singapore Attractions and Rides with Zones")
+plt.show()
 
 # visualisation with plotly
-pos = nx.spring_layout(G)
-edge_x = []
-edge_y = []
+# pos = nx.spring_layout(G)
+# edge_x = []
+# edge_y = []
 
 
-for edge in G.edges(data=True):
+# for edge in G.edges(data=True):
 
-    x0, y0 = pos[edge[0]]
-    x1, y1 = pos[edge[1]]
-    edge_x += [x0, x1, None]
-    edge_y += [y0, y1, None]
+#     x0, y0 = pos[edge[0]]
+#     x1, y1 = pos[edge[1]]
+#     edge_x += [x0, x1, None]
+#     edge_y += [y0, y1, None]
 
 
-# Edge traces
-edge_trace = go.Scatter(
-    x=edge_x, y=edge_y,
-    hoverinfo="text",                  
-    mode="lines",
-    line=dict(width=5)
-)
+# # Edge traces
+# edge_trace = go.Scatter(
+#     x=edge_x, y=edge_y,
+#     hoverinfo="text",                  
+#     mode="lines",
+#     line=dict(width=5)
+# )
 
-node_x = []
-node_y = []
-node_text = []
-customdata = []  # Store the detailed tooltip information separately
-node_colors = ["#%06x" % random.randint(0, 0xFFFFFF) for _ in G.nodes()]
+# node_x = []
+# node_y = []
+# node_text = []
+# customdata = []  # Store the detailed tooltip information separately
+# node_colors = ["#%06x" % random.randint(0, 0xFFFFFF) for _ in G.nodes()]
 
-for node, data in G.nodes(data=True):
-    x, y = pos[node]
-    node_x.append(x)
-    node_y.append(y)
+# for node, data in G.nodes(data=True):
+#     x, y = pos[node]
+#     node_x.append(x)
+#     node_y.append(y)
     
-    # Basic name for node label
-    node_text.append(node)
+#     # Basic name for node label
+#     node_text.append(node)
     
-    # Detailed hover information
-    tooltip_text = f"Name: {node}<br>Type: {data.get("type", "N/A")}"
-    tooltip_text += f"<br>Zone: {data.get("zone", "N/A")}"
-    tooltip_text += f"<br>Crowd Level: {data.get("crowd_level", "N/A")}"
-    tooltip_text += f"<br>Capacity: {data.get("capacity", "N/A")}"
-    tooltip_text += f"<br>Speed: {data.get("speed", "N/A")}"
-    tooltip_text += f"<br>Menu Variety: {data.get("menu_variety", "N/A")}"
-    tooltip_text += f"<br>Popularity: {data.get("popularity", "N/A")}"
-    tooltip_text += f"<br>Cleanliness: {data.get("cleanliness", "N/A")}"
-    customdata.append(tooltip_text)
+#     # Detailed hover information
+#     tooltip_text = f"Name: {node}<br>Type: {data.get("type", "N/A")}"
+#     tooltip_text += f"<br>Zone: {data.get("zone", "N/A")}"
+#     tooltip_text += f"<br>Crowd Level: {data.get("crowd_level", "N/A")}"
+#     tooltip_text += f"<br>Capacity: {data.get("capacity", "N/A")}"
+#     tooltip_text += f"<br>Speed: {data.get("speed", "N/A")}"
+#     tooltip_text += f"<br>Menu Variety: {data.get("menu_variety", "N/A")}"
+#     tooltip_text += f"<br>Popularity: {data.get("popularity", "N/A")}"
+#     tooltip_text += f"<br>Cleanliness: {data.get("cleanliness", "N/A")}"
+#     customdata.append(tooltip_text)
 
-# Update the Scatter trace
-node_trace = go.Scatter(
-    x=node_x, y=node_y,
-    mode="markers+text",
-    text=node_text,            # Show node names directly on nodes
-    customdata=customdata,     # Store detailed information for hover
-    hovertemplate="%{customdata}",  # Use customdata for the hover text
-    textposition="middle center",
-    textfont=dict(
-        size=8,               
-        color="white"          
-    ),
-    marker=dict(
-        size=90,               
-        color=node_colors,
-        line=dict(width=2)
-    )
-)
+# # Update the Scatter trace
+# node_trace = go.Scatter(
+#     x=node_x, y=node_y,
+#     mode="markers+text",
+#     text=node_text,            # Show node names directly on nodes
+#     customdata=customdata,     # Store detailed information for hover
+#     hovertemplate="%{customdata}",  # Use customdata for the hover text
+#     textposition="middle center",
+#     textfont=dict(
+#         size=8,               
+#         color="white"          
+#     ),
+#     marker=dict(
+#         size=90,               
+#         color=node_colors,
+#         line=dict(width=2)
+#     )
+# )
 
 
-# Plotting the graph
-fig = go.Figure(data=[edge_trace, node_trace],
-                layout=go.Layout(
-                    title="Theme Park Attractions",
-                    titlefont_size=16,
-                    showlegend=False,
-                    hovermode="closest",
-                    margin=dict(b=0, l=0, r=0, t=40),
-                    xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                    yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
-                )
+# # Plotting the graph
+# fig = go.Figure(data=[edge_trace, node_trace],
+#                 layout=go.Layout(
+#                     title="Theme Park Attractions",
+#                     titlefont_size=16,
+#                     showlegend=False,
+#                     hovermode="closest",
+#                     margin=dict(b=0, l=0, r=0, t=40),
+#                     xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+#                     yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
+#                 )
 
-fig = go.Figure(data=[edge_trace, node_trace])  
+# fig = go.Figure(data=[edge_trace, node_trace])  
 
-# Save the figure to an HTML file
-html_file = "graph_output.html"
-pio.write_html(fig, file=html_file, auto_open=False)
+# # Save the figure to an HTML file
+# html_file = "graph_output.html"
+# pio.write_html(fig, file=html_file, auto_open=False)
 
-# Open the HTML file in the default web browser
-webbrowser.open_new_tab(html_file)
+# # Open the HTML file in the default web browser
+# webbrowser.open_new_tab(html_file)
