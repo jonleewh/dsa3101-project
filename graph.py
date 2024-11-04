@@ -10,16 +10,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 
-# ideal: try to make the graph interactive where the person can hover around the circle and view details about each attraction
-
-# issues:
-# 1. the name of each attraction should attempt to fit within the confines of the circle
-# 2. Showing of key details of each attraction
-# 3. Inputting of accurate data for each zone and each attraction
-# 4. Enter nodes first followed by edges
-
-# use plotly or bokeh
-
 G = nx.Graph()
 
 class Attraction:
