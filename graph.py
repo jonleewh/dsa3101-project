@@ -38,13 +38,16 @@ class Attraction:
         print(f"{self.name} is a {self.node_type} in {self.zone} with a current crowd level of {self.crowd_level}")
 
 # add nodes, ensure properties are in the format (key = value)
+# we can use the waiting time as a proxy for the crowd level using the csv file
+# replace with the csv file data rather than generating it by ourselves
 def dynamic_crowd_wait(time_of_day, base_wait, base_crowd):
     # Simulate peak crowd/wait times with sinusoidal pattern
     crowd_level = base_crowd + 20 * np.sin(time_of_day * np.pi / 12)
     wait_time = base_wait + 10 * np.sin(time_of_day * np.pi / 12)
     return max(0, wait_time), max(0, crowd_level)
 
-# Calculate satisfaction score based on crowd level, wait time, and popularity
+# Calculate satisfaction/desirability score based on crowd level, wait time, and popularity
+# Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
 def calculate_satisfaction(wait_time, crowd_level, popularity):
     # Satisfaction score example: higher with low crowd/wait and high popularity
     return max(0, popularity - wait_time - crowd_level)
@@ -67,6 +70,7 @@ for hour in range(10, 20):
         print(f"{node[0]} - Wait Time: {wait_time:.1f} mins, Crowd Level: {crowd_level:.1f}, Satisfaction: {satisfaction:.1f}")
 
 # Shortest-path optimization based on Dijkstra’s algorithm
+# but is shortest-path relevant to wait time and guest satisfaction?
 def find_shortest_path(graph, start, end):
     return nx.dijkstra_path(graph, start, end, weight="distance")
 
@@ -90,6 +94,11 @@ def optimized_itinerary(start, attractions_list, current_hour):
         travel_time = sum(G.edges[path[i], path[i+1]]["distance"] for i in range(len(path)-1))
         
         # Update itinerary and time
+        # how to track wait time and minimise it?
+        # A possible way is based on the guest's threshold waiting time vs the expected waiting time
+        # If the waiting time is suddenly reduced, will it allow the customer to return to the node?
+        # After every period of time, the guest can re-evaluate the optimised itinerary
+        # Consider both the global time and attraction-specific time (e.g. different ride durations)
         total_time += wait_time + travel_time
         itinerary.append((attraction, wait_time, satisfaction))
         current_location = attraction
