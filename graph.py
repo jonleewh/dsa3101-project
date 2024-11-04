@@ -1,10 +1,14 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 import plotly.graph_objects as go
 import plotly.io as pio
 import webbrowser
 import random
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
 
 # ideal: try to make the graph interactive where the person can hover around the circle and view details about each attraction
 
@@ -69,13 +73,37 @@ for row in csv_file: # i will change csv_file
     )
     crowd_level = actual_wait_time * 5
 
+
 # Calculate satisfaction/desirability score based on crowd level, wait time, and popularity
 # Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
-def calculate_satisfaction(actual_wait_time, crowd_level, popularity):
+def calculate_satisfaction(actual_wait_time, crowd_level, popularity, menu_variety):
     # Satisfaction score example: higher with low crowd/wait and high popularity
     # may want to use multiple LR here
-    # b0 + b1 * actual_wait_time + b2 * crowd_level + b3 * popularity + b4 * menu_variety + 
-    return max(0, popularity - actual_wait_time - crowd_level)
+    satisfaction_score = (10 - 0.5 * actual_wait_time - 0.3 * crowd_level
+                          + 0.2 * popularity + 0.2 * menu_variety) # we input a first guess of the coefficients here first
+    return satisfaction_score
+
+X = None # import csv file
+y = None # generate satisfaction score based on X
+
+# Train a Random Forest regressor
+rf_model = RandomForestRegressor(n_estimators=100)
+rf_model.fit(X, y)
+
+# Check feature importances
+importances = rf_model.feature_importances_
+feature_names = X.columns
+
+for name, importance in zip(feature_names, importances):
+    print(f'Feature: {name}, Importance: {importance}')
+
+# Apply weights based on feature importances
+X_weighted = X * importances # Each column in X is scaled by its corresponding importance from the random forest model
+
+# Train the linear regression model with the coefficients accounting for the importance
+model = LinearRegression()
+model.fit(X_weighted, y)
+
 
 # Simulate park experience over a day (time range: 10am to 7pm)
 for hour in range(10, 20):
