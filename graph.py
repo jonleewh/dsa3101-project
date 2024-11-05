@@ -6,9 +6,11 @@ import plotly.graph_objects as go
 import plotly.io as pio
 import webbrowser
 import random
+import datetime
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
+
 
 G = nx.Graph()
 
@@ -160,103 +162,309 @@ if the Ride doesn't exist in the csv file, keep it but
 
 # create another similar csv file with the same column names and play around with the values
 
-# Hollywood
-G.add_node("Mel's Mixtape", type = "Show", zone = "Hollywood", duration = 30, capacity=100, crowd_level=60)
-G.add_node("Restroom 1", type = "Restroom", zone = "Hollywood", cleanliness = 90, usage = 30)
-G.add_node("Starbucks", type = "F&B", zone = "Hollywood", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Mel's Drive-In", type = "F&B", zone = "Hollywood", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("KT's Grill", type = "F&B", zone = "Hollywood", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Star Snacks", type = "F&B", zone = "Hollywood", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Pops! Popcorn Delight", type = "F&B", zone = "Hollywood", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("That's a Wrap!", type = "Retail", zone = "Hollywood", crowd_size = 80)
-G.add_node("Candylicious", type = "Retail", zone = "Hollywood", crowd_size = 80)
-G.add_node("Universal Studios Store", type = "Retail", zone = "Hollywood", crowd_size = 80)
-G.add_node("Hello Kitty Studio", type = "Retail", zone = "Hollywood", crowd_size = 80)
-G.add_node("Minion Mart", type = "Retail", zone = "Hollywood", crowd_size = 80)
-G.add_node("UNIVRS", type = "Retail", zone = "Hollywood", crowd_size = 80)
+#############
+# Hollywood #
+#############
+
+G.add_node("Mel's Mixtape", type = "Seasonal", zone = "Hollywood",
+           duration = 20, popularity = 80,
+           timeslots = {datetime.time(10, 35), datetime.time(13, 0), datetime.time(15, 0), datetime.time(17, 55)},
+           crowd_level = 60)
+
+G.add_node("Margo, Edith and Agnes Meet-and-Greet", type = "Seasonal", zone = "Hollywood",
+           duration = 5, popularity = 80,
+           timeslots = {datetime.time(10, 5), datetime.time(11, 55), datetime.time(13, 55), datetime.time(15, 55), datetime.time(17, 25)},
+           crowd_level = 60)
+
+G.add_node("Illuminations Minion Monsters", type = "Seasonal", zone = "Hollywood",
+           duration = 5, popularity = 80,
+           timeslots = {datetime.time(10, 15), datetime.time(12, 25), datetime.time(14, 5), datetime.time(15, 50)},
+           crowd_level = 60)
+
+G.add_node("Restroom 1", type = "Restroom", zone = "Hollywood",
+           cleanliness = 90, usage = 30)
+
+G.add_node("Starbucks", type = "Dining Outlet", zone = "Hollywood",
+           menu_variety = 10, capacity = 150, 
+           crowd_level = 80, actual_wait_time = 100)
+
+G.add_node("Mel's Drive-In", type = "Dining Outlet", zone = "Hollywood",
+           menu_variety = 10, capacity = 150, popularity = 99, expected_wait_time = 20, staff = 12,
+           crowd_level = 80, actual_wait_time = 30)
+
+G.add_node("KT's Grill", type = "Dining Outlet", zone = "Hollywood",
+           menu_variety = 10, capacity = 150, popularity = 99, expected_wait_time = 20, staff = 12,
+           crowd_level = 80, actual_wait_time = 30)
+
+G.add_node("Star Snacks", type = "Food Cart", zone = "Hollywood",
+           menu_variety = 5, popularity = 99, expected_wait_time = 3, staff = 1,
+           crowd_level = 80, actual_wait_time = 3)
+
+G.add_node("Pops! Popcorn Delight", type = "Food Cart", zone = "Hollywood",
+           menu_variety = 5, popularity = 99, expected_wait_time = 3, staff = 1,
+           crowd_level = 80, actual_wait_time = 3)
+
+G.add_node("That's a Wrap!", type = "Retail", zone = "Hollywood",
+           capacity = 150, popularity = 90, expected_wait_time = 10, staff = 3,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Candylicious", type = "Retail", zone = "Hollywood",
+           capacity = 150, popularity = 90, expected_wait_time = 10, staff = 3,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Universal Studios Store", type = "Retail", zone = "Hollywood",
+           capacity = 150, popularity = 100, expected_wait_time = 10, staff = 3,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Hello Kitty Studio", type = "Retail", zone = "Hollywood",
+           capacity = 150, popularity = 99, expected_wait_time = 10, staff = 3,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Minion Mart", type = "Retail", zone = "Hollywood",
+           capacity = 150, popularity = 99, expected_wait_time = 10, staff = 3,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("UNIVRS", type = "Retail", zone = "Hollywood",
+           capacity = 150, popularity = 99, expected_wait_time = 10, staff = 3,
+           crowd_level = 80, actual_wait_time = 10)
 
 # add edges within Hollywood
-G.add_edge("Restroom 1", "Mel's Mixtape", distance = 3)
+G.add_edge("Universal Studios Store", "Hello Kitty", distance = 1)
+G.add_edge("Universal Studios Store", "Pops Popcorn", distance = 2)
+G.add_edge("Hello Kitty", "Pops Popcorn", distance = 2)
+G.add_edge("Minion Mart", "Pops Popcorn", distance = 2)
+G.add_edge("Minion Mart", "Starbucks", distance = 1)
+G.add_edge("Starbucks", "Pops Popcorn", distance = 1)
+G.add_edge("Starbucks", "Candylicious", distance = 1)
+G.add_edge("Candylicious", "Pops Popcorn", distance = 2)
+G.add_edge("Hello Kitty", "Mel's Drive-In", distance = 5)
+G.add_edge("Minion Mart", "Mel's Drive-In", distance = 4)
+G.add_edge("Restroom 1", "Mel's Drive-In", distance = 1)
+G.add_edge("Restroom 1", "Star Snacks", distance = 2)
+G.add_edge("Restroom 1", "KT's Grill", distance = 1)
+G.add_edge("KT's Grill", "UNIVRS", distance = 3)
+G.add_edge("Star Snacks", "UNIVRS", distance = 3)
+G.add_edge("Mel's Drive-In", "UNIVRS", distance = 4)
+G.add_edge("Mel's Drive-In", "Mel's Mixtape", distance = 1)
+G.add_edge("Mel's Drive-In", "UNIVRS", distance = 3)
 
 
-# New York
+
+############
+# New York #
+############
+
 G.add_node("Lights Camera Action Hosted by Steven Spielberg", type = "Ride", zone = "New York",
-           ride_duration = 10, capacity = 150, crowd_size = 80, popularity = 99)
+           duration = 10, capacity = 150, popularity = 99, expected_wait_time = 15,
+           crowd_level = 80, actual_wait_time = 10)
+
 G.add_node("Sesame Street Spaghetti Space Chase", type = "Ride", zone = "New York",
-           ride_duration = 10, capacity = 150, crowd_size = 80, popularity = 99)
-G.add_node("Rhythm Truck", type = "Show", zone = "New York", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Restroom 2", type = "Restroom", zone = "New York", cleanliness = 90, usage = 30)
-G.add_node("Loui's NY Pizza Parlor", type = "F&B", zone = "New York", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Big Bird's Emporium", type = "Retail", zone = "New York", crowd_size = 80)
+           duration = 10, capacity = 20, popularity = 99, expected_wait_time = 10,
+           crowd_level = 80, actual_wait_time = 5)
+
+G.add_node("Rhythm Truck", type = "Seasonal", zone = "New York",
+           duration = 20, popularity = 80,
+           timeslots = {datetime.time(11, 30), datetime.time(13, 30), datetime.time(15, 30), datetime.time(18, 20)},
+           crowd_level = 60)
+
+G.add_node("Restroom 2", type = "Restroom", zone = "New York",
+           cleanliness = 90, usage = 30)
+
+G.add_node("Loui's NY Pizza Parlor", type = "Dining Outlet", zone = "New York",
+           menu_variety = 10, capacity = 150, popularity = 99, expected_wait_time = 20, staff = 12,
+           crowd_level = 80, actual_wait_time = 30)
+
+G.add_node("Big Bird's Emporium", type = "Retail", zone = "New York",
+           capacity = 150, popularity = 90, expected_wait_time = 10, staff = 3,
+           crowd_level = 80, actual_wait_time = 10)
 
 # add edges within New York
 G.add_edge("Restroom 2", "Loui's NY Pizza Parlor", distance = 3)
 
 
-# Sci-Fi City
+
+###############
+# Sci-Fi City #
+###############
+
 G.add_node("Transformers", type = "Ride", zone = "Sci-Fi City",
-           ride_duration = 5, capacity = 150, crowd_size = 80, popularity = 95)
-G.add_node("Accelerator", type = "Ride", zone = "Sci-Fi City", popularity = 90)
-G.add_node("Battlestar Galactica: Human", type = "Ride", zone = "Sci-Fi City", expected_duration = 30,
-           crowd_level = 100, actual_duration = 60, popularity = 100) # values will change based on the time, every 30 min?
-G.add_node("Battlestar Galactica: Cylon", type = "Ride", zone = "Sci-Fi City", expected_duration = 30,
-           crowd_level = 100, actual_duration = 60, popularity = 100) # values will change based on the time, every 30 min?
-G.add_node("Restroom 3", type = "Restroom", zone = "Sci-Fi City", cleanliness = 90, usage = 30)
-G.add_node("StarBot Cafe", type = "F&B", zone = "Sci-Fi City", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Galactic Treats", type = "F&B", zone = "Sci-Fi City", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Frozen Fuel", type = "F&B", zone = "Sci-Fi City", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Planet Yen", type = "F&B", zone = "Sci-Fi City", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Transformers Supply Vault", type = "Retail", zone = "Sci-Fi City", crowd_size = 80)
+           duration = 10, capacity = 40, popularity = 99, expected_wait_time = 15,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Accelerator", type = "Ride", zone = "Sci-Fi City",
+           duration = 10, capacity = 30, popularity = 99, expected_wait_time = 15,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Battlestar Galactica: Human", type = "Ride", zone = "Sci-Fi City",
+           duration = 3, capacity = 20, popularity = 100, expected_wait_time = 15, staff = 8,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Battlestar Galactica: Cylon", type = "Ride", zone = "Sci-Fi City",
+           duration = 3, capacity = 20, popularity = 100, expected_wait_time = 15, staff = 8,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Restroom 3", type = "Restroom", zone = "Sci-Fi City",
+           cleanliness = 90, usage = 30)
+
+G.add_node("StarBot Cafe", type = "Dining Outlet", zone = "Sci-Fi City",
+           menu_variety = 10, capacity = 150, popularity = 99, expected_wait_time = 20, staff = 12,
+           crowd_level = 80, actual_wait_time = 30)
+
+G.add_node("Galactic Treats", type = "Food Cart", zone = "Sci-Fi City",
+           menu_variety = 5, popularity = 99, expected_wait_time = 3, staff = 1,
+           crowd_level = 80, actual_wait_time = 3)
+
+G.add_node("Frozen Fuel", type = "Food Cart", zone = "Sci-Fi City",
+           menu_variety = 5, popularity = 99, expected_wait_time = 3, staff = 1,
+           crowd_level = 80, actual_wait_time = 3)
+
+G.add_node("Planet Yen", type = "Food Cart", zone = "Sci-Fi City",
+           menu_variety = 5, popularity = 99, expected_wait_time = 3, staff = 1,
+           crowd_level = 80, actual_wait_time = 3)
+
+G.add_node("Transformers Supply Vault", type = "Retail", zone = "Sci-Fi City",
+           capacity = 150, popularity = 90, expected_wait_time = 10, staff = 3,
+           crowd_level = 80, actual_wait_time = 10)
 
 # add edges within Sci-Fi City
 G.add_edge("Restroom 3", "Accelerator", distance = 3)
 
 
-# Ancient Egypt
-G.add_node("Revenge of the Mummy", type = "Ride", zone = "Ancient Egypt", popularity = 100)
-G.add_node("Treasure Hunters", type = "Ride", zone = "Ancient Egypt", popularity = 90, crowd_level = 10)
-G.add_node("Restroom 4", type = "Restroom", zone = "Ancient Egypt", cleanliness = 90, usage = 30)
-G.add_node("Oasis Spice Cafe", type = "F&B", zone = "Ancient Egypt", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Cairo Market", type = "F&B", zone = "Ancient Egypt", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Pharaoh's Dessert Oasis", type = "F&B", zone = "Ancient Egypt", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Carter's Curiosities", type = "Retail", zone = "Ancient Egypt", crowd_size = 80)
+
+#################
+# Ancient Egypt #
+#################
+
+G.add_node("Revenge of the Mummy", type = "Ride", zone = "Ancient Egypt",
+           duration = 10, capacity = 40, popularity = 99, expected_wait_time = 15,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Treasure Hunters", type = "Ride", zone = "Ancient Egypt",
+           duration = 10, capacity = 40, popularity = 99, expected_wait_time = 15,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Restroom 4", type = "Restroom", zone = "Ancient Egypt",
+           cleanliness = 90, usage = 30)
+
+G.add_node("Oasis Spice Cafe", type = "Dining Outlet", zone = "Ancient Egypt",
+           menu_variety = 10, capacity = 150, popularity = 99, expected_wait_time = 20, staff = 12,
+           crowd_level = 80, actual_wait_time = 30)
+
+G.add_node("Cairo Market", type = "Food Cart", zone = "Ancient Egypt",
+           menu_variety = 5, popularity = 99, expected_wait_time = 3, staff = 1,
+           crowd_level = 80, actual_wait_time = 3)
+
+G.add_node("Pharaoh's Dessert Oasis", type = "Food Cart", zone = "Ancient Egypt",
+           menu_variety = 5, popularity = 99, expected_wait_time = 3, staff = 1,
+           crowd_level = 80, actual_wait_time = 3)
+
+G.add_node("Carter's Curiosities", type = "Retail", zone = "Ancient Egypt",
+           capacity = 150, popularity = 90, expected_wait_time = 10, staff = 3,
+           crowd_level = 80, actual_wait_time = 10)
 
 # add edges within Ancient Egypt
 G.add_edge("Restroom 4", "Treasure Hunters", distance = 3)
 
 
-# The Lost World
-G.add_node("Jurassic Park Rapids", type = "Ride", zone = "The Lost World", popularity = 85)
-G.add_node("Dino-Soarin", type = "Ride", zone = "The Lost World", popularity = 85)
-G.add_node("Canopy Flyer", type = "Ride", zone = "The Lost World", popularity = 85)
-G.add_node("WaterWorld", type = "Show", zone = "The Lost World", popularity = 80)
-G.add_node("Restroom 5", type = "Restroom", zone = "The Lost World", cleanliness = 90, usage = 30)
-G.add_node("Restroom 6", type = "Restroom", zone = "The Lost World", cleanliness = 90, usage = 30)
-G.add_node("Discovery Food Court", type = "F&B", zone = "The Lost World", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Mariner's Market", type = "F&B", zone = "The Lost World", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Jungle Bites", type = "F&B", zone = "The Lost World", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Drying Pod", type = "drying pod", zone = "The Lost World", capacity = 5)
-G.add_node("The Dino-Store", type = "Retail", zone = "Hollywood", crowd_size = 80)
+
+##################
+# The Lost World #
+##################
+
+G.add_node("Jurassic Park Rapids", type = "Ride", zone = "The Lost World",
+           duration = 10, capacity = 40, popularity = 99, expected_wait_time = 15,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Dino-Soarin", type = "Ride", zone = "The Lost World",
+           duration = 10, capacity = 40, popularity = 99, expected_wait_time = 15,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Canopy Flyer", type = "Ride", zone = "The Lost World",
+           duration = 10, capacity = 40, popularity = 99, expected_wait_time = 15,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("WaterWorld", type = "Seasonal", zone = "The Lost World",
+           duration = 20, capacity = 200, popularity = 100,
+           timeslots = {datetime.time(12, 45), datetime.time(15, 0), datetime.time(17, 15)},
+           crowd_level = 60)
+
+G.add_node("Restroom 5", type = "Restroom", zone = "The Lost World",
+           cleanliness = 90, usage = 30)
+
+G.add_node("Restroom 6", type = "Restroom", zone = "The Lost World",
+           cleanliness = 90, usage = 30)
+
+G.add_node("Discovery Food Court", type = "Dining Outlet", zone = "The Lost World",
+           menu_variety = 10, capacity = 150, popularity = 99, expected_wait_time = 20, staff = 12,
+           crowd_level = 80, actual_wait_time = 30)
+
+G.add_node("Fossil Fuels", type = "Dining Outlet", zone = "The Lost World",
+           menu_variety = 10, capacity = 150, popularity = 99, expected_wait_time = 20, staff = 12,
+           crowd_level = 80, actual_wait_time = 30)
+
+G.add_node("Mariner's Market", type = "Food Cart", zone = "The Lost World",
+           menu_variety = 5, popularity = 99, expected_wait_time = 3, staff = 1,
+           crowd_level = 80, actual_wait_time = 3)
+
+G.add_node("Jungle Bites", type = "Food Cart", zone = "The Lost World",
+           menu_variety = 5, popularity = 99, expected_wait_time = 3, staff = 1,
+           crowd_level = 80, actual_wait_time = 3)
+
+G.add_node("The Dino-Store", type = "Retail", zone = "Hollywood",
+           capacity = 150, popularity = 90, expected_wait_time = 10, staff = 3,
+           crowd_level = 80, actual_wait_time = 10)
 
 # add edges within The Lost World
 G.add_edge("Restroom 5", "Discovery Food Court", distance = 3)
 G.add_edge("Restroom 6", "WaterWorld", distance = 3)
 
 
-# Far Far Away
-G.add_node("Puss In Boots", type = "Ride", zone = "Far Far Away", popularity = 75)
-G.add_node("Magic Potion Spin", type = "Ride", zone = "Far Far Away", popularity = 75)
-G.add_node("Shrek 4D Adventure", type = "Ride", zone = "Far Far Away", popularity = 75)
-G.add_node("Enchanted Airways", type = "Ride", zone = "Far Far Away", crowd_level = 70)
-G.add_node("Donkey Live", type = "Ride", zone = "Far Far Away", crowd_level = 70)
-G.add_node("Fortune Favours The Furry", type = "Ride", zone = "Far Far Away", crowd_level = 70)
-G.add_node("Restroom 7", type = "Restroom", zone = "Far Far Away", cleanliness = 90, usage = 30)
-G.add_node("Friar's Good Food", type = "F&B", zone = "Far Far Away", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Goldilocks", type = "F&B", zone = "Far Far Away", menu_variety = 10, capacity = 150, crowd_size = 80)
-G.add_node("Fairy Godmother's Potion Shop", type = "Retail", zone = "Far Far Away", crowd_size = 80)
+################
+# Far Far Away #
+################
+
+G.add_node("Puss In Boots", type = "Ride", zone = "Far Far Away",
+           duration = 10, capacity = 40, popularity = 99, expected_wait_time = 15,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Magic Potion Spin", type = "Ride", zone = "Far Far Away",
+           duration = 10, capacity = 40, popularity = 99, expected_wait_time = 15,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Shrek 4D Adventure", type = "Ride", zone = "Far Far Away",
+           duration = 10, capacity = 40, popularity = 99, expected_wait_time = 15,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Enchanted Airways", type = "Ride", zone = "Far Far Away",
+           duration = 10, capacity = 40, popularity = 99, expected_wait_time = 15,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Donkey Live", type = "Ride", zone = "Far Far Away",
+           duration = 10, capacity = 40, popularity = 99, expected_wait_time = 15,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Fortune Favours The Furry", type = "Ride", zone = "Far Far Away",
+           duration = 10, capacity = 40, popularity = 99, expected_wait_time = 15,
+           crowd_level = 80, actual_wait_time = 10)
+
+G.add_node("Restroom 7", type = "Restroom", zone = "Far Far Away",
+           cleanliness = 90, usage = 30)
+
+G.add_node("Friar's Good Food", type = "Dining Outlet", zone = "Far Far Away",
+           menu_variety = 10, capacity = 150, popularity = 99, expected_wait_time = 20, staff = 12,
+           crowd_level = 80, actual_wait_time = 30)
+
+G.add_node("Goldilocks", type = "Dining Outlet", zone = "Far Far Away",
+           menu_variety = 10, capacity = 150, popularity = 99, expected_wait_time = 20, staff = 12,
+           crowd_level = 80, actual_wait_time = 30)
+
+G.add_node("Fairy Godmother's Potion Shop", type = "Retail", zone = "Far Far Away",
+           capacity = 150, popularity = 90, expected_wait_time = 10, staff = 3,
+           crowd_level = 80, actual_wait_time = 10)
 
 # add edges within New York
 G.add_edge("Restroom 7", "Goldilocks", distance = 3)
+
 
 
 # add edges, each number represents the node (to be updated)
