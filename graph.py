@@ -111,10 +111,6 @@ for hour in range(10, 20):
         # Print status
         print(f"{node[0]} - Wait Time: {wait_time:.1f} mins, Crowd Level: {crowd_level:.1f}, Satisfaction: {satisfaction:.1f}")
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 # Shortest-path optimization based on Dijkstra’s algorithm
 # but is shortest-path relevant to wait time and guest satisfaction?
 def find_shortest_path(graph, start, end):
@@ -283,9 +279,6 @@ G.add_node("Big Bird's Emporium", type = "Retail", zone = "New York",
            crowd_level = 80, actual_wait_time = 10)
 
 # add edges within New York
-<<<<<<< Updated upstream
-G.add_edge("Restroom 2", "Loui's NY Pizza Parlor", distance = 3)
-=======
 G.add_edge("Lights Camera Action Hosted by Steven Spielberg", "Sesame Street Spaghetti Space Chase", distance = 2)
 G.add_edge("Lights Camera Action Hosted by Steven Spielberg", "Rhythm Truck", distance = 3)
 G.add_edge("Lights Camera Action Hosted by Steven Spielberg", "Restroom 2", distance = 4)
@@ -302,7 +295,6 @@ G.add_edge("Restroom 2", "Loui's NY Pizza Parlor", distance = 2)
 G.add_edge("Restroom 2", "Big Bird's Emporium", distance = 4)
 
 G.add_edge("Loui's NY Pizza Parlor", "Big Bird's Emporium", distance = 3)
->>>>>>> Stashed changes
 
 
 
@@ -350,10 +342,6 @@ G.add_node("Transformers Supply Vault", type = "Retail", zone = "Sci-Fi City",
            crowd_level = 80, actual_wait_time = 10)
 
 # add edges within Sci-Fi City
-<<<<<<< Updated upstream
-G.add_edge("Restroom 3", "Accelerator", distance = 3)
-
-=======
 G.add_edge("Transformers", "Accelerator", distance = 3)
 G.add_edge("Transformers", "Battlestar Galactica: Human", distance = 5)
 G.add_edge("Transformers", "Restroom 3", distance = 4)
@@ -378,7 +366,6 @@ G.add_edge("Galactic Treats", "Transformers Supply Vault", distance = 4)
 
 G.add_edge("Frozen Fuel", "Transformers Supply Vault", distance = 3)
 G.add_edge("Planet Yen", "Transformers Supply Vault", distance = 5)
->>>>>>> Stashed changes
 
 
 #################
@@ -413,9 +400,6 @@ G.add_node("Carter's Curiosities", type = "Retail", zone = "Ancient Egypt",
            crowd_level = 80, actual_wait_time = 10)
 
 # add edges within Ancient Egypt
-<<<<<<< Updated upstream
-G.add_edge("Restroom 4", "Treasure Hunters", distance = 3)
-=======
 G.add_edge("Revenge of the Mummy", "Treasure Hunters", distance = 4)
 G.add_edge("Revenge of the Mummy", "Restroom 4", distance = 3)
 G.add_edge("Revenge of the Mummy", "Oasis Spice Cafe", distance = 5)
@@ -434,7 +418,6 @@ G.add_edge("Cairo Market", "Pharaoh's Dessert Oasis", distance = 1)
 
 G.add_edge("Pharaoh's Dessert Oasis", "Carter's Curiosities", distance = 4)
 G.add_edge("Cairo Market", "Carter's Curiosities", distance = 6)
->>>>>>> Stashed changes
 
 
 
@@ -486,11 +469,6 @@ G.add_node("The Dino-Store", type = "Retail", zone = "Hollywood",
            crowd_level = 80, actual_wait_time = 10)
 
 # add edges within The Lost World
-<<<<<<< Updated upstream
-G.add_edge("Restroom 5", "Discovery Food Court", distance = 3)
-G.add_edge("Restroom 6", "WaterWorld", distance = 3)
-=======
-# More realistic distances within The Lost World
 G.add_edge("Jurassic Park Rapids", "Dino-Soarin", distance = 3)
 G.add_edge("Jurassic Park Rapids", "Restroom 5", distance = 4)
 G.add_edge("Jurassic Park Rapids", "Discovery Food Court", distance = 5)
@@ -515,7 +493,6 @@ G.add_edge("Mariner's Market", "Jungle Bites", distance = 1)
 
 G.add_edge("Fossil Fuels", "The Dino-Store", distance = 7)
 G.add_edge("The Dino-Store", "Restroom 6", distance = 6)
->>>>>>> Stashed changes
 
 
 ################
@@ -561,18 +538,10 @@ G.add_node("Fairy Godmother's Potion Shop", type = "Retail", zone = "Far Far Awa
            capacity = 150, popularity = 90, expected_wait_time = 10, staff = 3,
            crowd_level = 80, actual_wait_time = 10)
 
-<<<<<<< Updated upstream
-# add edges within New York
-G.add_edge("Restroom 7", "Goldilocks", distance = 3)
-
-
-
-=======
 # add edges within Far Far Away
 G.add_edge("Restroom 7", "Goldilocks", distance = 3)
 
 
->>>>>>> Stashed changes
 # add edges, each number represents the node (to be updated)
 # G.add_edge("Transformers", "Revenge of the Mummy", distance = 150)
 # G.add_edge("Revenge of the Mummy", "Jurassic Park Rapids", distance = 200)
@@ -594,15 +563,6 @@ G.add_edge("Restroom 7", "Goldilocks", distance = 3)
 # peak hours, special events, seasonal variations
 
 # visualisation of graph
-<<<<<<< Updated upstream
-plt.figure(figsize=(10, 8))
-pos = nx.spring_layout(G)  # positions for all nodes
-nx.draw(G, pos, with_labels=True, node_color="skyblue", node_size=3000, font_size=10, font_weight="bold", edge_color="gray")
-labels = nx.get_edge_attributes(G, "distance")
-nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
-plt.title("Universal Studios Singapore Attractions and Rides with Zones")
-plt.Show()
-=======
 # plt.figure(figsize=(10, 8))
 # pos = nx.spring_layout(G)  # positions for all nodes
 # nx.draw(G, pos, with_labels=True, node_color="skyblue", node_size=3000, font_size=10, font_weight="bold", edge_color="gray")
@@ -610,7 +570,6 @@ plt.Show()
 # nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
 # plt.title("Universal Studios Singapore Attractions and Rides with Zones")
 # plt.Show()
->>>>>>> Stashed changes
 
 # visualisation with plotly
 pos = nx.spring_layout(G)
