@@ -1,0 +1,80 @@
+source,target,distance
+Universal Studios Store,Hello Kitty,1
+Universal Studios Store,Pops Popcorn,2
+Hello Kitty,Pops Popcorn,2
+Minion Mart,Pops Popcorn,2
+Minion Mart,Starbucks,1
+Starbucks,Pops Popcorn,1
+Starbucks,Candylicious,1
+Candylicious,Pops Popcorn,2
+Hello Kitty,Mel's Drive-In,5
+Minion Mart,Mel's Drive-In,4
+Restroom 1,Mel's Drive-In,1
+Restroom 1,Star Snacks,2
+Restroom 1,KT's Grill,1
+KT's Grill,UNIVRS,3
+Star Snacks,UNIVRS,3
+Mel's Drive-In,UNIVRS,4
+Mel's Drive-In,Mel's Mixtape,1
+Mel's Drive-In,UNIVRS,3
+Lights Camera Action Hosted by Steven Spielberg,Sesame Street Spaghetti Space Chase,2
+Lights Camera Action Hosted by Steven Spielberg,Rhythm Truck,3
+Lights Camera Action Hosted by Steven Spielberg,Restroom 2,4
+Lights Camera Action Hosted by Steven Spielberg,Loui's NY Pizza Parlor,5
+Sesame Street Spaghetti Space Chase,Rhythm Truck,2
+Sesame Street Spaghetti Space Chase,Restroom 2,3
+Sesame Street Spaghetti Space Chase,Big Bird's Emporium,4
+Rhythm Truck,Restroom 2,2
+Rhythm Truck,Loui's NY Pizza Parlor,3
+Restroom 2,Loui's NY Pizza Parlor,2
+Restroom 2,Big Bird's Emporium,4
+Loui's NY Pizza Parlor,Big Bird's Emporium,3
+Transformers,Accelerator,3
+Transformers,Battlestar Galactica: Human,5
+Transformers,Restroom 3,4
+Transformers,StarBot Cafe,6
+Accelerator,Battlestar Galactica: Cylon,4
+Accelerator,Restroom 3,2
+Battlestar Galactica: Human,Battlestar Galactica: Cylon,1
+Battlestar Galactica: Human,Restroom 3,5
+Battlestar Galactica: Human,Frozen Fuel,6
+Restroom 3,StarBot Cafe,3
+Restroom 3,Galactic Treats,4
+StarBot Cafe,Galactic Treats,2
+StarBot Cafe,Frozen Fuel,3
+StarBot Cafe,Planet Yen,4
+Galactic Treats,Frozen Fuel,2
+Galactic Treats,Transformers Supply Vault,4
+Frozen Fuel,Transformers Supply Vault,3
+Planet Yen,Transformers Supply Vault,5
+Revenge of the Mummy,Treasure Hunters,4
+Revenge of the Mummy,Restroom 4,3
+Revenge of the Mummy,Oasis Spice Cafe,5
+Treasure Hunters,Restroom 4,2
+Treasure Hunters,Oasis Spice Cafe,4
+Treasure Hunters,Cairo Market,6
+Restroom 4,Oasis Spice Cafe,3
+Restroom 4,Pharaoh's Dessert Oasis,5
+Oasis Spice Cafe,Cairo Market,2
+Oasis Spice Cafe,Pharaoh's Dessert Oasis,3
+Cairo Market,Pharaoh's Dessert Oasis,1
+Pharaoh's Dessert Oasis,Carter's Curiosities,4
+Cairo Market,Carter's Curiosities,6
+Jurassic Park Rapids,Dino-Soarin,3
+Jurassic Park Rapids,Restroom 5,4
+Jurassic Park Rapids,Discovery Food Court,5
+Dino-Soarin,Canopy Flyer,2
+Dino-Soarin,Restroom 6,3
+Dino-Soarin,Fossil Fuels,5
+Canopy Flyer,WaterWorld,4
+Canopy Flyer,Restroom 5,5
+WaterWorld,Restroom 5,2
+WaterWorld,Discovery Food Court,6
+Restroom 5,Discovery Food Court,3
+Restroom 6,Fossil Fuels,2
+Discovery Food Court,Mariner's Market,2
+Discovery Food Court,Jungle Bites,3
+Mariner's Market,Jungle Bites,1
+Fossil Fuels,The Dino-Store,7
+The Dino-Store,Restroom 6,6
+Restroom 7,Goldilocks,3
