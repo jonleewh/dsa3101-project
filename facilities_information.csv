@@ -1,25 +1,46 @@
-index, ride, duration (in min), popularity (%)
+index,type,weight,name,duration (in min),capacity
 
-A, Revenge of the Mummy, 4, 99
-A, Canopy Flyer, 3, 99
-A, Puss In Boots Giant Journey, 3, 99
-A, Battlestar Galactica: HUMAN, 3, 99
-A, Battlestar Galactica: CYLON, 3, 99
-A, Enchanted Airways, 2, 99
-B, Jurassic Park Rapids Adventure, 6, 99
-C, Visit F&B Outlet, 45, 99
-D, Souvenir Shop, 15, 99
-E, Restroom, 10, 99
-G, Treasure Hunteres, 3, 99
-G, Dino Soarin', 3, 99
-G, Sesame Street Spaghetti Space Chase, 6, 99
-G, Magic Potion Spin, 3, 99
-H, Haunted House, 10, 99
-I, TRANSFORMERS The Ride: The Ultimate 3D Battle, 5, 99
-I, Shrek 4D Adventure, 15, 99
-J, Sightseeing, 20, 99
-J, Mascot, 5, 99
-J, Parade, 10, 99
-K, Accelerator, 3, 99
-L, Lights Camera Action Hosted by Steven Spielberg, 10, 99
-L, Amber Rock Climb, 10, 99
+A,Attraction,99, Revenge of the Mummy, 4, 24
+A,Attraction,99, Canopy Flyer, 3, 16
+A,Attraction,99, Puss In Boots Giant Journey, 3, 24
+A,Attraction,99, Battlestar Galactica: HUMAN, 3,24
+A,Attraction,99, Battlestar Galactica: CYLON, 3, 24
+A,Attraction,99, Enchanted Airways, 2, 24
+B,Attraction,99, Jurassic Park Rapids Adventure, 6, 12
+C,Utility,99, Restaurant 1, 45, 50
+C,Utility,99, Restaurant 2, 45, 50
+C,Utility,99, Restaurant 3, 45, 50
+C,Utility,99, Restaurant 4, 45, 50
+C,Utility,99, Restaurant 5, 45, 50
+C,Utility,99, Drink Stall 1, 7, 50
+C,Utility,99, Drink Stall 2, 7, 50
+C,Utility,99, Drink Stall 3, 7, 50
+C,Utility,99, Drink Stall 4, 7, 50
+C,Utility,99, Drink Stall 5, 7, 50
+D,Utility,99, Souvenir Shop 1, 15, 30
+D,Utility,99, Souvenir Shop 2, 15, 30
+D,Utility,99, Souvenir Shop 3, 15, 30
+D,Utility,99, Souvenir Shop 4, 15, 30
+E,Utility,99, Restroom 1, 10, 5
+E,Utility,99, Restroom 2, 10, 5
+E,Utility,99, Restroom 3, 10, 5
+E,Utility,99, Restroom 4, 10, 5
+E,Utility,99, Restroom 5, 10, 5
+E,Utility,99, Restroom 6, 10, 5
+E,Utility,99, Restroom 7, 10, 5
+E,Utility,99, Restroom 8, 10, 5
+E,Utility,99, Restroom 9, 10, 5
+E,Utility,99, Restroom 10, 10, 5
+G,Attraction,99, Treasure Hunteres, 3, 12
+G,Attraction,99, Dino Soarin', 3, 8
+G,Attraction,99, Sesame Street Spaghetti Space Chase, 6, 24
+G,Attraction,99, Magic Potion Spin, 3, 16
+G,Attraction,99, Amber Rock Climb, 10, 10
+H,Attraction,99, Haunted House, 10, 10
+I,Attraction,99, TRANSFORMERS The Ride: The Ultimate 3D Battle, 5, 24
+I,Attraction,99, Shrek 4D Adventure, 15, 70
+I,Attraction,99, Lights Camera Action Hosted by Steven Spielberg, 10, 50
+J,Adhoc,99, Sightseeing, 20, 99999
+J,Adhoc,99, Mascot, 5, 99999
+J,Adhoc,99, Parade, 10, 99999
+K,Attraction,99, Accelerator, 3, 24
