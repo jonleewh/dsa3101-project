@@ -83,7 +83,7 @@ def dynamic_crowd_wait(time_of_day, expected_waiting_time): # get the expected w
 
 # loop over the csv file to generate the data we want
 for node in nodes:
-    nodes[node]["actual_wait_time"] = dynamic_crowd_wait(time_of_day, nodes[node]["expected_wait_time"]) # 
+    nodes[node]["actual_wait_time"] = dynamic_crowd_wait(time_of_day, nodes[node]["expected_wait_time"])
     crowd_level = actual_wait_time * 5
 
 
