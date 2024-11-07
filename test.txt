@@ -1,2 +1,4 @@
-test
-edit
+Note on facilities_informaiton.csv:
+the indices are based on what is presented in the survey. additional index list below:
+J, Sightseeing : also used for parade and mascot (not in survey)
+L: seasonal attractions and rock climbing (cuz not included in survey) -> group this into outdoor attraction?
