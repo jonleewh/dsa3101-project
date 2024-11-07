@@ -16,6 +16,14 @@ from sklearn.ensemble import RandomForestRegressor
 # constrained range of values
 # capacity and staff available at the venue
 # peak hours, special events, seasonal variations
+
+look at theme park as a whole and what's happening at any point in time
+generate each attraction's information every 5 minutes
+graph --> physical space
+dynamic queue --> time
+combine both --> cohesive picture of how the theme park looks over time
+separate the two graphs, have another graph where we can think of how to add/remove nodes
+and how to adjust parameters like duration, capacity, etc --> run ML iteration
 """
 
 ########################
@@ -30,12 +38,13 @@ edges = pd.read_csv("theme_park_edges.csv")
 ######################
 
 class Attraction:
-    def __init__(self, name, node_type, zone, crowd_level, duration):
+    def __init__(self, name, node_type, zone, crowd_level, duration, actual_waiting_time):
         self.name = name
         self.node_type = node_type
         self.zone = zone
         self.crowd_level = crowd_level # number of people in the queue
         self.duration = duration # duration
+        self.actual_waiting_time = actual_waiting_time
     
     # Method to update crowd level
     def update_crowd_level(self, new_crowd):
@@ -82,6 +91,43 @@ for node in nodes:
 ## Calculating Satisfaction Score ##
 ####################################
 
+# Arguments are the properties of the node. Can put in the object
+"""
+ASK CHIRAG TMRW IF OUR IDEA ANSWERS THE QUESTION
+
+2 ML models
+Y1 = average satisfaction score of ALL visitors passing through the ONE node (using a combination of the factors) --> apply Random Forest separately
+Y2 = average waiting time of ALL visitors passing through the ONE node (using another combination of the factors) --> apply Random Forest separately
+X1, X2, .... = factors
+
+# Factors that affect satisfaction score of a SINGLE node: [MAX]
+(focus on what factors we can change)
+# crowd level -- we can't change this!!!
+menu variety
+cleanliness
+# accumulated waiting time -- we can't change this!!!
+# weather -- we can't change this!!!
+# ride quality (only for rides, whether you want to take the ride again) -- we can't change this!!! --> try to link to re-rideability from the survey
+
+Business Suggestions:
+*** All visitors benefit from an enhanced satisfaction score, itinerary doesn't really affect the satisfaction score?
+*** For allocation of resources, we put the resources from the low demand attraction and transfer them to the high demand attraction
+*** 
+
+# Factors that affect waiting time of a SINGLE node: [MIN]
+(focus on what factors we can change)
+ride duration
+crowd level
+popularity
+staff
+weather (indirect factor) --> Need to code which node is indoor/outdoor!
+
+
+Supervised learning requires an output!
+Run ML to determine the most important factor
+If any variable is particularly important, how to improve the model?
+"""
+
 # Calculate satisfaction/desirability score based on crowd level, wait time, and popularity
 # Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
 def calculate_satisfaction(actual_wait_time, crowd_level, popularity, menu_variety):
@@ -90,6 +136,8 @@ def calculate_satisfaction(actual_wait_time, crowd_level, popularity, menu_varie
     satisfaction_score = (10 - 0.5 * actual_wait_time - 0.3 * crowd_level
                           + 0.2 * popularity + 0.2 * menu_variety) # we input a first guess of the coefficients here first
     return satisfaction_score
+# Satisfaction score refers to the score for a single NODE, not the visitors.
+# but it should be based on the visitor!
 
 X = None # import csv file
 y = None # generate satisfaction score based on X
@@ -162,9 +210,16 @@ Everyone walks at the same speed (this means that it takes the same time for any
 ###############################################
 ## Shortest-Path Optimisation using Dijkstra ##
 ###############################################
-# but is shortest-path relevant to wait time and guest satisfaction?
+# run through all possible paths (from Jamie) to maximise satisfaction and minimise wait time by changing the values inside the nodes, NOT the path
+# let's try to do this by Friday
 def find_shortest_path(graph, start, end):
     return nx.dijkstra_path(graph, start, end, weight="distance")
+
+# output in dictionary format, e.g. {an adhoc node : all adjacent nodes}
+
+# try to use OOP to manipulate and decide what changes is best for the visitors
+# need to have the parameters that we can change to do the ML iteration
+# input: 
 
 ##########################
 ## Optimising Itinerary ##
