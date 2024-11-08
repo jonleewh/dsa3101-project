@@ -30,8 +30,8 @@ and how to adjust parameters like duration, capacity, etc --> run ML iteration
 ## Read in Graph Data ##
 ########################
 
-nodes = pd.read_csv("theme_park_nodes.csv")
-edges = pd.read_csv("theme_park_edges.csv")
+nodes = pd.read_csv("../data/theme_park_nodes.csv")
+edges = pd.read_csv("../data/theme_park_edges.csv")
 
 ######################
 ## Attraction Class ##
@@ -68,30 +68,10 @@ optimise guest flow and resource allocation (staff variable)
 seasonal variation (after Group A gives us the weather index, etc)
 """
 
-######################################
-## Calculating Actual Waiting Times ##
-######################################
-
-# add nodes, ensure properties are in the format (key = value)
-# we can use the waiting time as a proxy for the crowd level using the csv file
-# replace with the csv file data rather than generating it by ourselves
-def dynamic_crowd_wait(time_of_day, expected_waiting_time): # get the expected waiting time from the csv file
-    # update this every 5 min
-    # loop over the csv file to collect the data we want
-    actual_wait_time = expected_waiting_time + np.random(0, 10) # may need to change the random function
-    return actual_wait_time
-
-# loop over the csv file to generate the data we want
-for node in nodes:
-    nodes[node]["actual_wait_time"] = dynamic_crowd_wait(time_of_day, nodes[node]["expected_wait_time"])
-    crowd_level = actual_wait_time * 5
 
 
-####################################
-## Calculating Satisfaction Score ##
-####################################
 
-# Arguments are the properties of the node. Can put in the object
+
 """
 ASK CHIRAG TMRW IF OUR IDEA ANSWERS THE QUESTION
 
@@ -102,6 +82,7 @@ X1, X2, .... = factors
 
 # Factors that affect satisfaction score of a SINGLE node: [MAX]
 (focus on what factors we can change)
+Need to justify that we used survey data
 # crowd level -- we can't change this!!!
 menu variety
 cleanliness
@@ -112,12 +93,13 @@ cleanliness
 Business Suggestions:
 *** All visitors benefit from an enhanced satisfaction score, itinerary doesn't really affect the satisfaction score?
 *** For allocation of resources, we put the resources from the low demand attraction and transfer them to the high demand attraction
-*** 
+*** Depending on the most important factor
+*** How will this impact revenue? e.g. Cleanliness --> increase satisfaction --> revenue likely to increase (explain this in the wiki)
 
 # Factors that affect waiting time of a SINGLE node: [MIN]
 (focus on what factors we can change)
 ride duration
-crowd level
+crowd level -- higher priority for this
 popularity
 staff
 weather (indirect factor) --> Need to code which node is indoor/outdoor!
@@ -128,13 +110,53 @@ Run ML to determine the most important factor
 If any variable is particularly important, how to improve the model?
 """
 
+######################################
+## Calculating Actual Waiting Times ##
+######################################
+
+# we can use the waiting time as a proxy for the crowd level using the csv file
+# replace with the csv file data rather than generating it by ourselves
+def waiting_time(time_of_day, ride_duration, crowd_level, popularity, staff, weather): # get the expected waiting time from the csv file
+    # update this every 5 min
+    # loop over the csv file to collect the data we want
+    waiting_time = ride_duration + crowd_level + popularity + 0.5 * staff + 0.5 * weather
+    return waiting_time
+
+X = None # import csv file
+y = None # generate wait times based on X
+
+# Train a Random Forest regressor
+rf_model = RandomForestRegressor(n_estimators=100)
+rf_model.fit(X, y)
+
+# Check feature importances
+importances = rf_model.feature_importances_
+feature_names = X.columns
+
+for name, importance in zip(feature_names, importances):
+    print(f'Feature: {name}, Importance: {importance}')
+
+# Apply weights based on feature importances
+X_weighted = X * importances # Each column in X is scaled by its corresponding importance from the random forest model
+
+# Train the linear regression model with the coefficients accounting for the importance
+model = LinearRegression()
+model.fit(X_weighted, y)
+
+
+####################################
+## Calculating Satisfaction Score ##
+####################################
+
+# Arguments are the properties of the node. Can put in the object
+
 # Calculate satisfaction/desirability score based on crowd level, wait time, and popularity
 # Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
-def calculate_satisfaction(actual_wait_time, crowd_level, popularity, menu_variety):
-    # Satisfaction score example: higher with low crowd/wait and high popularity
-    # may want to use multiple LR here
+def calculate_satisfaction(actual_wait_time, crowd_level, popularity, menu_variety, cleanliness, weather, ride_quality):
     satisfaction_score = (10 - 0.5 * actual_wait_time - 0.3 * crowd_level
-                          + 0.2 * popularity + 0.2 * menu_variety) # we input a first guess of the coefficients here first
+                          + 0.2 * popularity + 0.2 * menu_variety
+                          + 0.5 * cleanliness - 0.3 * weather
+                          + 0.4 * ride_quality) # we input a first guess of the coefficients here first
     return satisfaction_score
 # Satisfaction score refers to the score for a single NODE, not the visitors.
 # but it should be based on the visitor!
@@ -159,6 +181,18 @@ X_weighted = X * importances # Each column in X is scaled by its corresponding i
 # Train the linear regression model with the coefficients accounting for the importance
 model = LinearRegression()
 model.fit(X_weighted, y)
+
+
+# for seasonal variations, try to use things like Halloween
+# an example is to have an increased percentage of staff
+# (e.g. increase staff by 20%, what's the change in satisfaction? Consider the costs of doing this also)
+# look at the DIFFERENCES in outcomes by increasing a variable by a certain percentage
+# make a graph of this for business suggestions
+# satisfaction score will never be 100 because some people will always have issues
+# we can just choose the parameters with higher importance
+# --> if we have 3 variables, we need to consider all possible combinations!? 3C1 + 3C2 + 3C3
+# tweak some parameters for the dynamic queue --> e.g. staff deployment
+
 
 # Simulate park experience over a day (time range: 10am to 7pm)
 for hour in range(10, 20):
