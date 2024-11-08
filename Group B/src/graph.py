@@ -7,9 +7,14 @@ import plotly.io as pio
 import webbrowser
 import random
 import datetime
+import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
+import os
+
+os.chdir('Group B/src')
+print("Current working directory:", os.getcwd())
 
 """
 # walkthrough: change parameters of nodes and edges so that the satisfactory score is maximised and time spent in total is minimised
@@ -26,17 +31,21 @@ separate the two graphs, have another graph where we can think of how to add/rem
 and how to adjust parameters like duration, capacity, etc --> run ML iteration
 """
 
-########################
-## Read in Graph Data ##
-########################
+############################################
+## Read in Graph Data + Data Manipulation ##
+############################################
 
-nodes = pd.read_csv("../data/theme_park_nodes.csv")
-edges = pd.read_csv("../data/theme_park_edges.csv")
+nodes = pd.read_csv('../data/theme_park_nodes.csv')
+nodes.fillna(0, inplace=True)
+columns_to_convert = ["duration", "popularity", "crowd_level", "cleanliness", "usage",
+                      "menu_variety", "capacity", "actual_wait_time", "expected_wait_time", "staff"]
+for column in columns_to_convert:
+    nodes[column] = pd.to_numeric(nodes[column], errors='coerce')
+edges = pd.read_csv('../data/theme_park_edges.csv')
 
 ######################
 ## Attraction Class ##
 ######################
-
 class Attraction:
     def __init__(self, name, node_type, zone, crowd_level, duration, actual_waiting_time):
         self.name = name
@@ -69,12 +78,7 @@ seasonal variation (after Group A gives us the weather index, etc)
 """
 
 
-
-
-
 """
-ASK CHIRAG TMRW IF OUR IDEA ANSWERS THE QUESTION
-
 2 ML models
 Y1 = average satisfaction score of ALL visitors passing through the ONE node (using a combination of the factors) --> apply Random Forest separately
 Y2 = average waiting time of ALL visitors passing through the ONE node (using another combination of the factors) --> apply Random Forest separately
@@ -104,7 +108,6 @@ popularity
 staff
 weather (indirect factor) --> Need to code which node is indoor/outdoor!
 
-
 Supervised learning requires an output!
 Run ML to determine the most important factor
 If any variable is particularly important, how to improve the model?
@@ -116,71 +119,89 @@ If any variable is particularly important, how to improve the model?
 
 # we can use the waiting time as a proxy for the crowd level using the csv file
 # replace with the csv file data rather than generating it by ourselves
-def waiting_time(time_of_day, ride_duration, crowd_level, popularity, staff, weather): # get the expected waiting time from the csv file
+def waiting_time(ride_duration, crowd_level, popularity, staff): # get the expected waiting time from the csv file
     # update this every 5 min
     # loop over the csv file to collect the data we want
-    waiting_time = ride_duration + crowd_level + popularity + 0.5 * staff + 0.5 * weather
+    waiting_time = ride_duration + 0.5 * crowd_level + 0.5 * popularity + 0.5 * staff # add weather in also!
     return waiting_time
 
-X = None # import csv file
-y = None # generate wait times based on X
+wait_time_X = nodes[['name', 'duration', 'crowd_level', 'popularity', 'staff']]
+wait_time_key_X_features = ['duration', 'crowd_level', 'popularity', 'staff']
+wait_time_y = pd.DataFrame() # generate wait times based on X
+for entry in wait_time_X.itertuples():
+    actual_waiting_time = waiting_time(entry.duration, entry.crowd_level, entry.popularity, entry.staff)
+    wait_time_y = pd.concat([wait_time_y, pd.DataFrame({"waiting_time": [actual_waiting_time]})], ignore_index=True)
 
-# Train a Random Forest regressor
-rf_model = RandomForestRegressor(n_estimators=100)
-rf_model.fit(X, y)
+# Train a Random Forest regressor to evaluate importance of each feature
+wait_time_rf_model = RandomForestRegressor(n_estimators=100)
+wait_time_rf_model.fit(wait_time_X[wait_time_key_X_features], wait_time_y)
+wait_time_importances = wait_time_rf_model.feature_importances_
 
-# Check feature importances
-importances = rf_model.feature_importances_
-feature_names = X.columns
-
-for name, importance in zip(feature_names, importances):
-    print(f'Feature: {name}, Importance: {importance}')
+# Plot a graph of the importance of each variable
+wait_time_feature_importance = pd.DataFrame({'Feature': wait_time_key_X_features, 'Importance': wait_time_importances}).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
+plt.figure(figsize=(10, 6))
+sns.barplot(x='Importance', y='Feature', data = wait_time_feature_importance, palette='viridis')
+plt.title('Waiting Time: Feature Importance from Random Forest Model')
+plt.xlabel('Importance')
+plt.ylabel('Feature')
+plt.show()
 
 # Apply weights based on feature importances
-X_weighted = X * importances # Each column in X is scaled by its corresponding importance from the random forest model
+wait_time_X_importance = wait_time_X[wait_time_key_X_features] * wait_time_importances # Each column in X is scaled by its corresponding importance from the random forest model
 
 # Train the linear regression model with the coefficients accounting for the importance
-model = LinearRegression()
-model.fit(X_weighted, y)
+wait_time_ml_model = LinearRegression()
+wait_time_ml_model.fit(wait_time_X_importance, wait_time_y)
+print(wait_time_ml_model)
 
 
 ####################################
 ## Calculating Satisfaction Score ##
 ####################################
-
 # Arguments are the properties of the node. Can put in the object
 
 # Calculate satisfaction/desirability score based on crowd level, wait time, and popularity
 # Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
-def calculate_satisfaction(actual_wait_time, crowd_level, popularity, menu_variety, cleanliness, weather, ride_quality):
-    satisfaction_score = (10 - 0.5 * actual_wait_time - 0.3 * crowd_level
+def satisfaction_score(crowd_level, popularity, menu_variety, cleanliness):
+    satisfaction_score = (10 - 0.3 * crowd_level
                           + 0.2 * popularity + 0.2 * menu_variety
-                          + 0.5 * cleanliness - 0.3 * weather
-                          + 0.4 * ride_quality) # we input a first guess of the coefficients here first
+                          + 0.5 * cleanliness) # we input a first guess of the coefficients here first
+    # - 0.5 * actual_wait_time - 0.3 * weather + 0.4 * ride_quality
+    # include actual_wait_time, weather and ride_quality later
     return satisfaction_score
 # Satisfaction score refers to the score for a single NODE, not the visitors.
 # but it should be based on the visitor!
 
-X = None # import csv file
-y = None # generate satisfaction score based on X
+satisfaction_score_X = nodes[['name', 'crowd_level', 'popularity', 'menu_variety', 'cleanliness']]
+satisfaction_score_X_key_features = ['crowd_level', 'popularity', 'menu_variety', 'cleanliness']
+satisfaction_score_y = pd.DataFrame() # generate satisfaction scores based on X
+for entry in satisfaction_score_X.itertuples():
+    actual_satisfaction_score = satisfaction_score(entry.crowd_level, entry.popularity, entry.menu_variety, entry.cleanliness)
+    satisfaction_score_y = pd.concat([satisfaction_score_y, pd.DataFrame({"waiting_time": [actual_satisfaction_score]})], ignore_index=True)
 
-# Train a Random Forest regressor
-rf_model = RandomForestRegressor(n_estimators=100)
-rf_model.fit(X, y)
+# Train a Random Forest regressor to evaluate importance of each feature
+satisfaction_score_rf_model = RandomForestRegressor(n_estimators=100)
+satisfaction_score_rf_model.fit(satisfaction_score_X[satisfaction_score_X_key_features],
+                                satisfaction_score_y)
+satisfaction_score_importances = satisfaction_score_rf_model.feature_importances_
 
-# Check feature importances
-importances = rf_model.feature_importances_
-feature_names = X.columns
-
-for name, importance in zip(feature_names, importances):
-    print(f'Feature: {name}, Importance: {importance}')
+# Plot a graph of the importance of each variable
+satisfaction_score_feature_importance = pd.DataFrame({'Feature': satisfaction_score_X_key_features, 'Importance': satisfaction_score_importances}).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
+plt.figure(figsize=(10, 6))
+sns.barplot(x='Importance', y='Feature', data = satisfaction_score_feature_importance, palette='viridis')
+plt.title('Satisfaction Score: Feature Importance from Random Forest Model')
+plt.xlabel('Importance')
+plt.ylabel('Feature')
+plt.show()
 
 # Apply weights based on feature importances
-X_weighted = X * importances # Each column in X is scaled by its corresponding importance from the random forest model
+satisfaction_score_X_importance = satisfaction_score_X[satisfaction_score_X_key_features] * satisfaction_score_importances # Each column in X is scaled by its corresponding importance from the random forest model
+print(satisfaction_score_X_importance)
 
 # Train the linear regression model with the coefficients accounting for the importance
-model = LinearRegression()
-model.fit(X_weighted, y)
+satisfaction_score_ml_model = LinearRegression()
+satisfaction_score_ml_model.fit(satisfaction_score_X_importance, satisfaction_score_y)
+print(satisfaction_score_ml_model)
 
 
 # for seasonal variations, try to use things like Halloween
@@ -192,24 +213,6 @@ model.fit(X_weighted, y)
 # we can just choose the parameters with higher importance
 # --> if we have 3 variables, we need to consider all possible combinations!? 3C1 + 3C2 + 3C3
 # tweak some parameters for the dynamic queue --> e.g. staff deployment
-
-
-# Simulate park experience over a day (time range: 10am to 7pm)
-for hour in range(10, 20):
-    print(f"\n--- Time: {hour}:00 ---")
-    for node in G.nodes(data=True):
-        base_wait = node[1]["base_wait"]
-        base_crowd = node[1]["base_crowd"]
-        popularity = node[1]["popularity"]
-        
-        # Update wait time and crowd level dynamically
-        wait_time, crowd_level = dynamic_crowd_wait(hour, base_wait, base_crowd)
-        
-        # Calculate satisfaction score
-        satisfaction = calculate_satisfaction(wait_time, crowd_level, popularity)
-        
-        # Print status
-        print(f"{node[0]} - Wait Time: {wait_time:.1f} mins, Crowd Level: {crowd_level:.1f}, Satisfaction: {satisfaction:.1f}")
 
 
 """
@@ -228,17 +231,35 @@ if the Ride doesn't exist in the csv file, keep it but
 
 G = nx.Graph()
 
-for node in nodes:
-    G.add_node(node["name"], node["type"], node["zone"])
+for node in nodes.itertuples():
+    G.add_node(node.name, type = node.type, zone = node.zone)
 
-for edge in edges:
-    G.add_edge(edge["source"], edge["target"], edge["distance"])
+for edge in edges.itertuples():
+    G.add_edge(edge.source, edge.target, distance = edge.distance)
 
 """
 Assumptions:
 Roads are not congested, although the ideal is to reduce congestion.
 Everyone walks at the same speed (this means that it takes the same time for anyone to get from point A to point B).
 """
+# Simulate park experience over a day (time range: 10am to 7pm)
+for hour in range(10, 20):
+    print(f"\n--- Time: {hour}:00 ---")
+    for node in G.nodes(data=True):
+        base_wait = node[1]["base_wait"]
+        base_crowd = node[1]["base_crowd"]
+        popularity = node[1]["popularity"]
+        
+        # Update wait time and crowd level dynamically
+        wait_time, crowd_level = dynamic_crowd_wait(hour, base_wait, base_crowd)
+        
+        # Calculate satisfaction score
+        satisfaction = calculate_satisfaction(wait_time, crowd_level, popularity)
+        
+        # Print status
+        print(f"{node[0]} - Wait Time: {wait_time:.1f} mins, Crowd Level: {crowd_level:.1f}, Satisfaction: {satisfaction:.1f}")
+
+
 
 
 ###############################################
