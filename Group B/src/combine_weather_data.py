@@ -2,21 +2,22 @@ import pandas as pd
 
 # Daily Weather Data
 daily_weather_data = pd.read_csv("Group B/data/daily_weather_data.csv")
-temperature_data = daily_weather_data[["Year", "Month", "Day", "Mean Temperature (°C)"]]
-print(temperature_data)
-# monthly_avg = temperature_data.groupby(['Month'])['Mean Temperature (°C)'].mean()
+daily_weather_data = daily_weather_data[["Year", "Month", "Day", "Mean Temperature (°C)", "Daily Rainfall Total (mm)"]]
+daily_weather_data["Mean Temperature (°C)"] = pd.to_numeric(daily_weather_data["Mean Temperature (°C)"], errors='coerce')
+daily_weather_data["Daily Rainfall Total (mm)"] = pd.to_numeric(daily_weather_data["Daily Rainfall Total (mm)"], errors='coerce')
+monthly_avg = daily_weather_data.groupby(['Year', 'Month']).agg(
+    avg_temperature = ('Mean Temperature (°C)', 'mean'),
+    avg_rainfall = ('Daily Rainfall Total (mm)', 'mean')).reset_index()
 
-#print(monthly_avg)
+monthly_avg.to_csv("Group B/data/weather_data_monthly_avg.csv")
 
 # Hourly Weather Data
 hourly_weather_data = pd.read_excel("Group B/data/hourly_weather_data.xlsx")
 
 # data cleaning
 hourly_weather_data['Temp'] = hourly_weather_data['Temp'].str.replace('\xa0°C', '')
-hourly_weather_data['Wind'] = hourly_weather_data['Wind'].replace("No wind", "0 km/h").str.replace(' km/h', '').astype(float)
-hourly_weather_data['Humidity'] = (hourly_weather_data['Humidity'] * 100).astype(int)
 hourly_weather_data['Rain'] = hourly_weather_data['Weather'].str.contains('rain', case=False, na=False).astype(int)
-hourly_weather_data.drop(['Barometer', 'Visibility', 'Weather'], axis=1, inplace=True)
+hourly_weather_data.drop(['Barometer', 'Visibility', 'Weather', 'Wind', 'Humidity'], axis=1, inplace=True)
 hourly_weather_data['Date'] = pd.to_datetime(hourly_weather_data['Date'])
 hourly_weather_data['Time'] = pd.to_datetime(hourly_weather_data['Time'], format='%H:%M:%S').dt.time
 hourly_weather_data = hourly_weather_data[
@@ -35,6 +36,4 @@ dates_data = dates_data[columns].drop(['Month', 'Day', 'year'], axis=1)
 
 # combine with hourly weather data
 hourly_weather_data = pd.merge(hourly_weather_data, dates_data, on='Date', how='left')
-print(hourly_weather_data)
-
 hourly_weather_data.to_csv("Group B/data/weather_data_hour.csv")
