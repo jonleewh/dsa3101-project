@@ -1,7 +1,7 @@
-name,type,zone,duration,popularity,timeslots,crowd_level,cleanliness,usage,menu_variety,capacity,actual_wait_time,expected_wait_time,staff
-Mel's Mixtape,Seasonal,Hollywood,20.0,80.0,"10:35, 15:00, 17:55, 13:00",60.0,,,,,,,
-"Margo, Edith and Agnes Meet-and-Greet",Seasonal,Hollywood,5.0,80.0,"13:55, 10:05, 15:55, 11:55, 17:25",60.0,,,,,,,
-Illuminations Minion Monsters,Seasonal,Hollywood,5.0,80.0,"12:25, 10:15, 15:50, 14:05",60.0,,,,,,,
+name,type,zone,duration,popularity,timeslots,crowd_level,cleanliness,usage,affordability,capacity,actual_wait_time,expected_wait_time,staff
+Mel's Mixtape,Seasonal,Hollywood,20.0,80.0,"15:00, 17:55, 13:00, 10:35",60.0,,,,,,,
+"Margo, Edith and Agnes Meet-and-Greet",Seasonal,Hollywood,5.0,80.0,"13:55, 11:55, 10:05, 17:25, 15:55",60.0,,,,,,,
+Illuminations Minion Monsters,Seasonal,Hollywood,5.0,80.0,"10:15, 14:05, 12:25, 15:50",60.0,,,,,,,
 Restroom 1,Restroom,Hollywood,,,,,90.0,30.0,,,,,
 Starbucks,Dining Outlet,Hollywood,,,,80.0,,,10.0,150.0,100.0,,
 Mel's Drive-In,Dining Outlet,Hollywood,,99.0,,80.0,,,10.0,150.0,30.0,20.0,12.0
@@ -16,14 +16,14 @@ Minion Mart,Retail,Hollywood,,99.0,,80.0,,,,150.0,10.0,10.0,3.0
 UNIVRS,Retail,Hollywood,,99.0,,80.0,,,,150.0,10.0,10.0,3.0
 Lights Camera Action Hosted by Steven Spielberg,Ride,New York,10.0,99.0,,80.0,,,,150.0,10.0,15.0,
 Sesame Street Spaghetti Space Chase,Ride,New York,10.0,99.0,,80.0,,,,20.0,5.0,10.0,
-Rhythm Truck,Seasonal,New York,20.0,80.0,"11:30, 15:30, 13:30, 18:20",60.0,,,,,,,
+Rhythm Truck,Seasonal,New York,20.0,80.0,"11:30, 18:20, 13:30, 15:30",60.0,,,,,,,
 Restroom 2,Restroom,New York,,,,,90.0,30.0,,,,,
 Loui's NY Pizza Parlor,Dining Outlet,New York,,99.0,,80.0,,,10.0,150.0,30.0,20.0,12.0
 Big Bird's Emporium,Retail,New York,,90.0,,80.0,,,,150.0,10.0,10.0,3.0
-Transformers,Ride,Sci-Fi City,10.0,99.0,,80.0,,,,40.0,10.0,15.0,
+TRANSFORMERS The Ride: The Ultimate 3D Battle,Ride,Sci-Fi City,10.0,99.0,,80.0,,,,40.0,10.0,15.0,
 Accelerator,Ride,Sci-Fi City,10.0,99.0,,80.0,,,,30.0,10.0,15.0,
-Battlestar Galactica: Human,Ride,Sci-Fi City,3.0,100.0,,80.0,,,,20.0,10.0,15.0,8.0
-Battlestar Galactica: Cylon,Ride,Sci-Fi City,3.0,100.0,,80.0,,,,20.0,10.0,15.0,8.0
+Battlestar Galactica: HUMAN,Ride,Sci-Fi City,3.0,100.0,,80.0,,,,20.0,10.0,15.0,8.0
+Battlestar Galactica: CYLON,Ride,Sci-Fi City,3.0,100.0,,80.0,,,,20.0,10.0,15.0,8.0
 Restroom 3,Restroom,Sci-Fi City,,,,,90.0,30.0,,,,,
 StarBot Cafe,Dining Outlet,Sci-Fi City,,99.0,,80.0,,,10.0,150.0,30.0,20.0,12.0
 Galactic Treats,Food Cart,Sci-Fi City,,99.0,,80.0,,,5.0,,3.0,3.0,1.0
@@ -37,9 +37,9 @@ Cairo Market,Food Cart,Ancient Egypt,,99.0,,80.0,,,5.0,,3.0,3.0,1.0
 Pharaoh's Dessert Oasis,Food Cart,Ancient Egypt,,99.0,,80.0,,,5.0,,3.0,3.0,1.0
 Carter's Curiosities,Retail,Ancient Egypt,,90.0,,80.0,,,,150.0,10.0,10.0,3.0
 Jurassic Park Rapids,Ride,The Lost World,10.0,99.0,,80.0,,,,40.0,10.0,15.0,
-Dino-Soarin,Ride,The Lost World,10.0,99.0,,80.0,,,,40.0,10.0,15.0,
+Dino Soarin',Ride,The Lost World,10.0,99.0,,80.0,,,,40.0,10.0,15.0,
 Canopy Flyer,Ride,The Lost World,10.0,99.0,,80.0,,,,40.0,10.0,15.0,
-WaterWorld,Seasonal,The Lost World,20.0,100.0,"12:45, 15:00, 17:15",60.0,,,,200.0,,,
+WaterWorld,Seasonal,The Lost World,20.0,100.0,"17:15, 15:00, 12:45",60.0,,,,200.0,,,
 Restroom 5,Restroom,The Lost World,,,,,90.0,30.0,,,,,
 Restroom 6,Restroom,The Lost World,,,,,90.0,30.0,,,,,
 Discovery Food Court,Dining Outlet,The Lost World,,99.0,,80.0,,,10.0,150.0,30.0,20.0,12.0
@@ -47,7 +47,7 @@ Fossil Fuels,Dining Outlet,The Lost World,,99.0,,80.0,,,10.0,150.0,30.0,20.0,12.
 Mariner's Market,Food Cart,The Lost World,,99.0,,80.0,,,5.0,,3.0,3.0,1.0
 Jungle Bites,Food Cart,The Lost World,,99.0,,80.0,,,5.0,,3.0,3.0,1.0
 The Dino-Store,Retail,Hollywood,,90.0,,80.0,,,,150.0,10.0,10.0,3.0
-Puss In Boots,Ride,Far Far Away,10.0,99.0,,80.0,,,,40.0,10.0,15.0,
+Puss In Boots Giant Journey,Ride,Far Far Away,10.0,99.0,,80.0,,,,40.0,10.0,15.0,
 Magic Potion Spin,Ride,Far Far Away,10.0,99.0,,80.0,,,,40.0,10.0,15.0,
 Shrek 4D Adventure,Ride,Far Far Away,10.0,99.0,,80.0,,,,40.0,10.0,15.0,
 Enchanted Airways,Ride,Far Far Away,10.0,99.0,,80.0,,,,40.0,10.0,15.0,

@@ -1,5 +1,8 @@
 import datetime
 import pandas as pd
+import os
+
+# For all F&B outlets, change menu_variety to affordability
 
 nodes_data = [
     # Hollywood
@@ -19,22 +22,22 @@ nodes_data = [
      "cleanliness": 90, "usage": 30},
 
     {"name": "Starbucks", "type": "Dining Outlet", "zone": "Hollywood",
-     "menu_variety": 10, "capacity": 150, "crowd_level": 80, "actual_wait_time": 100},
+     "affordability": 10, "capacity": 150, "crowd_level": 80, "actual_wait_time": 100},
 
     {"name": "Mel's Drive-In", "type": "Dining Outlet", "zone": "Hollywood",
-     "menu_variety": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
+     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "KT's Grill", "type": "Dining Outlet", "zone": "Hollywood",
-     "menu_variety": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
+     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Star Snacks", "type": "Food Cart", "zone": "Hollywood",
-     "menu_variety": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "Pops! Popcorn Delight", "type": "Food Cart", "zone": "Hollywood",
-     "menu_variety": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "That's a Wrap!", "type": "Retail", "zone": "Hollywood",
@@ -79,7 +82,7 @@ nodes_data = [
      "cleanliness": 90, "usage": 30},
 
     {"name": "Loui's NY Pizza Parlor", "type": "Dining Outlet", "zone": "New York",
-     "menu_variety": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
+     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Big Bird's Emporium", "type": "Retail", "zone": "New York",
@@ -87,7 +90,7 @@ nodes_data = [
      "crowd_level": 80, "actual_wait_time": 10},
 
     # Sci-Fi City
-    {"name": "Transformers", "type": "Ride", "zone": "Sci-Fi City",
+    {"name": "TRANSFORMERS The Ride: The Ultimate 3D Battle", "type": "Ride", "zone": "Sci-Fi City",
      "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
@@ -95,11 +98,11 @@ nodes_data = [
      "duration": 10, "capacity": 30, "popularity": 99, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
-    {"name": "Battlestar Galactica: Human", "type": "Ride", "zone": "Sci-Fi City",
+    {"name": "Battlestar Galactica: HUMAN", "type": "Ride", "zone": "Sci-Fi City",
      "duration": 3, "capacity": 20, "popularity": 100, "expected_wait_time": 15, "staff": 8,
      "crowd_level": 80, "actual_wait_time": 10},
 
-    {"name": "Battlestar Galactica: Cylon", "type": "Ride", "zone": "Sci-Fi City",
+    {"name": "Battlestar Galactica: CYLON", "type": "Ride", "zone": "Sci-Fi City",
      "duration": 3, "capacity": 20, "popularity": 100, "expected_wait_time": 15, "staff": 8,
      "crowd_level": 80, "actual_wait_time": 10},
 
@@ -107,15 +110,15 @@ nodes_data = [
      "cleanliness": 90, "usage": 30},
 
     {"name": "StarBot Cafe", "type": "Dining Outlet", "zone": "Sci-Fi City",
-     "menu_variety": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
+     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Galactic Treats", "type": "Food Cart", "zone": "Sci-Fi City",
-     "menu_variety": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "Frozen Fuel", "type": "Food Cart", "zone": "Sci-Fi City",
-     "menu_variety": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "The Sci-Fi Emporium", "type": "Retail", "zone": "Sci-Fi City",
@@ -135,15 +138,15 @@ nodes_data = [
      "cleanliness": 90, "usage": 30},
 
     {"name": "Oasis Spice Cafe", "type": "Dining Outlet", "zone": "Ancient Egypt",
-     "menu_variety": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
+     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Cairo Market", "type": "Food Cart", "zone": "Ancient Egypt",
-     "menu_variety": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "Pharaoh's Dessert Oasis", "type": "Food Cart", "zone": "Ancient Egypt",
-     "menu_variety": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "Carter's Curiosities", "type": "Retail", "zone": "Ancient Egypt",
@@ -155,7 +158,7 @@ nodes_data = [
      "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
-    {"name": "Dino-Soarin", "type": "Ride", "zone": "The Lost World",
+    {"name": "Dino Soarin'", "type": "Ride", "zone": "The Lost World",
      "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
@@ -175,19 +178,19 @@ nodes_data = [
      "cleanliness": 90, "usage": 30},
 
     {"name": "Discovery Food Court", "type": "Dining Outlet", "zone": "The Lost World",
-     "menu_variety": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
+     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
      "staff": 12, "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Fossil Fuels", "type": "Dining Outlet", "zone": "The Lost World",
-     "menu_variety": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
+     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
      "staff": 12, "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Mariner's Market", "type": "Food Cart", "zone": "The Lost World",
-     "menu_variety": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "Jungle Bites", "type": "Food Cart", "zone": "The Lost World",
-     "menu_variety": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "The Dino-Store", "type": "Retail", "zone": "Hollywood",
@@ -195,7 +198,7 @@ nodes_data = [
      "crowd_level": 80, "actual_wait_time": 10},
     
     # Far Far Away
-    {"name": "Puss In Boots", "type": "Ride", "zone": "Far Far Away",
+    {"name": "Puss In Boots Giant Journey", "type": "Ride", "zone": "Far Far Away",
      "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
@@ -223,11 +226,11 @@ nodes_data = [
      "cleanliness": 90, "usage": 30},
 
     {"name": "Friar's Good Food", "type": "Dining Outlet", "zone": "Far Far Away",
-     "menu_variety": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
+     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
      "staff": 12, "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Goldilocks", "type": "Dining Outlet", "zone": "Far Far Away",
-     "menu_variety": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
+     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
      "staff": 12, "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Fairy Godmother's Potion Shop", "type": "Retail", "zone": "Far Far Away",
@@ -273,15 +276,15 @@ edges_data = [
     {"source": "Loui's NY Pizza Parlor", "target": "Big Bird's Emporium", "distance": 3},
     
     # Sci-Fi City Zone
-    {"source": "Transformers", "target": "Accelerator", "distance": 3},
-    {"source": "Transformers", "target": "Battlestar Galactica: Human", "distance": 5},
-    {"source": "Transformers", "target": "Restroom 3", "distance": 4},
-    {"source": "Transformers", "target": "StarBot Cafe", "distance": 6},
-    {"source": "Accelerator", "target": "Battlestar Galactica: Cylon", "distance": 4},
+    {"source": "TRANSFORMERS The Ride: The Ultimate 3D Battle", "target": "Accelerator", "distance": 3},
+    {"source": "TRANSFORMERS The Ride: The Ultimate 3D Battle", "target": "Battlestar Galactica: HUMAN", "distance": 5},
+    {"source": "TRANSFORMERS The Ride: The Ultimate 3D Battle", "target": "Restroom 3", "distance": 4},
+    {"source": "TRANSFORMERS The Ride: The Ultimate 3D Battle", "target": "StarBot Cafe", "distance": 6},
+    {"source": "Accelerator", "target": "Battlestar Galactica: CYLON", "distance": 4},
     {"source": "Accelerator", "target": "Restroom 3", "distance": 2},
-    {"source": "Battlestar Galactica: Human", "target": "Battlestar Galactica: Cylon", "distance": 1},
-    {"source": "Battlestar Galactica: Human", "target": "Restroom 3", "distance": 5},
-    {"source": "Battlestar Galactica: Human", "target": "Frozen Fuel", "distance": 6},
+    {"source": "Battlestar Galactica: HUMAN", "target": "Battlestar Galactica: CYLON", "distance": 1},
+    {"source": "Battlestar Galactica: HUMAN", "target": "Restroom 3", "distance": 5},
+    {"source": "Battlestar Galactica: HUMAN", "target": "Frozen Fuel", "distance": 6},
     {"source": "Restroom 3", "target": "StarBot Cafe", "distance": 3},
     {"source": "Restroom 3", "target": "Galactic Treats", "distance": 4},
     {"source": "StarBot Cafe", "target": "Galactic Treats", "distance": 2},
@@ -308,12 +311,12 @@ edges_data = [
     {"source": "Cairo Market", "target": "Carter's Curiosities", "distance": 6},
     
     # The Lost World Zone
-    {"source": "Jurassic Park Rapids", "target": "Dino-Soarin", "distance": 3},
+    {"source": "Jurassic Park Rapids", "target": "Dino Soarin'", "distance": 3},
     {"source": "Jurassic Park Rapids", "target": "Restroom 5", "distance": 4},
     {"source": "Jurassic Park Rapids", "target": "Discovery Food Court", "distance": 5},
-    {"source": "Dino-Soarin", "target": "Canopy Flyer", "distance": 2},
-    {"source": "Dino-Soarin", "target": "Restroom 6", "distance": 3},
-    {"source": "Dino-Soarin", "target": "Fossil Fuels", "distance": 5},
+    {"source": "Dino Soarin'", "target": "Canopy Flyer", "distance": 2},
+    {"source": "Dino Soarin'", "target": "Restroom 6", "distance": 3},
+    {"source": "Dino Soarin'", "target": "Fossil Fuels", "distance": 5},
     {"source": "Canopy Flyer", "target": "WaterWorld", "distance": 4},
     {"source": "Canopy Flyer", "target": "Restroom 5", "distance": 5},
     {"source": "WaterWorld", "target": "Restroom 5", "distance": 2},
@@ -338,5 +341,6 @@ nodes_df = pd.DataFrame(nodes_data)
 edges_df = pd.DataFrame(edges_data)
 
 # Save to CSV
-nodes_df.to_csv("theme_park_nodes.csv", index=False)
-edges_df.to_csv("theme_park_edges.csv", index=False)
+os.chdir('Group B/src')
+nodes_df.to_csv("../data/theme_park_nodes.csv", index=False)
+edges_df.to_csv("../data/theme_park_edges.csv", index=False)

@@ -14,7 +14,6 @@ from sklearn.ensemble import RandomForestRegressor
 import os
 
 os.chdir('Group B/src')
-print("Current working directory:", os.getcwd())
 
 """
 # walkthrough: change parameters of nodes and edges so that the satisfactory score is maximised and time spent in total is minimised
@@ -204,6 +203,11 @@ satisfaction_score_ml_model.fit(satisfaction_score_X_importance, satisfaction_sc
 print(satisfaction_score_ml_model)
 
 
+
+########################
+## Seasonal Variation ##
+########################
+
 # for seasonal variations, try to use things like Halloween
 # an example is to have an increased percentage of staff
 # (e.g. increase staff by 20%, what's the change in satisfaction? Consider the costs of doing this also)
@@ -213,6 +217,11 @@ print(satisfaction_score_ml_model)
 # we can just choose the parameters with higher importance
 # --> if we have 3 variables, we need to consider all possible combinations!? 3C1 + 3C2 + 3C3
 # tweak some parameters for the dynamic queue --> e.g. staff deployment
+
+# input: csv file
+# variables: to be decided
+def seasonal_variation():
+    return
 
 
 """
@@ -260,20 +269,6 @@ for hour in range(10, 20):
         print(f"{node[0]} - Wait Time: {wait_time:.1f} mins, Crowd Level: {crowd_level:.1f}, Satisfaction: {satisfaction:.1f}")
 
 
-###############################################
-## Shortest-Path Optimisation using Dijkstra ##
-###############################################
-# run through all possible paths (from Jamie) to maximise satisfaction and minimise wait time by changing the values inside the nodes, NOT the path
-# let's try to do this by Friday
-def find_shortest_path(graph, start, end):
-    return nx.dijkstra_path(graph, start, end, weight="distance")
-
-# output in dictionary format, e.g. {an adhoc node : all adjacent nodes}
-
-# try to use OOP to manipulate and decide what changes is best for the visitors
-# need to have the parameters that we can change to do the ML iteration
-# input: 
-
 ##########################
 ## Optimising Itinerary ##
 ##########################
@@ -310,8 +305,6 @@ def optimized_itinerary(start, attractions_list, current_hour):
         current_hour = (current_hour + 1) % 24
     
     return itinerary, total_time
-
-
 
 
 ###############################
