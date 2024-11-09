@@ -1,6 +1,18 @@
-name,type,zone,duration,popularity,timeslots,crowd_level,cleanliness,usage,menu_variety,capacity,actual_wait_time,expected_wait_time,staff,index,weight,duration (in min)
-Illuminations Minion Monsters,Seasonal,Hollywood,5.0,80.0,"14:05, 10:15, 12:25, 15:50",60.0,,,,,,,,,,
-"Margo, Edith and Agnes Meet-and-Greet",Seasonal,Hollywood,5.0,80.0,"17:25, 10:05, 15:55, 13:55, 11:55",60.0,,,,,,,,,,
-Mel's Mixtape,Seasonal,Hollywood,20.0,80.0,"10:35, 17:55, 15:00, 13:00",60.0,,,,,,,,,,
-Rhythm Truck,Seasonal,New York,20.0,80.0,"15:30, 11:30, 18:20, 13:30",60.0,,,,,,,,,,
-WaterWorld,Seasonal,The Lost World,20.0,100.0,"15:00, 12:45, 17:15",60.0,,,,200.0,,,,,,
+name,type,zone,popularity,timeslots,crowd_level,cleanliness,usage,affordability,actual_wait_time,expected_wait_time,staff,index,weight,duration,capacity
+Accelerator,Ride,Sci-Fi City,99.0,,80.0,,,,10.0,15.0,,K,99.0,3.0,24.0
+Battlestar Galactica: CYLON,Ride,Sci-Fi City,80.0,,80.0,,,,10.0,15.0,8.0,A,99.0,3.0,24.0
+Battlestar Galactica: HUMAN,Ride,Sci-Fi City,80.0,,80.0,,,,10.0,15.0,8.0,A,99.0,3.0,24.0
+Canopy Flyer,Ride,The Lost World,80.0,,80.0,,,,10.0,15.0,,A,99.0,3.0,16.0
+Dino Soarin',Ride,The Lost World,59.0,,80.0,,,,10.0,15.0,,G,99.0,3.0,8.0
+Donkey Live,Ride,Far Far Away,99.0,,80.0,,,,10.0,15.0,,,,,
+Enchanted Airways,Ride,Far Far Away,80.0,,80.0,,,,10.0,15.0,,A,99.0,2.0,24.0
+Fortune Favours The Furry,Ride,Far Far Away,99.0,,80.0,,,,10.0,15.0,,,,,
+Jurassic Park Rapids Adventure,Ride,The Lost World,75.0,,80.0,,,,10.0,15.0,,B,99.0,6.0,12.0
+Lights Camera Action Hosted by Steven Spielberg,Ride,New York,80.0,,80.0,,,,10.0,15.0,,I,99.0,10.0,50.0
+Magic Potion Spin,Ride,Far Far Away,59.0,,80.0,,,,10.0,15.0,,G,99.0,3.0,16.0
+Puss In Boots Giant Journey,Ride,Far Far Away,80.0,,80.0,,,,10.0,15.0,,A,99.0,3.0,24.0
+Revenge of the Mummy,Ride,Ancient Egypt,80.0,,80.0,,,,10.0,15.0,,A,99.0,4.0,24.0
+Sesame Street Spaghetti Space Chase,Ride,New York,59.0,,80.0,,,,5.0,10.0,,G,99.0,6.0,24.0
+Shrek 4D Adventure,Ride,Far Far Away,80.0,,80.0,,,,10.0,15.0,,I,99.0,15.0,70.0
+TRANSFORMERS The Ride: The Ultimate 3D Battle,Ride,Sci-Fi City,80.0,,80.0,,,,10.0,15.0,,I,99.0,5.0,24.0
+Treasure Hunters,Ride,Ancient Egypt,59.0,,80.0,,,,10.0,15.0,,G,99.0,3.0,12.0
