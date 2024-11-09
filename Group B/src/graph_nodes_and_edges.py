@@ -7,29 +7,29 @@ import os
 nodes_data = [
     # Hollywood
     {"name": "Mel's Mixtape", "type": "Seasonal", "zone": "Hollywood",
-     "duration": 20, "popularity": 80, "timeslots": {datetime.time(10, 35), datetime.time(13, 0), datetime.time(15, 0), datetime.time(17, 55)},
+     "duration": 20, "popularity": 80, "timeslots": [datetime.time(10, 35), datetime.time(13, 0), datetime.time(15, 0), datetime.time(17, 55)],
      "crowd_level": 60},
 
     {"name": "Margo, Edith and Agnes Meet-and-Greet", "type": "Seasonal", "zone": "Hollywood",
-     "duration": 5, "popularity": 80, "timeslots": {datetime.time(10, 5), datetime.time(11, 55), datetime.time(13, 55), datetime.time(15, 55), datetime.time(17, 25)},
+     "duration": 5, "popularity": 80, "timeslots": [datetime.time(10, 5), datetime.time(11, 55), datetime.time(13, 55), datetime.time(15, 55), datetime.time(17, 25)],
      "crowd_level": 60},
 
     {"name": "Illuminations Minion Monsters", "type": "Seasonal", "zone": "Hollywood",
-     "duration": 5, "popularity": 80, "timeslots": {datetime.time(10, 15), datetime.time(12, 25), datetime.time(14, 5), datetime.time(15, 50)},
+     "duration": 5, "popularity": 80, "timeslots": [datetime.time(10, 15), datetime.time(12, 25), datetime.time(14, 5), datetime.time(15, 50)],
      "crowd_level": 60},
 
     {"name": "Restroom 1", "type": "Restroom", "zone": "Hollywood",
-     "cleanliness": 90, "usage": 30},
+     "cleanliness": 84, "usage": 30},
 
     {"name": "Starbucks", "type": "Dining Outlet", "zone": "Hollywood",
-     "affordability": 10, "capacity": 150, "crowd_level": 80, "actual_wait_time": 100},
+     "affordability": 42.4, "capacity": 150, "crowd_level": 80, "actual_wait_time": 100},
 
     {"name": "Mel's Drive-In", "type": "Dining Outlet", "zone": "Hollywood",
-     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
+     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "KT's Grill", "type": "Dining Outlet", "zone": "Hollywood",
-     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
+     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Star Snacks", "type": "Food Cart", "zone": "Hollywood",
@@ -75,14 +75,14 @@ nodes_data = [
 
     {"name": "Rhythm Truck", "type": "Seasonal", "zone": "New York",
      "duration": 20, "popularity": 80,
-     "timeslots": {datetime.time(11, 30), datetime.time(13, 30), datetime.time(15, 30), datetime.time(18, 20)},
+     "timeslots": [datetime.time(11, 30), datetime.time(13, 30), datetime.time(15, 30), datetime.time(18, 20)],
      "crowd_level": 60},
 
     {"name": "Restroom 2", "type": "Restroom", "zone": "New York",
-     "cleanliness": 90, "usage": 30},
+     "cleanliness": 84, "usage": 30},
 
     {"name": "Loui's NY Pizza Parlor", "type": "Dining Outlet", "zone": "New York",
-     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
+     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Big Bird's Emporium", "type": "Retail", "zone": "New York",
@@ -107,10 +107,10 @@ nodes_data = [
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Restroom 3", "type": "Restroom", "zone": "Sci-Fi City",
-     "cleanliness": 90, "usage": 30},
+     "cleanliness": 84, "usage": 30},
 
     {"name": "StarBot Cafe", "type": "Dining Outlet", "zone": "Sci-Fi City",
-     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
+     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Galactic Treats", "type": "Food Cart", "zone": "Sci-Fi City",
@@ -135,10 +135,10 @@ nodes_data = [
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Restroom 4", "type": "Restroom", "zone": "Ancient Egypt",
-     "cleanliness": 90, "usage": 30},
+     "cleanliness": 84, "usage": 30},
 
     {"name": "Oasis Spice Cafe", "type": "Dining Outlet", "zone": "Ancient Egypt",
-     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
+     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Cairo Market", "type": "Food Cart", "zone": "Ancient Egypt",
@@ -154,7 +154,7 @@ nodes_data = [
      "crowd_level": 80, "actual_wait_time": 10},
     
     # The Lost World
-    {"name": "Jurassic Park Rapids", "type": "Ride", "zone": "The Lost World",
+    {"name": "Jurassic Park Rapids Adventure", "type": "Ride", "zone": "The Lost World",
      "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
@@ -168,21 +168,21 @@ nodes_data = [
 
     {"name": "WaterWorld", "type": "Seasonal", "zone": "The Lost World",
      "duration": 20, "capacity": 200, "popularity": 100,
-     "timeslots": {datetime.time(12, 45), datetime.time(15, 0), datetime.time(17, 15)},
+     "timeslots": [datetime.time(12, 45), datetime.time(15, 0), datetime.time(17, 15)],
      "crowd_level": 60},
 
     {"name": "Restroom 5", "type": "Restroom", "zone": "The Lost World",
-     "cleanliness": 90, "usage": 30},
+     "cleanliness": 84, "usage": 30},
 
     {"name": "Restroom 6", "type": "Restroom", "zone": "The Lost World",
-     "cleanliness": 90, "usage": 30},
+     "cleanliness": 84, "usage": 30},
 
     {"name": "Discovery Food Court", "type": "Dining Outlet", "zone": "The Lost World",
-     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
+     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
      "staff": 12, "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Fossil Fuels", "type": "Dining Outlet", "zone": "The Lost World",
-     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
+     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
      "staff": 12, "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Mariner's Market", "type": "Food Cart", "zone": "The Lost World",
@@ -223,14 +223,14 @@ nodes_data = [
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Restroom 7", "type": "Restroom", "zone": "Far Far Away",
-     "cleanliness": 90, "usage": 30},
+     "cleanliness": 84, "usage": 30},
 
     {"name": "Friar's Good Food", "type": "Dining Outlet", "zone": "Far Far Away",
-     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
+     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
      "staff": 12, "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Goldilocks", "type": "Dining Outlet", "zone": "Far Far Away",
-     "affordability": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
+     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
      "staff": 12, "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Fairy Godmother's Potion Shop", "type": "Retail", "zone": "Far Far Away",
@@ -311,9 +311,9 @@ edges_data = [
     {"source": "Cairo Market", "target": "Carter's Curiosities", "distance": 6},
     
     # The Lost World Zone
-    {"source": "Jurassic Park Rapids", "target": "Dino Soarin'", "distance": 3},
-    {"source": "Jurassic Park Rapids", "target": "Restroom 5", "distance": 4},
-    {"source": "Jurassic Park Rapids", "target": "Discovery Food Court", "distance": 5},
+    {"source": "Jurassic Park Rapids Adventure", "target": "Dino Soarin'", "distance": 3},
+    {"source": "Jurassic Park Rapids Adventure", "target": "Restroom 5", "distance": 4},
+    {"source": "Jurassic Park Rapids Adventure", "target": "Discovery Food Court", "distance": 5},
     {"source": "Dino Soarin'", "target": "Canopy Flyer", "distance": 2},
     {"source": "Dino Soarin'", "target": "Restroom 6", "distance": 3},
     {"source": "Dino Soarin'", "target": "Fossil Fuels", "distance": 5},
