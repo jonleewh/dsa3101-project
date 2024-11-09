@@ -260,8 +260,6 @@ for hour in range(10, 20):
         print(f"{node[0]} - Wait Time: {wait_time:.1f} mins, Crowd Level: {crowd_level:.1f}, Satisfaction: {satisfaction:.1f}")
 
 
-
-
 ###############################################
 ## Shortest-Path Optimisation using Dijkstra ##
 ###############################################
