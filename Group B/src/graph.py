@@ -251,6 +251,7 @@ Assumptions:
 Roads are not congested, although the ideal is to reduce congestion.
 Everyone walks at the same speed (this means that it takes the same time for anyone to get from point A to point B).
 """
+
 # Simulate park experience over a day (time range: 10am to 7pm)
 for hour in range(10, 20):
     print(f"\n--- Time: {hour}:00 ---")
