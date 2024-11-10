@@ -1,61 +1,61 @@
-name,type,zone,outdoor,duration,timeslots,crowd_level,cleanliness,usage,affordability,capacity,actual_wait_time,expected_wait_time,staff
-Entrance,Entrance,,,,,,,,,,,,
-Mel's Mixtape,Seasonal,Hollywood,1.0,20.0,"10:35, 13:00, 15:00, 17:55",60.0,,,,,,,
-"Margo, Edith and Agnes Meet-and-Greet",Seasonal,Hollywood,1.0,5.0,"10:05, 11:55, 13:55, 15:55, 17:25",60.0,,,,,,,
-Illuminations Minion Monsters,Seasonal,Hollywood,1.0,5.0,"10:15, 12:25, 14:05, 15:50",60.0,,,,,,,
-Restroom 1,Restroom,Hollywood,0.0,,,,84.0,30.0,,,,,
-Starbucks,Dining Outlet,Hollywood,1.0,,,80.0,,,42.4,150.0,100.0,,
-Mel's Drive-In,Dining Outlet,Hollywood,1.0,,,80.0,,,42.4,150.0,30.0,20.0,12.0
-KT's Grill,Dining Outlet,Hollywood,0.0,,,80.0,,,42.4,150.0,30.0,20.0,12.0
-Star Snacks,Food Cart,Hollywood,1.0,,,80.0,,,5.0,,3.0,3.0,1.0
-Pops! Popcorn Delight,Food Cart,Hollywood,1.0,,,80.0,,,5.0,,3.0,3.0,1.0
-That's a Wrap!,Retail,Hollywood,0.0,,,80.0,,,,150.0,10.0,10.0,3.0
-Candylicious,Retail,Hollywood,0.0,,,80.0,,,,150.0,10.0,10.0,3.0
-Universal Studios Store,Retail,Hollywood,0.0,,,80.0,,,,150.0,10.0,10.0,3.0
-Hello Kitty Studio,Retail,Hollywood,0.0,,,80.0,,,,150.0,10.0,10.0,3.0
-Minion Mart,Retail,Hollywood,0.0,,,80.0,,,,150.0,10.0,10.0,3.0
-UNIVRS,Retail,Hollywood,0.0,,,80.0,,,,150.0,10.0,10.0,3.0
-Lights Camera Action Hosted by Steven Spielberg,Ride,New York,0.0,10.0,,80.0,,,,150.0,10.0,15.0,
-Sesame Street Spaghetti Space Chase,Ride,New York,0.0,10.0,,80.0,,,,20.0,5.0,10.0,
-Rhythm Truck,Seasonal,New York,1.0,20.0,"11:30, 13:30, 15:30, 18:20",60.0,,,,,,,
-Restroom 2,Restroom,New York,0.0,,,,84.0,30.0,,,,,
-Loui's NY Pizza Parlor,Dining Outlet,New York,0.0,,,80.0,,,42.4,150.0,30.0,20.0,12.0
-Big Bird's Emporium,Retail,New York,0.0,,,80.0,,,,150.0,10.0,10.0,3.0
-TRANSFORMERS The Ride: The Ultimate 3D Battle,Ride,Sci-Fi City,0.0,10.0,,80.0,,,,40.0,10.0,15.0,
-Transformers Supply Vault,Retail,Sci-Fi City,0.0,,,80.0,,,,150.0,10.0,10.0,3.0
-Accelerator,Ride,Sci-Fi City,0.0,10.0,,80.0,,,,30.0,10.0,15.0,
-Battlestar Galactica: HUMAN,Ride,Sci-Fi City,1.0,3.0,,80.0,,,,20.0,10.0,15.0,8.0
-Battlestar Galactica: CYLON,Ride,Sci-Fi City,1.0,3.0,,80.0,,,,20.0,10.0,15.0,8.0
-Restroom 3,Restroom,Sci-Fi City,0.0,,,,84.0,30.0,,,,,
-StarBot Cafe,Dining Outlet,Sci-Fi City,0.0,,,80.0,,,42.4,150.0,30.0,20.0,12.0
-Galactic Treats,Food Cart,Sci-Fi City,1.0,,,80.0,,,5.0,,3.0,3.0,1.0
-Frozen Fuel,Food Cart,Sci-Fi City,1.0,,,80.0,,,5.0,,3.0,3.0,1.0
-The Sci-Fi Emporium,Retail,Sci-Fi City,0.0,,,80.0,,,,150.0,10.0,10.0,3.0
-Revenge of the Mummy,Ride,Ancient Egypt,0.0,10.0,,80.0,,,,40.0,10.0,15.0,
-Treasure Hunters,Ride,Ancient Egypt,1.0,10.0,,80.0,,,,40.0,10.0,15.0,
-Restroom 4,Restroom,Ancient Egypt,0.0,,,,84.0,30.0,,,,,
-Oasis Spice Cafe,Dining Outlet,Ancient Egypt,0.0,,,80.0,,,42.4,150.0,30.0,20.0,12.0
-Cairo Market,Food Cart,Ancient Egypt,1.0,,,80.0,,,5.0,,3.0,3.0,1.0
-Pharaoh's Dessert Oasis,Food Cart,Ancient Egypt,1.0,,,80.0,,,5.0,,3.0,3.0,1.0
-Carter's Curiosities,Retail,Ancient Egypt,0.0,,,80.0,,,,150.0,10.0,10.0,3.0
-Jurassic Park Rapids Adventure,Ride,The Lost World,1.0,10.0,,80.0,,,,40.0,10.0,15.0,
-Dino Soarin',Ride,The Lost World,1.0,10.0,,80.0,,,,40.0,10.0,15.0,
-Canopy Flyer,Ride,The Lost World,1.0,10.0,,80.0,,,,40.0,10.0,15.0,
-WaterWorld,Seasonal,The Lost World,1.0,20.0,"12:45, 15:00, 17:15",60.0,,,,200.0,,,
-Restroom 5,Restroom,The Lost World,0.0,,,,84.0,30.0,,,,,
-Restroom 6,Restroom,The Lost World,0.0,,,,84.0,30.0,,,,,
-Discovery Food Court,Dining Outlet,The Lost World,0.0,,,80.0,,,42.4,150.0,30.0,20.0,12.0
-Fossil Fuels,Dining Outlet,The Lost World,0.0,,,80.0,,,42.4,150.0,30.0,20.0,12.0
-Mariner's Market,Food Cart,The Lost World,1.0,,,80.0,,,5.0,,3.0,3.0,1.0
-Jungle Bites,Food Cart,The Lost World,1.0,,,80.0,,,5.0,,3.0,3.0,1.0
-The Dino-Store,Retail,Hollywood,0.0,,,80.0,,,,150.0,10.0,10.0,3.0
-Puss In Boots Giant Journey,Ride,Far Far Away,1.0,10.0,,80.0,,,,40.0,10.0,15.0,
-Magic Potion Spin,Ride,Far Far Away,0.0,10.0,,80.0,,,,40.0,10.0,15.0,
-Shrek 4D Adventure,Ride,Far Far Away,0.0,10.0,,80.0,,,,40.0,10.0,15.0,
-Enchanted Airways,Ride,Far Far Away,1.0,10.0,,80.0,,,,40.0,10.0,15.0,
-Donkey Live,Ride,Far Far Away,0.0,10.0,,80.0,,,,40.0,10.0,15.0,
-Fortune Favours The Furry,Ride,Far Far Away,1.0,10.0,,80.0,,,,40.0,10.0,15.0,
-Restroom 7,Restroom,Far Far Away,0.0,,,,84.0,30.0,,,,,
-Friar's Good Food,Dining Outlet,Far Far Away,0.0,,,80.0,,,42.4,150.0,30.0,20.0,12.0
-Goldilocks,Dining Outlet,Far Far Away,0.0,,,80.0,,,42.4,150.0,30.0,20.0,12.0
-Fairy Godmother's Potion Shop,Retail,Far Far Away,0.0,,,80.0,,,,150.0,10.0,10.0,3.0
+name,type,outdoor,zone,duration,timeslots,crowd_level,cleanliness,affordability,capacity,actual_wait_time,expected_wait_time,staff
+Entrance,Entrance,1,,,,,,,,,,
+Mel's Mixtape,Seasonal,1,Hollywood,20.0,"10:35, 13:00, 15:00, 17:55",60.0,,,,,,
+"Margo, Edith and Agnes Meet-and-Greet",Seasonal,1,Hollywood,5.0,"10:05, 11:55, 13:55, 15:55, 17:25",60.0,,,,,,
+Illuminations Minion Monsters,Seasonal,1,Hollywood,5.0,"10:15, 12:25, 14:05, 15:50",60.0,,,,,,
+Restroom 1,Restroom,0,Hollywood,,,,84.0,,,,,
+Starbucks,Dining Outlet,1,Hollywood,,,80.0,,42.4,150.0,100.0,,
+Mel's Drive-In,Dining Outlet,1,Hollywood,,,80.0,,42.4,150.0,30.0,20.0,12.0
+KT's Grill,Dining Outlet,0,Hollywood,,,80.0,,42.4,150.0,30.0,20.0,12.0
+Star Snacks,Food Cart,1,Hollywood,,,80.0,,5.0,,3.0,3.0,1.0
+Pops! Popcorn Delight,Food Cart,1,Hollywood,,,80.0,,5.0,,3.0,3.0,1.0
+That's a Wrap!,Retail,0,Hollywood,,,80.0,,,150.0,10.0,10.0,3.0
+Candylicious,Retail,0,Hollywood,,,80.0,,,150.0,10.0,10.0,3.0
+Universal Studios Store,Retail,0,Hollywood,,,80.0,,,150.0,10.0,10.0,3.0
+Hello Kitty Studio,Retail,0,Hollywood,,,80.0,,,150.0,10.0,10.0,3.0
+Minion Mart,Retail,0,Hollywood,,,80.0,,,150.0,10.0,10.0,3.0
+UNIVRS,Retail,0,Hollywood,,,80.0,,,150.0,10.0,10.0,3.0
+Lights Camera Action Hosted by Steven Spielberg,Ride,0,New York,10.0,,80.0,,,150.0,10.0,15.0,
+Sesame Street Spaghetti Space Chase,Ride,0,New York,10.0,,80.0,,,20.0,5.0,10.0,
+Rhythm Truck,Seasonal,1,New York,20.0,"11:30, 13:30, 15:30, 18:20",60.0,,,,,,
+Restroom 2,Restroom,0,New York,,,,84.0,,,,,
+Loui's NY Pizza Parlor,Dining Outlet,0,New York,,,80.0,,42.4,150.0,30.0,20.0,12.0
+Big Bird's Emporium,Retail,0,New York,,,80.0,,,150.0,10.0,10.0,3.0
+TRANSFORMERS The Ride: The Ultimate 3D Battle,Ride,0,Sci-Fi City,10.0,,80.0,,,40.0,10.0,15.0,
+Transformers Supply Vault,Retail,0,Sci-Fi City,,,80.0,,,150.0,10.0,10.0,3.0
+Accelerator,Ride,0,Sci-Fi City,10.0,,80.0,,,30.0,10.0,15.0,
+Battlestar Galactica: HUMAN,Ride,1,Sci-Fi City,3.0,,80.0,,,20.0,10.0,15.0,8.0
+Battlestar Galactica: CYLON,Ride,1,Sci-Fi City,3.0,,80.0,,,20.0,10.0,15.0,8.0
+Restroom 3,Restroom,0,Sci-Fi City,,,,84.0,,,,,
+StarBot Cafe,Dining Outlet,0,Sci-Fi City,,,80.0,,42.4,150.0,30.0,20.0,12.0
+Galactic Treats,Food Cart,1,Sci-Fi City,,,80.0,,5.0,,3.0,3.0,1.0
+Frozen Fuel,Food Cart,1,Sci-Fi City,,,80.0,,5.0,,3.0,3.0,1.0
+The Sci-Fi Emporium,Retail,0,Sci-Fi City,,,80.0,,,150.0,10.0,10.0,3.0
+Revenge of the Mummy,Ride,0,Ancient Egypt,10.0,,80.0,,,40.0,10.0,15.0,
+Treasure Hunters,Ride,1,Ancient Egypt,10.0,,80.0,,,40.0,10.0,15.0,
+Restroom 4,Restroom,0,Ancient Egypt,,,,84.0,,,,,
+Oasis Spice Cafe,Dining Outlet,0,Ancient Egypt,,,80.0,,42.4,150.0,30.0,20.0,12.0
+Cairo Market,Food Cart,1,Ancient Egypt,,,80.0,,5.0,,3.0,3.0,1.0
+Pharaoh's Dessert Oasis,Food Cart,1,Ancient Egypt,,,80.0,,5.0,,3.0,3.0,1.0
+Carter's Curiosities,Retail,0,Ancient Egypt,,,80.0,,,150.0,10.0,10.0,3.0
+Jurassic Park Rapids Adventure,Ride,1,The Lost World,10.0,,80.0,,,40.0,10.0,15.0,
+Dino Soarin',Ride,1,The Lost World,10.0,,80.0,,,40.0,10.0,15.0,
+Canopy Flyer,Ride,1,The Lost World,10.0,,80.0,,,40.0,10.0,15.0,
+WaterWorld,Seasonal,1,The Lost World,20.0,"12:45, 15:00, 17:15",60.0,,,200.0,,,
+Restroom 5,Restroom,0,The Lost World,,,,84.0,,,,,
+Restroom 6,Restroom,0,The Lost World,,,,84.0,,,,,
+Discovery Food Court,Dining Outlet,0,The Lost World,,,80.0,,42.4,150.0,30.0,20.0,12.0
+Fossil Fuels,Dining Outlet,0,The Lost World,,,80.0,,42.4,150.0,30.0,20.0,12.0
+Mariner's Market,Food Cart,1,The Lost World,,,80.0,,5.0,,3.0,3.0,1.0
+Jungle Bites,Food Cart,1,The Lost World,,,80.0,,5.0,,3.0,3.0,1.0
+The Dino-Store,Retail,0,Hollywood,,,80.0,,,150.0,10.0,10.0,3.0
+Puss In Boots Giant Journey,Ride,1,Far Far Away,10.0,,80.0,,,40.0,10.0,15.0,
+Magic Potion Spin,Ride,0,Far Far Away,10.0,,80.0,,,40.0,10.0,15.0,
+Shrek 4D Adventure,Ride,0,Far Far Away,10.0,,80.0,,,40.0,10.0,15.0,
+Enchanted Airways,Ride,1,Far Far Away,10.0,,80.0,,,40.0,10.0,15.0,
+Donkey Live,Ride,0,Far Far Away,10.0,,80.0,,,40.0,10.0,15.0,
+Fortune Favours The Furry,Ride,1,Far Far Away,10.0,,80.0,,,40.0,10.0,15.0,
+Restroom 7,Restroom,0,Far Far Away,,,,84.0,,,,,
+Friar's Good Food,Dining Outlet,0,Far Far Away,,,80.0,,42.4,150.0,30.0,20.0,12.0
+Goldilocks,Dining Outlet,0,Far Far Away,,,80.0,,42.4,150.0,30.0,20.0,12.0
+Fairy Godmother's Potion Shop,Retail,0,Far Far Away,,,80.0,,,150.0,10.0,10.0,3.0

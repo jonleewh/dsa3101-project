@@ -116,22 +116,18 @@ If any variable is particularly important, how to improve the model?
 ## Calculating Actual Waiting Times ##
 ######################################
 
-def waiting_time(duration, crowd_level, capacity, staff, outdoor, rain): # get the expected waiting time from the csv file
+def waiting_time(duration, crowd_level, capacity, staff): # get the expected waiting time from the csv file
     # update this every 5 min
     # loop over the csv file to collect the data we want
-    if rain and outdoor:
-        waiting_time = 0
-    elif rain and not outdoor:
-        waiting_time = duration + 0.2 * crowd_level / capacity - 0.1 * staff + 100 * outdoor + 2 * rain
-    else:
-        waiting_time = duration + 0.2 * crowd_level - 0.1 * staff + 3 * outdoor
+    # include outdoor and rain
+    waiting_time = duration + 0.2 * crowd_level - 0.1 * staff + 0.3 * capacity
     return waiting_time
 
-wait_time_X = nodes[['name', 'duration', 'crowd_level', 'staff', 'outdoor']]
-wait_time_key_X_features = ['duration', 'crowd_level', 'staff', 'outdoor']
+wait_time_X = nodes[['name', 'duration', 'crowd_level', 'capacity', 'staff']]
+wait_time_key_X_features = ['duration', 'crowd_level', 'capacity', 'staff']
 wait_time_y = pd.DataFrame() # generate wait times based on X
 for entry in wait_time_X.itertuples():
-    actual_waiting_time = waiting_time(entry.duration, entry.crowd_level, entry.staff, entry.outdoor)
+    actual_waiting_time = waiting_time(entry.duration, entry.crowd_level, entry.capacity, entry.staff)
     wait_time_y = pd.concat([wait_time_y, pd.DataFrame({"waiting_time": [actual_waiting_time]})], ignore_index=True)
 
 # Train a Random Forest regressor to evaluate importance of each feature

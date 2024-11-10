@@ -18,7 +18,6 @@ df_rides = df_rides.drop(columns=['type_y']).rename(columns={'type_x': 'type'})
 df_rides = df_rides.drop(columns=['capacity_x']).rename(columns={'capacity_y': 'capacity'})
 df_rides = df_rides.drop(columns=['duration']).rename(columns={'duration (in min)': 'duration'})
 
-
 # for seasonal attractions
 nodes_seasonal = nodes_df.loc[nodes_df["type"] == "Seasonal"]
 facilities_seasonal = facilities_df.loc[facilities_df["type"] == "Adhoc"]
@@ -61,7 +60,7 @@ df_foodcarts["duration"] = 3
 
 # data manipulation for df_fnb
 df_foodcarts = df_foodcarts.drop(columns=['type_y']).rename(columns={'type_x': 'type'})
-df_foodcarts = df_foodcarts.drop(columns=['capacity_x']).rename(columns={'capacity_y': 'capacity'})
+df_foodcarts = df_foodcarts.drop(columns=['capacity_x']).drop(columns=['capacity_y'])
 df_foodcarts = df_foodcarts.drop(columns=['name_y']).rename(columns={'name_x': 'name'})
 df_foodcarts = df_foodcarts.drop(columns=['duration (in min)'])
 
@@ -69,7 +68,7 @@ df_foodcarts = df_foodcarts.drop(columns=['duration (in min)'])
 # for Retail
 nodes_retail = nodes_df.loc[nodes_df["type"] == "Retail"]
 facilities_retail = facilities_df.loc[facilities_df["index"] == "D"]
-facilities_retail["name"] = facilities_retail["name"].head(1).str.replace('Souvenir Shop 1', 'Retail', regex=True)
+facilities_retail.loc[:, "name"] = facilities_retail["name"].head(1).str.replace('Souvenir Shop 1', 'Retail', regex=True)
 df_retail = pd.merge(nodes_retail, facilities_retail,
                   left_on = 'type', right_on = 'name', how = 'left')
 df_retail["affordability"] = 42
@@ -84,7 +83,7 @@ df_retail = df_retail.drop(columns=['duration']).rename(columns={'duration (in m
 # for Restrooms
 nodes_restroom = nodes_df.loc[nodes_df["type"] == "Restroom"]
 facilities_restroom = facilities_df.loc[facilities_df["index"] == "E"]
-facilities_restroom["name"] = facilities_restroom["name"].head(1).str.replace(' 1', '', regex=True)
+facilities_restroom.loc[:, "name"] = facilities_restroom["name"].head(1).str.replace(' 1', '', regex=True)
 df_restroom = pd.merge(nodes_restroom, facilities_restroom,
                        left_on = 'type', right_on = 'name', how = 'left')
 
@@ -106,6 +105,5 @@ df_entrance = df_entrance.drop(columns=['capacity_x']).rename(columns={'capacity
 df_entrance = df_entrance.drop(columns=['name_y']).rename(columns={'name_x': 'name'})
 df_entrance = df_entrance.drop(columns=['duration']).rename(columns={'duration (in min)': 'duration'})
 
-
-df = pd.concat([df_rides, df_seasonal, df_fnb, df_foodcarts, df_retail, df_restroom, df_entrance], ignore_index = True)
-df.to_csv("../data/theme_park_nodes.csv", index=False)
+df_combined = pd.concat([df_rides, df_seasonal, df_fnb, df_foodcarts, df_retail, df_restroom, df_entrance])
+df_combined.to_csv("../data/theme_park_nodes.csv", index = False)
