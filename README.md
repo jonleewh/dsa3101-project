@@ -4,7 +4,7 @@
 
 <p style="text-align:center;">Video | [Wiki](https://github.com/jonleewh/dsa3101-project/wiki)| Dashboard (Links to be attached)</p>
 
-[[My Project Repository]](https://github.com/jonleewh/dsa3101-project/wiki)
+[My Project Repository](https://github.com/jonleewh/dsa3101-project/wiki)
 
 
 
