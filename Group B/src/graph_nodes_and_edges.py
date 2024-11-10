@@ -221,13 +221,14 @@ nodes_data = [
      "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
-    {"name": "Donkey Live", "type": "Ride", "zone": "Far Far Away", "outdoor": 0,
-     "duration": 10, "capacity": 40, "expected_wait_time": 15,
-     "crowd_level": 80, "actual_wait_time": 10},
+    {"name": "Donkey Live", "type": "Seasonal", "zone": "Far Far Away", "outdoor": 0,
+     "duration": 20, "timeslots": [datetime.time(12, 0), datetime.time(13, 0), datetime.time(14, 0),
+                                   datetime.time(15, 0), datetime.time(16, 0), datetime.time(17, 0),datetime.time(18, 0)],
+     "crowd_level": 60},
 
-    {"name": "Fortune Favours The Furry", "type": "Ride", "zone": "Far Far Away", "outdoor": 1,
-     "duration": 10, "capacity": 40, "expected_wait_time": 15,
-     "crowd_level": 80, "actual_wait_time": 10},
+    {"name": "Fortune Favours The Furry", "type": "Seasonal", "zone": "Far Far Away", "outdoor": 1,
+     "duration": 10, "timeslots": [datetime.time(10, 35), datetime.time(12, 0), datetime.time(15, 0), datetime.time(17, 55)],
+     "crowd_level": 60},
 
     {"name": "Restroom 7", "type": "Restroom", "zone": "Far Far Away", "outdoor": 0,
      "cleanliness": 84},

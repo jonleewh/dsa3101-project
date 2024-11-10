@@ -18,6 +18,9 @@ df_rides = df_rides.drop(columns=['type_y']).rename(columns={'type_x': 'type'})
 df_rides = df_rides.drop(columns=['capacity_x']).rename(columns={'capacity_y': 'capacity'})
 df_rides = df_rides.drop(columns=['duration']).rename(columns={'duration (in min)': 'duration'})
 
+# if there are NA values
+
+
 # for seasonal attractions
 nodes_seasonal = nodes_df.loc[nodes_df["type"] == "Seasonal"]
 facilities_seasonal = facilities_df.loc[facilities_df["type"] == "Adhoc"]

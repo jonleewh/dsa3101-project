@@ -4,9 +4,7 @@ Battlestar Galactica: CYLON,Ride,1,Sci-Fi City,,80.0,,,10.0,15.0,8.0,A,99.0,3.0,
 Battlestar Galactica: HUMAN,Ride,1,Sci-Fi City,,80.0,,,10.0,15.0,8.0,A,99.0,3.0,24.0
 Canopy Flyer,Ride,1,The Lost World,,80.0,,,10.0,15.0,,A,99.0,3.0,16.0
 Dino Soarin',Ride,1,The Lost World,,80.0,,,10.0,15.0,,G,99.0,3.0,8.0
-Donkey Live,Ride,0,Far Far Away,,80.0,,,10.0,15.0,,,,,
 Enchanted Airways,Ride,1,Far Far Away,,80.0,,,10.0,15.0,,A,99.0,2.0,24.0
-Fortune Favours The Furry,Ride,1,Far Far Away,,80.0,,,10.0,15.0,,,,,
 Jurassic Park Rapids Adventure,Ride,1,The Lost World,,80.0,,,10.0,15.0,,B,99.0,6.0,12.0
 Lights Camera Action Hosted by Steven Spielberg,Ride,0,New York,,80.0,,,10.0,15.0,,I,99.0,10.0,50.0
 Magic Potion Spin,Ride,0,Far Far Away,,80.0,,,10.0,15.0,,G,99.0,3.0,16.0
@@ -21,6 +19,8 @@ Mel's Mixtape,Seasonal,1,Hollywood,"10:35, 13:00, 15:00, 17:55",60.0,,,,,,J,99.0
 Illuminations Minion Monsters,Seasonal,1,Hollywood,"10:15, 12:25, 14:05, 15:50",60.0,,,,,,J,99.0,5.0,99999.0
 Rhythm Truck,Seasonal,1,New York,"11:30, 13:30, 15:30, 18:20",60.0,,,,,,J,99.0,20.0,99999.0
 WaterWorld,Seasonal,1,The Lost World,"12:45, 15:00, 17:15",60.0,,,,,,J,99.0,20.0,99999.0
+Donkey Live,Seasonal,0,Far Far Away,"12:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",60.0,,,,,,J,99.0,20.0,99999.0
+Fortune Favours The Furry,Seasonal,1,Far Far Away,"10:35, 12:00, 15:00, 17:55",60.0,,,,,,J,99.0,10.0,99999.0
 Starbucks,Dining Outlet,1,Hollywood,,80.0,,42.0,100.0,,,C,99.0,45.0,50.0
 Mel's Drive-In,Dining Outlet,1,Hollywood,,80.0,,42.0,30.0,20.0,12.0,C,99.0,45.0,50.0
 KT's Grill,Dining Outlet,0,Hollywood,,80.0,,42.0,30.0,20.0,12.0,C,99.0,45.0,50.0
