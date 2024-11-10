@@ -34,7 +34,7 @@ and how to adjust parameters like duration, capacity, etc --> run ML iteration
 ## Read in Graph Data + Data Manipulation ##
 ############################################
 
-nodes = pd.read_csv('../data/theme_park_nodes.csv')
+nodes = pd.read_csv('../data/combined_data.csv')
 nodes.fillna(0, inplace=True)
 columns_to_convert = ["duration", "crowd_level", "cleanliness", "usage",
                       "affordability", "capacity", "actual_wait_time", "expected_wait_time", "staff"]
@@ -273,9 +273,29 @@ for hour in range(10, 20):
 ###############################################
 def find_shortest_path(graph, start, end):
     undirected_graph = graph.to_undirected()
-    return nx.dijkstra_path(undirected_graph, start, end, weight = "distance")
+    path_nodes = nx.dijkstra_path(undirected_graph, start, end, weight = "distance")
+    path_distance = nx.shortest_path_length(G, source = start, target = end, weight = "distance")
+    return path_nodes, path_distance
 
-print(find_shortest_path(G, "Mel's Mixtape", "Puss In Boots Giant Journey"))
+path_data = []
+
+for i in range(len(nodes)):
+    if nodes['type'].loc[i] == "Seasonal":
+        continue
+    for j in range(len(nodes)):
+        if nodes['type'].loc[j] == "Seasonal":
+            continue
+        elif nodes['name'].loc[i] == nodes['name'].loc[j]:
+            continue
+        else:
+            path_nodes, path_distance = find_shortest_path(G, nodes['name'].loc[i], nodes['name'].loc[j])
+            path_data.append({"source": nodes.loc[i, 'name'],
+                              "target": nodes.loc[j, 'name'],
+                              "nodes": path_nodes,
+                              "distance": path_distance})
+
+path_df = pd.DataFrame(path_data)
+path_df.to_csv("../data/theme_park_paths.csv", index = False)
 
 # output in dictionary format, e.g. {an adhoc node : all adjacent nodes}
 

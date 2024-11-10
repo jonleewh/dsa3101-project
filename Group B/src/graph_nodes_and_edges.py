@@ -246,18 +246,19 @@ nodes_data = [
 edges_data = [
     # Entrance
     {"source": "Universal Studios Store", "target": "Entrance", "distance": 2},
-    {"source": "Restroom 1", "target": "Universal Studios Store", "distance": 1},
+    {"source": "Restroom 1", "target": "Entrance", "distance": 1},
     
     # Hollywood Zone
-    {"source": "Universal Studios Store", "target": "Hello Kitty", "distance": 1},
-    {"source": "Universal Studios Store", "target": "Pops Popcorn", "distance": 2},
-    {"source": "Hello Kitty", "target": "Pops Popcorn", "distance": 2},
-    {"source": "Minion Mart", "target": "Pops Popcorn", "distance": 2},
+    {"source": "Universal Studios Store", "target": "Hello Kitty Studio", "distance": 1},
+    {"source": "Universal Studios Store", "target": "Pops! Popcorn Delight", "distance": 2},
+    {"source": "Hello Kitty Studio", "target": "Pops! Popcorn Delight", "distance": 2},
+    {"source": "Minion Mart", "target": "Pops! Popcorn Delight", "distance": 2},
     {"source": "Minion Mart", "target": "Starbucks", "distance": 1},
-    {"source": "Starbucks", "target": "Pops Popcorn", "distance": 1},
+    {"source": "Starbucks", "target": "Pops! Popcorn Delight", "distance": 1},
     {"source": "Starbucks", "target": "Candylicious", "distance": 1},
-    {"source": "Candylicious", "target": "Pops Popcorn", "distance": 2},
-    {"source": "Hello Kitty", "target": "Mel's Drive-In", "distance": 5},
+    {"source": "That's a Wrap!", "target": "Candylicious", "distance": 1},
+    {"source": "Candylicious", "target": "Pops! Popcorn Delight", "distance": 2},
+    {"source": "Hello Kitty Studio", "target": "Mel's Drive-In", "distance": 5},
     {"source": "Minion Mart", "target": "Mel's Drive-In", "distance": 4},
     {"source": "Restroom 1", "target": "Mel's Drive-In", "distance": 1},
     {"source": "Restroom 1", "target": "Star Snacks", "distance": 2},
@@ -265,7 +266,6 @@ edges_data = [
     {"source": "KT's Grill", "target": "UNIVRS", "distance": 3},
     {"source": "Star Snacks", "target": "UNIVRS", "distance": 3},
     {"source": "Mel's Drive-In", "target": "UNIVRS", "distance": 4},
-    {"source": "Mel's Drive-In", "target": "Mel's Mixtape", "distance": 1},
     {"source": "Mel's Drive-In", "target": "UNIVRS", "distance": 3},
     
     # link between Hollywood and New York
@@ -304,6 +304,7 @@ edges_data = [
     {"source": "StarBot Cafe", "target": "Frozen Fuel", "distance": 3},
     {"source": "StarBot Cafe", "target": "Planet Yen", "distance": 4},
     {"source": "Galactic Treats", "target": "Frozen Fuel", "distance": 2},
+    {"source": "Galactic Treats", "target": "The Sci-Fi Emporium", "distance": 2},
     {"source": "Galactic Treats", "target": "Transformers Supply Vault", "distance": 4},
     {"source": "Frozen Fuel", "target": "Transformers Supply Vault", "distance": 3},
     {"source": "Planet Yen", "target": "Transformers Supply Vault", "distance": 5},
@@ -365,7 +366,7 @@ edges_data = [
     {"source": "Fairy Godmother's Potion Shop", "target": "Restroom 7", "distance": 3},
     
     # link between Far Far Away and Hollywood
-    {"source": "Fairy Godmother's Potion Shop", "target": "Mel's Mixtape", "distance": 10},
+    {"source": "Fairy Godmother's Potion Shop", "target": "Mel's Drive-In", "distance": 10},
     
 ]
 
