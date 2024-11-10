@@ -1,4 +1,6 @@
 source,target,distance
+Universal Studios Store,Entrance,2
+Restroom 1,Universal Studios Store,1
 Universal Studios Store,Hello Kitty,1
 Universal Studios Store,Pops Popcorn,2
 Hello Kitty,Pops Popcorn,2
@@ -17,6 +19,7 @@ Star Snacks,UNIVRS,3
 Mel's Drive-In,UNIVRS,4
 Mel's Drive-In,Mel's Mixtape,1
 Mel's Drive-In,UNIVRS,3
+Mel's Drive-In,Lights Camera Action Hosted by Steven Spielberg,2
 Lights Camera Action Hosted by Steven Spielberg,Sesame Street Spaghetti Space Chase,2
 Lights Camera Action Hosted by Steven Spielberg,Rhythm Truck,3
 Lights Camera Action Hosted by Steven Spielberg,Restroom 2,4

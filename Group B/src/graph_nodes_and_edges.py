@@ -5,17 +5,20 @@ import os
 # For all F&B outlets, change menu_variety to affordability
 
 nodes_data = [
+    # Entrance
+    {"name": "Entrance"},
+    
     # Hollywood
     {"name": "Mel's Mixtape", "type": "Seasonal", "zone": "Hollywood",
-     "duration": 20, "popularity": 80, "timeslots": [datetime.time(10, 35), datetime.time(13, 0), datetime.time(15, 0), datetime.time(17, 55)],
+     "duration": 20, "timeslots": [datetime.time(10, 35), datetime.time(13, 0), datetime.time(15, 0), datetime.time(17, 55)],
      "crowd_level": 60},
 
     {"name": "Margo, Edith and Agnes Meet-and-Greet", "type": "Seasonal", "zone": "Hollywood",
-     "duration": 5, "popularity": 80, "timeslots": [datetime.time(10, 5), datetime.time(11, 55), datetime.time(13, 55), datetime.time(15, 55), datetime.time(17, 25)],
+     "duration": 5, "timeslots": [datetime.time(10, 5), datetime.time(11, 55), datetime.time(13, 55), datetime.time(15, 55), datetime.time(17, 25)],
      "crowd_level": 60},
 
     {"name": "Illuminations Minion Monsters", "type": "Seasonal", "zone": "Hollywood",
-     "duration": 5, "popularity": 80, "timeslots": [datetime.time(10, 15), datetime.time(12, 25), datetime.time(14, 5), datetime.time(15, 50)],
+     "duration": 5, "timeslots": [datetime.time(10, 15), datetime.time(12, 25), datetime.time(14, 5), datetime.time(15, 50)],
      "crowd_level": 60},
 
     {"name": "Restroom 1", "type": "Restroom", "zone": "Hollywood",
@@ -25,56 +28,56 @@ nodes_data = [
      "affordability": 42.4, "capacity": 150, "crowd_level": 80, "actual_wait_time": 100},
 
     {"name": "Mel's Drive-In", "type": "Dining Outlet", "zone": "Hollywood",
-     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
+     "affordability": 42.4, "capacity": 150, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "KT's Grill", "type": "Dining Outlet", "zone": "Hollywood",
-     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
+     "affordability": 42.4, "capacity": 150, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Star Snacks", "type": "Food Cart", "zone": "Hollywood",
-     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "Pops! Popcorn Delight", "type": "Food Cart", "zone": "Hollywood",
-     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "That's a Wrap!", "type": "Retail", "zone": "Hollywood",
-     "capacity": 150, "popularity": 90, "expected_wait_time": 10, "staff": 3,
+     "capacity": 150, "expected_wait_time": 10, "staff": 3,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Candylicious", "type": "Retail", "zone": "Hollywood",
-     "capacity": 150, "popularity": 90, "expected_wait_time": 10, "staff": 3,
+     "capacity": 150, "expected_wait_time": 10, "staff": 3,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Universal Studios Store", "type": "Retail", "zone": "Hollywood",
-     "capacity": 150, "popularity": 100, "expected_wait_time": 10, "staff": 3,
+     "capacity": 150, "expected_wait_time": 10, "staff": 3,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Hello Kitty Studio", "type": "Retail", "zone": "Hollywood",
-     "capacity": 150, "popularity": 99, "expected_wait_time": 10, "staff": 3,
+     "capacity": 150, "expected_wait_time": 10, "staff": 3,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Minion Mart", "type": "Retail", "zone": "Hollywood",
-     "capacity": 150, "popularity": 99, "expected_wait_time": 10, "staff": 3,
+     "capacity": 150, "expected_wait_time": 10, "staff": 3,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "UNIVRS", "type": "Retail", "zone": "Hollywood",
-     "capacity": 150, "popularity": 99, "expected_wait_time": 10, "staff": 3,
+     "capacity": 150, "expected_wait_time": 10, "staff": 3,
      "crowd_level": 80, "actual_wait_time": 10},
 
     # New York
     {"name": "Lights Camera Action Hosted by Steven Spielberg", "type": "Ride", "zone": "New York",
-     "duration": 10, "capacity": 150, "popularity": 99, "expected_wait_time": 15,
+     "duration": 10, "capacity": 150, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Sesame Street Spaghetti Space Chase", "type": "Ride", "zone": "New York",
-     "duration": 10, "capacity": 20, "popularity": 99, "expected_wait_time": 10,
+     "duration": 10, "capacity": 20, "expected_wait_time": 10,
      "crowd_level": 80, "actual_wait_time": 5},
 
     {"name": "Rhythm Truck", "type": "Seasonal", "zone": "New York",
-     "duration": 20, "popularity": 80,
+     "duration": 20, 
      "timeslots": [datetime.time(11, 30), datetime.time(13, 30), datetime.time(15, 30), datetime.time(18, 20)],
      "crowd_level": 60},
 
@@ -82,92 +85,92 @@ nodes_data = [
      "cleanliness": 84, "usage": 30},
 
     {"name": "Loui's NY Pizza Parlor", "type": "Dining Outlet", "zone": "New York",
-     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
+     "affordability": 42.4, "capacity": 150, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Big Bird's Emporium", "type": "Retail", "zone": "New York",
-     "capacity": 150, "popularity": 90, "expected_wait_time": 10, "staff": 3,
+     "capacity": 150, "expected_wait_time": 10, "staff": 3,
      "crowd_level": 80, "actual_wait_time": 10},
 
     # Sci-Fi City
     {"name": "TRANSFORMERS The Ride: The Ultimate 3D Battle", "type": "Ride", "zone": "Sci-Fi City",
-     "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
+     "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Accelerator", "type": "Ride", "zone": "Sci-Fi City",
-     "duration": 10, "capacity": 30, "popularity": 99, "expected_wait_time": 15,
+     "duration": 10, "capacity": 30, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Battlestar Galactica: HUMAN", "type": "Ride", "zone": "Sci-Fi City",
-     "duration": 3, "capacity": 20, "popularity": 100, "expected_wait_time": 15, "staff": 8,
+     "duration": 3, "capacity": 20, "expected_wait_time": 15, "staff": 8,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Battlestar Galactica: CYLON", "type": "Ride", "zone": "Sci-Fi City",
-     "duration": 3, "capacity": 20, "popularity": 100, "expected_wait_time": 15, "staff": 8,
+     "duration": 3, "capacity": 20, "expected_wait_time": 15, "staff": 8,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Restroom 3", "type": "Restroom", "zone": "Sci-Fi City",
      "cleanliness": 84, "usage": 30},
 
     {"name": "StarBot Cafe", "type": "Dining Outlet", "zone": "Sci-Fi City",
-     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
+     "affordability": 42.4, "capacity": 150, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Galactic Treats", "type": "Food Cart", "zone": "Sci-Fi City",
-     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "Frozen Fuel", "type": "Food Cart", "zone": "Sci-Fi City",
-     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "The Sci-Fi Emporium", "type": "Retail", "zone": "Sci-Fi City",
-     "capacity": 150, "popularity": 90, "expected_wait_time": 10, "staff": 3,
+     "capacity": 150, "expected_wait_time": 10, "staff": 3,
      "crowd_level": 80, "actual_wait_time": 10},
 
     # Ancient Egypt
     {"name": "Revenge of the Mummy", "type": "Ride", "zone": "Ancient Egypt",
-     "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
+     "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Treasure Hunters", "type": "Ride", "zone": "Ancient Egypt",
-     "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
+     "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Restroom 4", "type": "Restroom", "zone": "Ancient Egypt",
      "cleanliness": 84, "usage": 30},
 
     {"name": "Oasis Spice Cafe", "type": "Dining Outlet", "zone": "Ancient Egypt",
-     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20, "staff": 12,
+     "affordability": 42.4, "capacity": 150, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Cairo Market", "type": "Food Cart", "zone": "Ancient Egypt",
-     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "Pharaoh's Dessert Oasis", "type": "Food Cart", "zone": "Ancient Egypt",
-     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "Carter's Curiosities", "type": "Retail", "zone": "Ancient Egypt",
-     "capacity": 150, "popularity": 90, "expected_wait_time": 10, "staff": 3,
+     "capacity": 150, "expected_wait_time": 10, "staff": 3,
      "crowd_level": 80, "actual_wait_time": 10},
     
     # The Lost World
     {"name": "Jurassic Park Rapids Adventure", "type": "Ride", "zone": "The Lost World",
-     "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
+     "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Dino Soarin'", "type": "Ride", "zone": "The Lost World",
-     "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
+     "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Canopy Flyer", "type": "Ride", "zone": "The Lost World",
-     "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
+     "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "WaterWorld", "type": "Seasonal", "zone": "The Lost World",
-     "duration": 20, "capacity": 200, "popularity": 100,
+     "duration": 20, "capacity": 200, 
      "timeslots": [datetime.time(12, 45), datetime.time(15, 0), datetime.time(17, 15)],
      "crowd_level": 60},
 
@@ -178,69 +181,73 @@ nodes_data = [
      "cleanliness": 84, "usage": 30},
 
     {"name": "Discovery Food Court", "type": "Dining Outlet", "zone": "The Lost World",
-     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
+     "affordability": 42.4, "capacity": 150, "expected_wait_time": 20,
      "staff": 12, "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Fossil Fuels", "type": "Dining Outlet", "zone": "The Lost World",
-     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
+     "affordability": 42.4, "capacity": 150, "expected_wait_time": 20,
      "staff": 12, "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Mariner's Market", "type": "Food Cart", "zone": "The Lost World",
-     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "Jungle Bites", "type": "Food Cart", "zone": "The Lost World",
-     "affordability": 5, "popularity": 99, "expected_wait_time": 3, "staff": 1,
+     "affordability": 5, "expected_wait_time": 3, "staff": 1,
      "crowd_level": 80, "actual_wait_time": 3},
 
     {"name": "The Dino-Store", "type": "Retail", "zone": "Hollywood",
-     "capacity": 150, "popularity": 90, "expected_wait_time": 10, "staff": 3,
+     "capacity": 150, "expected_wait_time": 10, "staff": 3,
      "crowd_level": 80, "actual_wait_time": 10},
     
     # Far Far Away
     {"name": "Puss In Boots Giant Journey", "type": "Ride", "zone": "Far Far Away",
-     "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
+     "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Magic Potion Spin", "type": "Ride", "zone": "Far Far Away",
-     "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
+     "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Shrek 4D Adventure", "type": "Ride", "zone": "Far Far Away",
-     "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
+     "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Enchanted Airways", "type": "Ride", "zone": "Far Far Away",
-     "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
+     "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Donkey Live", "type": "Ride", "zone": "Far Far Away",
-     "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
+     "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Fortune Favours The Furry", "type": "Ride", "zone": "Far Far Away",
-     "duration": 10, "capacity": 40, "popularity": 99, "expected_wait_time": 15,
+     "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Restroom 7", "type": "Restroom", "zone": "Far Far Away",
      "cleanliness": 84, "usage": 30},
 
     {"name": "Friar's Good Food", "type": "Dining Outlet", "zone": "Far Far Away",
-     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
+     "affordability": 42.4, "capacity": 150, "expected_wait_time": 20,
      "staff": 12, "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Goldilocks", "type": "Dining Outlet", "zone": "Far Far Away",
-     "affordability": 42.4, "capacity": 150, "popularity": 99, "expected_wait_time": 20,
+     "affordability": 42.4, "capacity": 150, "expected_wait_time": 20,
      "staff": 12, "crowd_level": 80, "actual_wait_time": 30},
 
     {"name": "Fairy Godmother's Potion Shop", "type": "Retail", "zone": "Far Far Away",
-     "capacity": 150, "popularity": 90, "expected_wait_time": 10, "staff": 3,
+     "capacity": 150, "expected_wait_time": 10, "staff": 3,
      "crowd_level": 80, "actual_wait_time": 10}
     
 ]
 
 
 edges_data = [
+    # Entrance
+    {"source": "Universal Studios Store", "target": "Entrance", "distance": 2},
+    {"source": "Restroom 1", "target": "Universal Studios Store", "distance": 1},
+    
     # Hollywood Zone
     {"source": "Universal Studios Store", "target": "Hello Kitty", "distance": 1},
     {"source": "Universal Studios Store", "target": "Pops Popcorn", "distance": 2},
@@ -260,6 +267,7 @@ edges_data = [
     {"source": "Mel's Drive-In", "target": "UNIVRS", "distance": 4},
     {"source": "Mel's Drive-In", "target": "Mel's Mixtape", "distance": 1},
     {"source": "Mel's Drive-In", "target": "UNIVRS", "distance": 3},
+    {"source": "Mel's Drive-In", "target": "Lights Camera Action Hosted by Steven Spielberg", "distance": 2},
     
     # New York Zone
     {"source": "Lights Camera Action Hosted by Steven Spielberg", "target": "Sesame Street Spaghetti Space Chase", "distance": 2},
