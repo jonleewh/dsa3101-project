@@ -5,7 +5,7 @@ import os
 
 os.chdir('Group B/src')
 print("Current working directory:", os.getcwd())
-nodes_df = pd.read_csv("../data/theme_park_nodes.csv")
+nodes_df = pd.read_csv("../data/theme_park_nodes_initial.csv")
 facilities_df = pd.read_csv("../data/facilities_information.csv")
 
 # for rides
@@ -75,6 +75,9 @@ df_restroom = df_restroom[df_restroom['index'] != 'E']
 df_restroom["index"] = "E"
 df_restroom["popularity"] = 79
 
-df = pd.concat([df_rides, df_seasonal, df_fnb, df_foodcarts, df_retail, df_restroom], ignore_index=True)
+# for Entrance
+df_entrance = nodes_df.loc[nodes_df["type"] == "Entrance"]
 
-df.to_csv("../data/combined_data.csv", index=False)
+df = pd.concat([df_rides, df_seasonal, df_fnb, df_foodcarts, df_retail, df_restroom, df_entrance],
+               ignore_index = True)
+df.to_csv("../data/theme_park_nodes.csv", index=False)

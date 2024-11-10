@@ -8,6 +8,7 @@ import webbrowser
 import random
 import datetime
 import seaborn as sns
+from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
@@ -33,8 +34,7 @@ and how to adjust parameters like duration, capacity, etc --> run ML iteration
 ############################################
 ## Read in Graph Data + Data Manipulation ##
 ############################################
-
-nodes = pd.read_csv('../data/combined_data.csv')
+nodes = pd.read_csv('../data/theme_park_nodes.csv')
 nodes.fillna(0, inplace=True)
 columns_to_convert = ["duration", "crowd_level", "cleanliness", "usage",
                       "affordability", "capacity", "actual_wait_time", "expected_wait_time", "staff"]
@@ -116,19 +116,19 @@ If any variable is particularly important, how to improve the model?
 ## Calculating Actual Waiting Times ##
 ######################################
 
-# we can use the waiting time as a proxy for the crowd level using the csv file
-# replace with the csv file data rather than generating it by ourselves
-def waiting_time(ride_duration, crowd_level, staff): # get the expected waiting time from the csv file
+preprocessing.normalize(nodes[['duration']])
+
+def waiting_time(ride_duration, crowd_level, staff, outdoor): # get the expected waiting time from the csv file
     # update this every 5 min
     # loop over the csv file to collect the data we want
-    waiting_time = ride_duration + 0.5 * crowd_level + 0.5 * staff # add weather in also!
+    waiting_time = ride_duration + 0.5 * crowd_level + 0.5 * staff + 3 * outdoor # add weather in also!
     return waiting_time
 
-wait_time_X = nodes[['name', 'duration', 'crowd_level', 'staff']]
-wait_time_key_X_features = ['duration', 'crowd_level', 'staff']
+wait_time_X = nodes[['name', 'duration', 'crowd_level', 'staff', 'outdoor']]
+wait_time_key_X_features = ['duration', 'crowd_level', 'staff', 'outdoor']
 wait_time_y = pd.DataFrame() # generate wait times based on X
 for entry in wait_time_X.itertuples():
-    actual_waiting_time = waiting_time(entry.duration, entry.crowd_level, entry.staff)
+    actual_waiting_time = waiting_time(entry.duration, entry.crowd_level, entry.staff, entry.outdoor)
     wait_time_y = pd.concat([wait_time_y, pd.DataFrame({"waiting_time": [actual_waiting_time]})], ignore_index=True)
 
 # Train a Random Forest regressor to evaluate importance of each feature
@@ -193,7 +193,6 @@ plt.show()
 
 # Apply weights based on feature importances
 satisfaction_score_X_importance = satisfaction_score_X[satisfaction_score_X_key_features] * satisfaction_score_importances # Each column in X is scaled by its corresponding importance from the random forest model
-print(satisfaction_score_X_importance)
 
 # Train the linear regression model with the coefficients accounting for the importance
 satisfaction_score_ml_model = LinearRegression()
@@ -280,24 +279,14 @@ def find_shortest_path(graph, start, end):
 path_data = []
 
 for i in range(len(nodes)):
-    if nodes['type'].loc[i] == "Seasonal":
-        continue
     for j in range(len(nodes)):
-        if nodes['type'].loc[j] == "Seasonal":
-            continue
-        elif nodes['name'].loc[i] == nodes['name'].loc[j]:
-            continue
-        else:
-            path_nodes, path_distance = find_shortest_path(G, nodes['name'].loc[i], nodes['name'].loc[j])
-            path_data.append({"source": nodes.loc[i, 'name'],
-                              "target": nodes.loc[j, 'name'],
-                              "nodes": path_nodes,
-                              "distance": path_distance})
+        path_nodes, path_distance = find_shortest_path(G, nodes['name'].loc[i], nodes['name'].loc[j])
+        path_data.append({"source": nodes.loc[i, 'name'], "target": nodes.loc[j, 'name'],
+                          "nodes": path_nodes, "distance": path_distance})
 
 path_df = pd.DataFrame(path_data)
 path_df.to_csv("../data/theme_park_paths.csv", index = False)
 
-# output in dictionary format, e.g. {an adhoc node : all adjacent nodes}
 
 ##########################
 ## Optimising Itinerary ##
@@ -550,7 +539,6 @@ fig.update_layout(
     yaxis=dict(visible=False),
     showlegend=False
 )
-
 
 # Save the figure to an HTML file
 html_file = "graph_output.html"
