@@ -63,7 +63,7 @@ Process and normalize park layout data to build graph-based representations of p
   
 **dynamic_pricing_weather.ipynb**
 
-Satisfaction Score: A calculated score based on weather conditions (0–100)
+Satisfaction Score: A calculated score based on weather conditions (0–100) from daily_weather_data.csv.
   
 Dynamic Price (SGD): Adjusted ticket price based on satisfaction score on weather.
   
