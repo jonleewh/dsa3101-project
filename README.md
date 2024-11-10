@@ -50,6 +50,19 @@ Provides an overview of the project, setup instructions, and usage.
 ### test.txt
 A placeholder file, likely for testing purposes.
 
+## Data Sources:
+Survey Data: Theme Parks Survey Responses 4 Nov.csv (contains responses from a theme park visitor survey).
+Simulation Data: Generated simulation output files (e.g., simulation_output_2024-11-10_22-11-01).
+Weather Data: Collected daily and hourly weather data (e.g., daily_weather_data.csv, hourly_weather_data.xlsx).
+Park Layout Data: Includes CSV files describing park nodes and edges (e.g., theme_park_nodes.csv, theme_park_edges.csv).
+
+### Data Preparation:
+Clean and preprocess the raw survey data (e.g., remove missing values, standardize date formats).
+Merge weather data with simulation data for analysis (e.g., combine temperature, attendance, and queue times).
+Process and normalize park layout data to build graph-based representations of park paths.
+
+### Data Dictionary
+
 
 ## Project Team
 
