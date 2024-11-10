@@ -13,12 +13,12 @@ J D C A B E A C E K I
 A B  C  E  J K
 A I B C K G E J D
 A K B C E I G J D
-A B C D E F G I J K
+A B C D E G I J K
 J A C E I K D B G
 B A J E I J K A 
 J A I E K C I G B D 
 J G I A B E C D K 
-A B D D E F G I J K
+A B D D E G I J K
 J A C D E 
 A B I E J K G D C
 A E B E I J
@@ -33,11 +33,11 @@ A B E I J G C K D
 J I E B A C D G K
 A J C E D A E
 I B K E G C J D A
-I J K A B C D E F G 
+I J K A B C D E G 
 J G K I E B A C D
 A I B C D E K J G
 A B C D E G I J K
-A B C D E F G I J K
+A B C D E G I J K
 A E C I K D J
 A B I K E C G K J
 J G B A C E I K
@@ -65,16 +65,16 @@ A E I C J A
 A B E J I K E G   
 A I J K E G D 
 G J E C E 
-B E G I K A D C F J
-C F A J K D E B I G
-I A D F K I C D E B G J
-J K A B I C F E D G 
-A I D C E K J B G F 
-E A G D I B C K J F I 
-K J A C E B I D F E G
-D E A J K B I C F G 
-A E B D C E K J G E F I
-A J K E I G C D B E F
+B E G I K A D C J
+C A J K D E B I G
+I A D K I C D E B G J
+J K A B I C E D G 
+A I D C E K J B G 
+E A G D I B C K J I 
+K J A C E B I D E G
+D E A J K B I C G 
+A E B D C E K J G E I
+A J K E I G C D B E
 A J I D C E B K
 A B E I K C J D
 J B A K D C E G I D
