@@ -13,8 +13,7 @@ Attractions and entertainment venues often struggle to provide consistently exce
 This project aims to develop a data-driven system that maps and analyzes the entire guest journey, from pre-visit planning to post-visit feedback. By leveraging advanced data analysis, machine learning, and predictive modeling techniques, the project seeks to identify bottlenecks, optimize guest flow, personalize experiences, and ultimately boost guest satisfaction while potentially increasing revenue and operational efficiency.
 
 ## Getting Started
-# Instructions for Setting Up the Environment and Running the Code
-
+Instructions for Setting Up the Environment and Running the Code
 ### 1. Prerequisites
 - **Python 3.8+**
 - **pip** (Python package installer)
