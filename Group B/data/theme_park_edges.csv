@@ -1,15 +1,16 @@
 source,target,distance
 Universal Studios Store,Entrance,2
-Restroom 1,Universal Studios Store,1
-Universal Studios Store,Hello Kitty,1
-Universal Studios Store,Pops Popcorn,2
-Hello Kitty,Pops Popcorn,2
-Minion Mart,Pops Popcorn,2
+Restroom 1,Entrance,1
+Universal Studios Store,Hello Kitty Studio,1
+Universal Studios Store,Pops! Popcorn Delight,2
+Hello Kitty Studio,Pops! Popcorn Delight,2
+Minion Mart,Pops! Popcorn Delight,2
 Minion Mart,Starbucks,1
-Starbucks,Pops Popcorn,1
+Starbucks,Pops! Popcorn Delight,1
 Starbucks,Candylicious,1
-Candylicious,Pops Popcorn,2
-Hello Kitty,Mel's Drive-In,5
+That's a Wrap!,Candylicious,1
+Candylicious,Pops! Popcorn Delight,2
+Hello Kitty Studio,Mel's Drive-In,5
 Minion Mart,Mel's Drive-In,4
 Restroom 1,Mel's Drive-In,1
 Restroom 1,Star Snacks,2
@@ -17,7 +18,6 @@ Restroom 1,KT's Grill,1
 KT's Grill,UNIVRS,3
 Star Snacks,UNIVRS,3
 Mel's Drive-In,UNIVRS,4
-Mel's Drive-In,Mel's Mixtape,1
 Mel's Drive-In,UNIVRS,3
 Mel's Drive-In,Lights Camera Action Hosted by Steven Spielberg,2
 Lights Camera Action Hosted by Steven Spielberg,Sesame Street Spaghetti Space Chase,2
@@ -48,6 +48,7 @@ StarBot Cafe,Galactic Treats,2
 StarBot Cafe,Frozen Fuel,3
 StarBot Cafe,Planet Yen,4
 Galactic Treats,Frozen Fuel,2
+Galactic Treats,The Sci-Fi Emporium,2
 Galactic Treats,Transformers Supply Vault,4
 Frozen Fuel,Transformers Supply Vault,3
 Planet Yen,Transformers Supply Vault,5
@@ -95,4 +96,4 @@ Shrek 4D Adventure,Friar's Good Food,5
 Friar's Good Food,Goldilocks,1
 Goldilocks,Fairy Godmother's Potion Shop,2
 Fairy Godmother's Potion Shop,Restroom 7,3
-Fairy Godmother's Potion Shop,Mel's Mixtape,10
+Fairy Godmother's Potion Shop,Mel's Drive-In,10
