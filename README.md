@@ -15,7 +15,7 @@ This project aims to develop a data-driven system that maps and analyzes the ent
 To get the project running on your machine, follow these steps:
 Clone the repository
    ```sh
-   git clone https://github.com/AY2324S2-DSA3101-WaddleWaffles/Banking-Sentiment-Analysis.git
+   git clone https://github.com/jonleewh/dsa3101-project.git
    ```
 
 
