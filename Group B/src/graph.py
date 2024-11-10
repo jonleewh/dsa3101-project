@@ -36,8 +36,8 @@ and how to adjust parameters like duration, capacity, etc --> run ML iteration
 ############################################
 nodes = pd.read_csv('../data/theme_park_nodes.csv')
 nodes.fillna(0, inplace=True)
-columns_to_convert = ["duration", "crowd_level", "cleanliness", "usage",
-                      "affordability", "capacity", "actual_wait_time", "expected_wait_time", "staff"]
+columns_to_convert = ["duration", "crowd_level", "cleanliness", "affordability", "capacity",
+                      "actual_wait_time", "expected_wait_time", "staff"]
 for column in columns_to_convert:
     nodes[column] = pd.to_numeric(nodes[column], errors='coerce')
 edges = pd.read_csv('../data/theme_park_edges.csv')
@@ -116,18 +116,26 @@ If any variable is particularly important, how to improve the model?
 ## Calculating Actual Waiting Times ##
 ######################################
 
-def waiting_time(duration, crowd_level, capacity, staff): # get the expected waiting time from the csv file
+# normalise data
+nodes["capacity"] = (nodes["capacity"] - nodes["capacity"].min()) / (nodes["capacity"].max() - nodes["capacity"].min())
+nodes["crowd_level"] = (nodes["crowd_level"] - nodes["crowd_level"].min()) / (nodes["crowd_level"].max() - nodes["crowd_level"].min())
+nodes["popularity"] = (nodes["popularity"] - nodes["popularity"].min()) / (nodes["popularity"].max() - nodes["popularity"].min())
+nodes["staff"] = (nodes["staff"] - nodes["staff"].min()) / (nodes["staff"].max() - nodes["staff"].min())
+nodes["duration"] = (nodes["duration"] - nodes["duration"].min()) / (nodes["duration"].max() - nodes["duration"].min())
+
+# link to popularity
+def waiting_time(duration, crowd_level, capacity, staff, popularity, outdoor): # get the expected waiting time from the csv file
     # update this every 5 min
     # loop over the csv file to collect the data we want
     # include outdoor and rain
-    waiting_time = duration + 0.2 * crowd_level - 0.1 * staff + 0.3 * capacity
+    waiting_time = 0.5 * duration + 0.2 * crowd_level - 0.1 * staff + 0.3 * capacity + 0.5 * popularity
     return waiting_time
 
-wait_time_X = nodes[['name', 'duration', 'crowd_level', 'capacity', 'staff']]
-wait_time_key_X_features = ['duration', 'crowd_level', 'capacity', 'staff']
+wait_time_X = nodes[['name', 'duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']]
+wait_time_key_X_features = ['duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']
 wait_time_y = pd.DataFrame() # generate wait times based on X
 for entry in wait_time_X.itertuples():
-    actual_waiting_time = waiting_time(entry.duration, entry.crowd_level, entry.capacity, entry.staff)
+    actual_waiting_time = waiting_time(entry.duration, entry.crowd_level, entry.capacity, entry.staff, entry.popularity, entry.outdoor)
     wait_time_y = pd.concat([wait_time_y, pd.DataFrame({"waiting_time": [actual_waiting_time]})], ignore_index=True)
 
 # Train a Random Forest regressor to evaluate importance of each feature
@@ -137,7 +145,7 @@ wait_time_importances = wait_time_rf_model.feature_importances_
 
 # Plot a graph of the importance of each variable
 wait_time_feature_importance = pd.DataFrame({'Feature': wait_time_key_X_features, 'Importance': wait_time_importances}).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(10, 5))
 sns.barplot(x='Importance', y='Feature', data = wait_time_feature_importance, palette='viridis')
 plt.title('Waiting Time: Feature Importance from Random Forest Model')
 plt.xlabel('Importance')
@@ -150,7 +158,6 @@ wait_time_X_importance = wait_time_X[wait_time_key_X_features] * wait_time_impor
 # Train the linear regression model with the coefficients accounting for the importance
 wait_time_ml_model = LinearRegression()
 wait_time_ml_model.fit(wait_time_X_importance, wait_time_y)
-print(wait_time_ml_model)
 
 
 ####################################
@@ -160,6 +167,7 @@ print(wait_time_ml_model)
 
 # Calculate satisfaction/desirability score based on crowd level, wait time
 # Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
+# link to popularity
 def satisfaction_score(crowd_level, affordability, cleanliness):
     satisfaction_score = (10 - 0.3 * crowd_level + 0.2 * affordability + 0.5 * cleanliness) # we input a first guess of the coefficients here first
     # - 0.5 * actual_wait_time - 0.3 * weather + 0.4 * ride_quality
@@ -182,8 +190,10 @@ satisfaction_score_rf_model.fit(satisfaction_score_X[satisfaction_score_X_key_fe
 satisfaction_score_importances = satisfaction_score_rf_model.feature_importances_
 
 # Plot a graph of the importance of each variable
-satisfaction_score_feature_importance = pd.DataFrame({'Feature': satisfaction_score_X_key_features, 'Importance': satisfaction_score_importances}).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
-plt.figure(figsize=(10, 6))
+satisfaction_score_feature_importance = pd.DataFrame({'Feature': satisfaction_score_X_key_features,
+                                                      'Importance': satisfaction_score_importances}
+                                                     ).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
+plt.figure(figsize=(10, 5))
 sns.barplot(x='Importance', y='Feature', data = satisfaction_score_feature_importance, palette='viridis')
 plt.title('Satisfaction Score: Feature Importance from Random Forest Model')
 plt.xlabel('Importance')
@@ -237,7 +247,7 @@ G = nx.Graph()
 
 for node in nodes.itertuples():
     G.add_node(node.name, type = node.type, zone = node.zone, duration = node.duration, crowd_level = node.crowd_level, 
-              cleanliness = node.cleanliness, usage = node.usage, affordability = node.affordability, capacity = node.capacity, 
+              cleanliness = node.cleanliness, affordability = node.affordability, capacity = node.capacity, 
               actual_wait_time = node.actual_wait_time, expected_wait_time = node.expected_wait_time, staff = node.staff )
 
 for edge in edges.itertuples():
