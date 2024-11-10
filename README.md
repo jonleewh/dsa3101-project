@@ -2,7 +2,8 @@
 
 <p style="text-align:center;">A project for NUS DSA3101: Data Science in Practice (AY2024/25 Semester 1)</p>
 
-<p style="text-align:center;">Video | Wiki | Dashboard (Links to be attached)</p>
+<p style="text-align:center;">Video | <a href="https://github.com/jonleewh/dsa3101-project/wiki">Wiki</a> | Dashboard (Links to be attached)</p>
+
 
 
 ## About the Project
@@ -12,7 +13,11 @@ Attractions and entertainment venues often struggle to provide consistently exce
 This project aims to develop a data-driven system that maps and analyzes the entire guest journey, from pre-visit planning to post-visit feedback. By leveraging advanced data analysis, machine learning, and predictive modeling techniques, the project seeks to identify bottlenecks, optimize guest flow, personalize experiences, and ultimately boost guest satisfaction while potentially increasing revenue and operational efficiency.
 
 ## Getting Started
-
+To get the project running on your machine, follow these steps:
+Clone the repository
+   ```sh
+   git clone https://github.com/jonleewh/dsa3101-project.git
+   ```
 
 
 
