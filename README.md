@@ -47,9 +47,6 @@ src/: Python scripts and Jupyter Notebooks for various tasks, including alternat
 ### README.md
 Provides an overview of the project, setup instructions, and usage.
 
-### test.txt
-A placeholder file, likely for testing purposes.
-
 ## Data Sources:
 Survey Data: Theme Parks Survey Responses 4 Nov.csv (contains responses from a theme park visitor survey).
 Simulation Data: Generated simulation output files (e.g., simulation_output_2024-11-10_22-11-01).
