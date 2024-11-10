@@ -13,12 +13,12 @@ J D C A B E A C E K I
 A B  C  E  J K
 A I B C K G E H J D
 H A K B C E I G J D
-A B C D E F G H I J K
+A B C D E  G H I J K
 J A C E H I K D B G
 B A J E I J K A 
 J A I H E K C I G B D 
 J G I A B E C D K H 
-AB D D E F G H I J K
+AB D D E  G H I J K
 J A H C D E 
 A B I E J H K G D C
 A E B E I J
@@ -33,13 +33,13 @@ A B E H I J G C K D
 J I E B A C D G H K
 A H J C E D A E
 I B H K E G C J D A
-H I J K A B C D E F G 
+H I J K A B C D E  G 
 J G K I H E B A C D
 A H I B C D E K J G
 A
 A B C D E G H I J K
 H H J C H H I 
-A B C D E F G H I J K
+A B C D E  G H I J K
 A E C I K D J
 A H B I K E C G K J
 J G B A C E H I K
@@ -67,16 +67,16 @@ A H E I C J A
 A H B E J I K E G   
 A I J K E G D 
 G J E C E 
-B E G H I K A D C F J
-C F A J K D E B I G H
-I A D F K I H C D E B G J
-J K A B I C H F E D G 
-A I D C E K J B G F H 
-E A G D I B C K J F I H 
-K J A C E B I D F E G H
-D E A J K H B I C F G 
-A E B D C E K J G E F I H
-A J K E I G H C D B E F
+B E G H I K A D C  J
+C  A J K D E B I G H
+I A D  K I H C D E B G J
+J K A B I C H  E D G 
+A I D C E K J B G  H 
+E A G D I B C K J  I H 
+K J A C E B I D  E G H
+D E A J K H B I C  G 
+A E B D C E K J G E  I H
+A J K E I G H C D B E 
 A J I D C E H B K
 A B E H I K C J D
 J B A K D C E H G I D
