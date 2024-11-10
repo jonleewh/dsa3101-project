@@ -35,11 +35,9 @@ cd dsa3101-project
 Summary of Key Folders and Files
 ### Group A
 data/: Contains survey data for theme park analysis.
-
 src/: Jupyter Notebooks for visualizations and analysis, including a Sankey diagram and dynamic pricing-weather analysis.
 ### Group B
 data/: Includes simulation outputs, weather data, and theme park data (edges, nodes, and facilities), as well as park-related images (e.g., uss_map.jpg).
-
 src/: Python scripts and Jupyter Notebooks for various tasks, including alternative park layouts, dynamic queue simulations, and survey data synthesis.
 README.md: Provides an overview of the project, setup instructions, and usage.
 test.txt: A placeholder file, likely for testing purposes.
