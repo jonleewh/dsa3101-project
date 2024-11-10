@@ -36,11 +36,12 @@ and how to adjust parameters like duration, capacity, etc --> run ML iteration
 
 nodes = pd.read_csv('../data/theme_park_nodes.csv')
 nodes.fillna(0, inplace=True)
-columns_to_convert = ["duration", "popularity", "crowd_level", "cleanliness", "usage",
-                      "menu_variety", "capacity", "actual_wait_time", "expected_wait_time", "staff"]
+columns_to_convert = ["duration", "crowd_level", "cleanliness", "usage",
+                      "affordability", "capacity", "actual_wait_time", "expected_wait_time", "staff"]
 for column in columns_to_convert:
     nodes[column] = pd.to_numeric(nodes[column], errors='coerce')
 edges = pd.read_csv('../data/theme_park_edges.csv')
+
 
 ######################
 ## Attraction Class ##
@@ -103,7 +104,6 @@ Business Suggestions:
 (focus on what factors we can change)
 ride duration
 crowd level -- higher priority for this
-popularity
 staff
 weather (indirect factor) --> Need to code which node is indoor/outdoor!
 
@@ -118,17 +118,17 @@ If any variable is particularly important, how to improve the model?
 
 # we can use the waiting time as a proxy for the crowd level using the csv file
 # replace with the csv file data rather than generating it by ourselves
-def waiting_time(ride_duration, crowd_level, popularity, staff): # get the expected waiting time from the csv file
+def waiting_time(ride_duration, crowd_level, staff): # get the expected waiting time from the csv file
     # update this every 5 min
     # loop over the csv file to collect the data we want
-    waiting_time = ride_duration + 0.5 * crowd_level + 0.5 * popularity + 0.5 * staff # add weather in also!
+    waiting_time = ride_duration + 0.5 * crowd_level + 0.5 * staff # add weather in also!
     return waiting_time
 
-wait_time_X = nodes[['name', 'duration', 'crowd_level', 'popularity', 'staff']]
-wait_time_key_X_features = ['duration', 'crowd_level', 'popularity', 'staff']
+wait_time_X = nodes[['name', 'duration', 'crowd_level', 'staff']]
+wait_time_key_X_features = ['duration', 'crowd_level', 'staff']
 wait_time_y = pd.DataFrame() # generate wait times based on X
 for entry in wait_time_X.itertuples():
-    actual_waiting_time = waiting_time(entry.duration, entry.crowd_level, entry.popularity, entry.staff)
+    actual_waiting_time = waiting_time(entry.duration, entry.crowd_level, entry.staff)
     wait_time_y = pd.concat([wait_time_y, pd.DataFrame({"waiting_time": [actual_waiting_time]})], ignore_index=True)
 
 # Train a Random Forest regressor to evaluate importance of each feature
@@ -159,23 +159,21 @@ print(wait_time_ml_model)
 ####################################
 # Arguments are the properties of the node. Can put in the object
 
-# Calculate satisfaction/desirability score based on crowd level, wait time, and popularity
+# Calculate satisfaction/desirability score based on crowd level, wait time
 # Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
-def satisfaction_score(crowd_level, popularity, menu_variety, cleanliness):
-    satisfaction_score = (10 - 0.3 * crowd_level
-                          + 0.2 * popularity + 0.2 * menu_variety
-                          + 0.5 * cleanliness) # we input a first guess of the coefficients here first
+def satisfaction_score(crowd_level, affordability, cleanliness):
+    satisfaction_score = (10 - 0.3 * crowd_level + 0.2 * affordability + 0.5 * cleanliness) # we input a first guess of the coefficients here first
     # - 0.5 * actual_wait_time - 0.3 * weather + 0.4 * ride_quality
     # include actual_wait_time, weather and ride_quality later
     return satisfaction_score
 # Satisfaction score refers to the score for a single NODE, not the visitors.
 # but it should be based on the visitor!
 
-satisfaction_score_X = nodes[['name', 'crowd_level', 'popularity', 'menu_variety', 'cleanliness']]
-satisfaction_score_X_key_features = ['crowd_level', 'popularity', 'menu_variety', 'cleanliness']
+satisfaction_score_X = nodes[['name', 'crowd_level', 'affordability', 'cleanliness']]
+satisfaction_score_X_key_features = ['crowd_level', 'affordability', 'cleanliness']
 satisfaction_score_y = pd.DataFrame() # generate satisfaction scores based on X
 for entry in satisfaction_score_X.itertuples():
-    actual_satisfaction_score = satisfaction_score(entry.crowd_level, entry.popularity, entry.menu_variety, entry.cleanliness)
+    actual_satisfaction_score = satisfaction_score(entry.crowd_level, entry.affordability, entry.cleanliness)
     satisfaction_score_y = pd.concat([satisfaction_score_y, pd.DataFrame({"waiting_time": [actual_satisfaction_score]})], ignore_index=True)
 
 # Train a Random Forest regressor to evaluate importance of each feature
@@ -203,7 +201,6 @@ satisfaction_score_ml_model.fit(satisfaction_score_X_importance, satisfaction_sc
 print(satisfaction_score_ml_model)
 
 
-
 ########################
 ## Seasonal Variation ##
 ########################
@@ -227,7 +224,7 @@ def seasonal_variation():
 """
 let's import data from the csv file instead of hard coding it
 if the Ride doesn't exist in the csv file, keep it but
-- current columns in csv file: index, name of attraction, duration, popularity score (Jamie is doing this)
+- current columns in csv file: index, name of attraction, duration
 - add columns like usage, crowd level, cleanliness etc
 - cleanliness taken from the survey (justify this)
 - crowd level from dynamic queue
@@ -241,7 +238,7 @@ if the Ride doesn't exist in the csv file, keep it but
 G = nx.Graph()
 
 for node in nodes.itertuples():
-    G.add_node(node.name, type = node.type, zone = node.zone, duration = node.duration, popularity = node.popularity, crowd_level = node.crowd_level, 
+    G.add_node(node.name, type = node.type, zone = node.zone, duration = node.duration, crowd_level = node.crowd_level, 
               cleanliness = node.cleanliness, usage = node.usage, affordability = node.affordability, capacity = node.capacity, 
               actual_wait_time = node.actual_wait_time, expected_wait_time = node.expected_wait_time, staff = node.staff )
 
@@ -252,7 +249,6 @@ for edge in edges.itertuples():
 Assumptions:
 Roads are not congested, although the ideal is to reduce congestion.
 Everyone walks at the same speed (this means that it takes the same time for anyone to get from point A to point B).
-"""
 
 # Simulate park experience over a day (time range: 10am to 7pm)
 for hour in range(10, 20):
@@ -260,7 +256,6 @@ for hour in range(10, 20):
     for node in G.nodes(data=True):
         base_wait = node[1]["base_wait"]
         base_crowd = node[1]["base_crowd"]
-        popularity = node[1]["popularity"]
         
         # Update wait time and crowd level dynamically
         wait_time, crowd_level = dynamic_crowd_wait(hour, base_wait, base_crowd)
@@ -270,7 +265,19 @@ for hour in range(10, 20):
         
         # Print status
         print(f"{node[0]} - Wait Time: {wait_time:.1f} mins, Crowd Level: {crowd_level:.1f}, Satisfaction: {satisfaction:.1f}")
+"""
 
+
+###############################################
+## Shortest-Path Optimisation using Dijkstra ##
+###############################################
+def find_shortest_path(graph, start, end):
+    undirected_graph = graph.to_undirected()
+    return nx.dijkstra_path(undirected_graph, start, end, weight = "distance")
+
+print(find_shortest_path(G, "Mel's Mixtape", "Puss In Boots Giant Journey"))
+
+# output in dictionary format, e.g. {an adhoc node : all adjacent nodes}
 
 ##########################
 ## Optimising Itinerary ##
@@ -283,12 +290,12 @@ def optimized_itinerary(start, attractions_list, current_hour):
     
     for attraction in attractions_list:
         # Calculate dynamic wait time and crowd level for attraction
-        wait_time, crowd_level = dynamic_crowd_wait(current_hour, 
-                                                    G.nodes[attraction]["base_wait"], 
-                                                    G.nodes[attraction]["base_crowd"])
+        wait_time, crowd_level = waiting_time(current_hour,
+                                              G.nodes[attraction]["base_wait"],
+                                              G.nodes[attraction]["base_crowd"])
         
         # Satisfaction score
-        satisfaction = calculate_satisfaction(wait_time, crowd_level, G.nodes[attraction]["popularity"])
+        satisfaction = satisfaction_score(wait_time, crowd_level, G.nodes[attraction]["popularity"])
         
         # Pathfinding to minimize travel time between attractions
         path = find_shortest_path(G, current_location, attraction)

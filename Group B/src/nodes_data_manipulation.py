@@ -36,9 +36,6 @@ for i in range(len(df_rides)):
 df_rides = df_rides.drop(columns=['type_y']).rename(columns={'type_x': 'type'})
 df_rides = df_rides.drop(columns=['capacity_x']).rename(columns={'capacity_y': 'capacity'})
 df_rides = df_rides.drop(columns=['duration']).rename(columns={'duration (in min)': 'duration'})
-print(df_rides)
-df_rides.to_csv("../data/combined_data_1.csv", index=False)
-
 
 # for seasonal attractions
 nodes_seasonal = nodes_df.loc[nodes_df["type"] == "Seasonal"]

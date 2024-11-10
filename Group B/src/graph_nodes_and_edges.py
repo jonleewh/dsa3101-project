@@ -267,6 +267,8 @@ edges_data = [
     {"source": "Mel's Drive-In", "target": "UNIVRS", "distance": 4},
     {"source": "Mel's Drive-In", "target": "Mel's Mixtape", "distance": 1},
     {"source": "Mel's Drive-In", "target": "UNIVRS", "distance": 3},
+    
+    # link between Hollywood and New York
     {"source": "Mel's Drive-In", "target": "Lights Camera Action Hosted by Steven Spielberg", "distance": 2},
     
     # New York Zone
@@ -282,6 +284,9 @@ edges_data = [
     {"source": "Restroom 2", "target": "Loui's NY Pizza Parlor", "distance": 2},
     {"source": "Restroom 2", "target": "Big Bird's Emporium", "distance": 4},
     {"source": "Loui's NY Pizza Parlor", "target": "Big Bird's Emporium", "distance": 3},
+    
+    # link between New York and Sci-Fi City
+    {"source": "Big Bird's Emporium", "target": "TRANSFORMERS The Ride: The Ultimate 3D Battle", "distance": 2},
     
     # Sci-Fi City Zone
     {"source": "TRANSFORMERS The Ride: The Ultimate 3D Battle", "target": "Accelerator", "distance": 3},
@@ -303,6 +308,9 @@ edges_data = [
     {"source": "Frozen Fuel", "target": "Transformers Supply Vault", "distance": 3},
     {"source": "Planet Yen", "target": "Transformers Supply Vault", "distance": 5},
     
+    # link between Sci-Fi City and Ancient Egypt
+    {"source": "Transformers Supply Vault", "target": "Revenge of the Mummy", "distance": 2},
+    
     # Ancient Egypt Zone
     {"source": "Revenge of the Mummy", "target": "Treasure Hunters", "distance": 4},
     {"source": "Revenge of the Mummy", "target": "Restroom 4", "distance": 3},
@@ -317,6 +325,9 @@ edges_data = [
     {"source": "Cairo Market", "target": "Pharaoh's Dessert Oasis", "distance": 1},
     {"source": "Pharaoh's Dessert Oasis", "target": "Carter's Curiosities", "distance": 4},
     {"source": "Cairo Market", "target": "Carter's Curiosities", "distance": 6},
+    
+    # link between Ancient Egypt and The Lost World
+    {"source": "Cairo Market", "target": "Discovery Food Court", "distance": 3},
     
     # The Lost World Zone
     {"source": "Jurassic Park Rapids Adventure", "target": "Dino Soarin'", "distance": 3},
@@ -336,7 +347,26 @@ edges_data = [
     {"source": "Mariner's Market", "target": "Jungle Bites", "distance": 1},
     {"source": "Fossil Fuels", "target": "The Dino-Store", "distance": 7},
     {"source": "The Dino-Store", "target": "Restroom 6", "distance": 6},
-    {"source": "Restroom 7", "target": "Goldilocks", "distance": 3}
+    {"source": "Restroom 7", "target": "Goldilocks", "distance": 3},
+    
+    # link between The Lost World and Far Far Away
+    {"source": "Goldilocks", "target": "Revenge of the Mummy", "distance": 2},
+    
+    # Far Far Away Zone
+    {"source": "Puss In Boots Giant Journey", "target": "Magic Potion Spin", "distance": 2},
+    {"source": "Puss In Boots Giant Journey", "target": "Enchanted Airways", "distance": 3},
+    {"source": "Magic Potion Spin", "target": "Shrek 4D Adventure", "distance": 2},
+    {"source": "Shrek 4D Adventure", "target": "Enchanted Airways", "distance": 2},
+    {"source": "Enchanted Airways", "target": "Donkey Live", "distance": 4},
+    {"source": "Donkey Live", "target": "Fortune Favours The Furry", "distance": 3},
+    {"source": "Shrek 4D Adventure", "target": "Friar's Good Food", "distance": 5},
+    {"source": "Friar's Good Food", "target": "Goldilocks", "distance": 1},
+    {"source": "Goldilocks", "target": "Fairy Godmother's Potion Shop", "distance": 2},
+    {"source": "Fairy Godmother's Potion Shop", "target": "Restroom 7", "distance": 3},
+    
+    # link between Far Far Away and Hollywood
+    {"source": "Fairy Godmother's Potion Shop", "target": "Mel's Mixtape", "distance": 10},
+    
 ]
 
 # Convert timeslot sets to string for CSV compatibility

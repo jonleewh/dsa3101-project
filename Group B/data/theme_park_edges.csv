@@ -32,6 +32,7 @@ Rhythm Truck,Loui's NY Pizza Parlor,3
 Restroom 2,Loui's NY Pizza Parlor,2
 Restroom 2,Big Bird's Emporium,4
 Loui's NY Pizza Parlor,Big Bird's Emporium,3
+Big Bird's Emporium,TRANSFORMERS The Ride: The Ultimate 3D Battle,2
 TRANSFORMERS The Ride: The Ultimate 3D Battle,Accelerator,3
 TRANSFORMERS The Ride: The Ultimate 3D Battle,Battlestar Galactica: HUMAN,5
 TRANSFORMERS The Ride: The Ultimate 3D Battle,Restroom 3,4
@@ -50,6 +51,7 @@ Galactic Treats,Frozen Fuel,2
 Galactic Treats,Transformers Supply Vault,4
 Frozen Fuel,Transformers Supply Vault,3
 Planet Yen,Transformers Supply Vault,5
+Transformers Supply Vault,Revenge of the Mummy,2
 Revenge of the Mummy,Treasure Hunters,4
 Revenge of the Mummy,Restroom 4,3
 Revenge of the Mummy,Oasis Spice Cafe,5
@@ -63,6 +65,7 @@ Oasis Spice Cafe,Pharaoh's Dessert Oasis,3
 Cairo Market,Pharaoh's Dessert Oasis,1
 Pharaoh's Dessert Oasis,Carter's Curiosities,4
 Cairo Market,Carter's Curiosities,6
+Cairo Market,Discovery Food Court,3
 Jurassic Park Rapids Adventure,Dino Soarin',3
 Jurassic Park Rapids Adventure,Restroom 5,4
 Jurassic Park Rapids Adventure,Discovery Food Court,5
@@ -81,3 +84,15 @@ Mariner's Market,Jungle Bites,1
 Fossil Fuels,The Dino-Store,7
 The Dino-Store,Restroom 6,6
 Restroom 7,Goldilocks,3
+Goldilocks,Revenge of the Mummy,2
+Puss In Boots Giant Journey,Magic Potion Spin,2
+Puss In Boots Giant Journey,Enchanted Airways,3
+Magic Potion Spin,Shrek 4D Adventure,2
+Shrek 4D Adventure,Enchanted Airways,2
+Enchanted Airways,Donkey Live,4
+Donkey Live,Fortune Favours The Furry,3
+Shrek 4D Adventure,Friar's Good Food,5
+Friar's Good Food,Goldilocks,1
+Goldilocks,Fairy Godmother's Potion Shop,2
+Fairy Godmother's Potion Shop,Restroom 7,3
+Fairy Godmother's Potion Shop,Mel's Mixtape,10
