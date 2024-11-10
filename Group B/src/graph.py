@@ -116,12 +116,15 @@ If any variable is particularly important, how to improve the model?
 ## Calculating Actual Waiting Times ##
 ######################################
 
-preprocessing.normalize(nodes[['duration']])
-
-def waiting_time(ride_duration, crowd_level, staff, outdoor): # get the expected waiting time from the csv file
+def waiting_time(duration, crowd_level, capacity, staff, outdoor, rain): # get the expected waiting time from the csv file
     # update this every 5 min
     # loop over the csv file to collect the data we want
-    waiting_time = ride_duration + 0.5 * crowd_level + 0.5 * staff + 3 * outdoor # add weather in also!
+    if rain and outdoor:
+        waiting_time = 0
+    elif rain and not outdoor:
+        waiting_time = duration + 0.2 * crowd_level / capacity - 0.1 * staff + 100 * outdoor + 2 * rain
+    else:
+        waiting_time = duration + 0.2 * crowd_level - 0.1 * staff + 3 * outdoor
     return waiting_time
 
 wait_time_X = nodes[['name', 'duration', 'crowd_level', 'staff', 'outdoor']]
@@ -291,7 +294,6 @@ path_df.to_csv("../data/theme_park_paths.csv", index = False)
 ##########################
 ## Optimising Itinerary ##
 ##########################
-
 def optimized_itinerary(start, attractions_list, current_hour):
     total_time = 0
     itinerary = [start]
