@@ -59,24 +59,27 @@ Merge weather data with simulation data for analysis (e.g., combine temperature,
 Process and normalize park layout data to build graph-based representations of park paths.
 
 ## Data Dictionary
-daily_weather_data.csv
+### Group A
+  
+**dynamic_pricing_weather.ipynb**
 
-  **Rainfall (mm)**: Maximum rainfall in a window (mm).
+Satisfaction Score: A calculated score based on weather conditions (0–100)
   
-  **Daily Rainfall Total (mm)**: Total rainfall for the day (mm).
+Dynamic Price (SGD): Adjusted ticket price based on satisfaction score on weather.
   
-  **Mean Temperature (°C)**: Average temperature for the day (°C).
-  
-  **Max Wind Speed (km/h)**: Maximum recorded wind speed for the day (km/h).
-  
-dynamic_pricing_weather.ipynb
+Possible Extra Revenue (SGD): Revenue generated from dynamic pricing adjustments.
 
-  **Satisfaction Score**: A calculated score based on weather conditions (0–100)
+### Group B
+
+**daily_weather_data.csv**
+
+Rainfall (mm): Maximum rainfall in a window (mm).
   
-  **Dynamic Price (SGD)**: Adjusted ticket price based on satisfaction score on weather.
+Daily Rainfall Total (mm): Total rainfall for the day (mm).
   
-  **Possible Extra Revenue (SGD)**: Revenue generated from dynamic pricing adjustments.
+Mean Temperature (°C): Average temperature for the day (°C).
   
+Max Wind Speed (km/h): Maximum recorded wind speed for the day (km/h).
 
 
 ### 
