@@ -169,7 +169,10 @@ wait_time_ml_model.fit(wait_time_X_importance, wait_time_y)
 # Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
 # link to popularity
 def satisfaction_score(crowd_level, affordability, cleanliness):
-    satisfaction_score = (10 - 0.3 * crowd_level + 0.2 * affordability + 0.5 * cleanliness) # we input a first guess of the coefficients here first
+    # Using a logarithmic transformation for diminishing returns
+    satisfaction_score = (
+        10 - 0.5 * np.log1p(crowd_level) + 0.4 * np.log1p(affordability) + 0.2 * np.log1p(cleanliness) # we input a first guess of the coefficients here first
+    )
     # - 0.5 * actual_wait_time - 0.3 * weather + 0.4 * ride_quality
     # include actual_wait_time, weather and ride_quality later
     return satisfaction_score
@@ -212,6 +215,83 @@ print(satisfaction_score_ml_model)
 ########################
 ## Seasonal Variation ##
 ########################
+
+# Define the percentage change range from -50% to +50%
+percentage_changes = np.linspace(-0.5, 0.5, 100)
+
+# Get the mean values of each feature to use as the baseline
+mean_crowd_level = satisfaction_score_X['crowd_level'].mean()
+mean_affordability = satisfaction_score_X['affordability'].mean()
+mean_cleanliness = satisfaction_score_X['cleanliness'].mean()
+
+# Initialize lists to store satisfaction scores for each feature
+satisfaction_scores_crowd = []
+satisfaction_scores_affordability = []
+satisfaction_scores_cleanliness = []
+
+# Calculate the satisfaction score for each percentage change in the feature
+for change in percentage_changes:
+    # Vary crowd_level while keeping others constant
+    crowd_level = mean_crowd_level * (1 + change)
+    score_crowd = satisfaction_score(crowd_level, mean_affordability, mean_cleanliness)
+    satisfaction_scores_crowd.append(score_crowd)
+
+    # Vary affordability while keeping others constant
+    affordability = mean_affordability * (1 + change)
+    score_affordability = satisfaction_score(mean_crowd_level, affordability, mean_cleanliness)
+    satisfaction_scores_affordability.append(score_affordability)
+
+    # Vary cleanliness while keeping others constant
+    cleanliness = mean_cleanliness * (1 + change)
+    score_cleanliness = satisfaction_score(mean_crowd_level, mean_affordability, cleanliness)
+    satisfaction_scores_cleanliness.append(score_cleanliness)
+
+# Plotting the results
+plt.figure(figsize=(15, 5))
+
+# Plot for crowd_level
+plt.subplot(1, 3, 1)
+plt.plot(percentage_changes * 100, satisfaction_scores_crowd, label='Crowd Level', color='blue')
+plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness), color='gray', linestyle='--', label='Baseline Score')
+plt.xlabel('% Change in Crowd Level')
+plt.ylabel('Satisfaction Score')
+plt.title('Effect of Crowd Level on Satisfaction Score')
+plt.legend()
+
+# Plot for affordability
+plt.subplot(1, 3, 2)
+plt.plot(percentage_changes * 100, satisfaction_scores_affordability, label='Affordability', color='green')
+plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness), color='gray', linestyle='--', label='Baseline Score')
+plt.xlabel('% Change in Affordability')
+plt.ylabel('Satisfaction Score')
+plt.title('Effect of Affordability on Satisfaction Score')
+plt.legend()
+
+# Plot for cleanliness
+plt.subplot(1, 3, 3)
+plt.plot(percentage_changes * 100, satisfaction_scores_cleanliness, label='Cleanliness', color='red')
+plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness), color='gray', linestyle='--', label='Baseline Score')
+plt.xlabel('% Change in Cleanliness')
+plt.ylabel('Satisfaction Score')
+plt.title('Effect of Cleanliness on Satisfaction Score')
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+
+# Plot for cleanliness
+plt.subplot(1, 3, 3)
+plt.plot(percentage_changes * 100, satisfaction_scores_cleanliness, label='Cleanliness', color='red')
+plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness), color='gray', linestyle='--', label='Baseline Score')
+plt.xlabel('% Change in Cleanliness')
+plt.ylabel('Satisfaction Score')
+plt.title('Effect of Cleanliness on Satisfaction Score')
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+
+
 
 # for seasonal variations, try to use things like Halloween
 # an example is to have an increased percentage of staff
