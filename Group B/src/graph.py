@@ -14,6 +14,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 import os
 
+np.random.seed(2024)
 os.chdir('Group B/src')
 
 """
@@ -123,31 +124,36 @@ nodes["popularity"] = (nodes["popularity"] - nodes["popularity"].min()) / (nodes
 nodes["staff"] = (nodes["staff"] - nodes["staff"].min()) / (nodes["staff"].max() - nodes["staff"].min())
 nodes["duration"] = (nodes["duration"] - nodes["duration"].min()) / (nodes["duration"].max() - nodes["duration"].min())
 
-# link to popularity
 def waiting_time(duration, crowd_level, capacity, staff, popularity, outdoor): # get the expected waiting time from the csv file
     # update this every 5 min
     # loop over the csv file to collect the data we want
-    # include outdoor and rain
-    waiting_time = 0.5 * duration + 0.2 * crowd_level - 0.1 * staff + 0.3 * capacity + 0.5 * popularity
+    waiting_time = max(0,
+                       1.5 * (crowd_level / (capacity + 1) * duration) # crowd level / capacity is the waiting time before someone who just joins the queue will be served
+                       + 0.5 / (staff + 1) # the more staff we have, the lower the waiting time (for restaurants). If it is not a restaurant, ignore this (to be coded in)
+                       + 0.8 * popularity
+                       # include outdoor and rain
+                       + np.random.normal(-5, 15)) # we introduce noise into the data
     return waiting_time
 
 wait_time_X = nodes[['name', 'duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']]
 wait_time_key_X_features = ['duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']
-wait_time_y = pd.DataFrame() # generate wait times based on X
+wait_time_y_synthetic = pd.DataFrame() # generate wait times based on X
 for entry in wait_time_X.itertuples():
     actual_waiting_time = waiting_time(entry.duration, entry.crowd_level, entry.capacity, entry.staff, entry.popularity, entry.outdoor)
-    wait_time_y = pd.concat([wait_time_y, pd.DataFrame({"waiting_time": [actual_waiting_time]})], ignore_index=True)
+    wait_time_y_synthetic = pd.concat([wait_time_y_synthetic, pd.DataFrame({"waiting_time": [actual_waiting_time]})], ignore_index=True)
+print(wait_time_y_synthetic)
 
 # Train a Random Forest regressor to evaluate importance of each feature
-wait_time_rf_model = RandomForestRegressor(n_estimators=100)
-wait_time_rf_model.fit(wait_time_X[wait_time_key_X_features], wait_time_y)
+wait_time_rf_model = RandomForestRegressor(n_estimators = 10)
+wait_time_rf_model.fit(wait_time_X[wait_time_key_X_features], wait_time_y_synthetic)
 wait_time_importances = wait_time_rf_model.feature_importances_
 
 # Plot a graph of the importance of each variable
 wait_time_feature_importance = pd.DataFrame({'Feature': wait_time_key_X_features, 'Importance': wait_time_importances}).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
 plt.figure(figsize=(10, 5))
 sns.barplot(x='Importance', y='Feature', data = wait_time_feature_importance, palette='viridis')
-plt.title('Waiting Time: Feature Importance from Random Forest Model')
+plt.suptitle('Importance of each feature in determining Waiting Time', fontsize = 18)
+plt.title("determined using Random Forest Model", fontsize = 12)
 plt.xlabel('Importance')
 plt.ylabel('Feature')
 plt.show()
@@ -157,7 +163,7 @@ wait_time_X_importance = wait_time_X[wait_time_key_X_features] * wait_time_impor
 
 # Train the linear regression model with the coefficients accounting for the importance
 wait_time_ml_model = LinearRegression()
-wait_time_ml_model.fit(wait_time_X_importance, wait_time_y)
+wait_time_ml_model.fit(wait_time_X_importance, wait_time_y_synthetic)
 
 
 ####################################
@@ -171,10 +177,16 @@ wait_time_ml_model.fit(wait_time_X_importance, wait_time_y)
 def satisfaction_score(crowd_level, affordability, cleanliness):
     # Using a logarithmic transformation for diminishing returns
     satisfaction_score = (
-        10 - 0.5 * np.log1p(crowd_level) + 0.4 * np.log1p(affordability) + 0.2 * np.log1p(cleanliness) # we input a first guess of the coefficients here first
-    )
-    # - 0.5 * actual_wait_time - 0.3 * weather + 0.4 * ride_quality
-    # include actual_wait_time, weather and ride_quality later
+        10
+        - 0.5 * np.log1p(crowd_level) # higher crowd level results in lower satisfaction score
+        + 0.4 * np.log1p(affordability) # more affordable items results in higher satisfaction score
+        + 0.2 * np.log1p(cleanliness) # better cleanliness results in higher satisfaction score
+        # + 0.5 / np.log1p(actual_wait_time) # longer wait time results in lower satisfaction score
+        # + 0.3 / np.log1pm(weather) # bad weather results in lower satisfaction score (heat and rain)
+        # + 0.4 * np.log1pm(ride_quality) # better ride quality results in higher satisfaction score
+    ) # we input a first guess of the coefficients here first
+    # logistic regression to get a value between 0 and 100?
+    # satisfaction_score = 1 / (1 + np.exp(-satisfaction_score_lr)) * 100
     return satisfaction_score
 # Satisfaction score refers to the score for a single NODE, not the visitors.
 # but it should be based on the visitor!
@@ -185,9 +197,10 @@ satisfaction_score_y = pd.DataFrame() # generate satisfaction scores based on X
 for entry in satisfaction_score_X.itertuples():
     actual_satisfaction_score = satisfaction_score(entry.crowd_level, entry.affordability, entry.cleanliness)
     satisfaction_score_y = pd.concat([satisfaction_score_y, pd.DataFrame({"waiting_time": [actual_satisfaction_score]})], ignore_index=True)
+print(satisfaction_score_y)
 
 # Train a Random Forest regressor to evaluate importance of each feature
-satisfaction_score_rf_model = RandomForestRegressor(n_estimators=100)
+satisfaction_score_rf_model = RandomForestRegressor(n_estimators = 10)
 satisfaction_score_rf_model.fit(satisfaction_score_X[satisfaction_score_X_key_features],
                                 satisfaction_score_y)
 satisfaction_score_importances = satisfaction_score_rf_model.feature_importances_
@@ -198,7 +211,8 @@ satisfaction_score_feature_importance = pd.DataFrame({'Feature': satisfaction_sc
                                                      ).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
 plt.figure(figsize=(10, 5))
 sns.barplot(x='Importance', y='Feature', data = satisfaction_score_feature_importance, palette='viridis')
-plt.title('Satisfaction Score: Feature Importance from Random Forest Model')
+plt.suptitle('Importance of each feature in determining Satisfaction Score', fontsize = 18)
+plt.title("determined using Random Forest Model", fontsize = 12)
 plt.xlabel('Importance')
 plt.ylabel('Feature')
 plt.show()
@@ -278,19 +292,6 @@ plt.legend()
 
 plt.tight_layout()
 plt.show()
-
-# Plot for cleanliness
-plt.subplot(1, 3, 3)
-plt.plot(percentage_changes * 100, satisfaction_scores_cleanliness, label='Cleanliness', color='red')
-plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness), color='gray', linestyle='--', label='Baseline Score')
-plt.xlabel('% Change in Cleanliness')
-plt.ylabel('Satisfaction Score')
-plt.title('Effect of Cleanliness on Satisfaction Score')
-plt.legend()
-
-plt.tight_layout()
-plt.show()
-
 
 
 # for seasonal variations, try to use things like Halloween
