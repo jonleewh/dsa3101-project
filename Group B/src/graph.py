@@ -170,23 +170,24 @@ wait_time_ml_model.fit(wait_time_X_importance, wait_time_y_synthetic)
 ## Calculating Satisfaction Score ##
 ####################################
 # Arguments are the properties of the node. Can put in the object
+nodes["affordability"] = (nodes["affordability"] - nodes["affordability"].min()) / (nodes["affordability"].max() - nodes["affordability"].min())
+nodes["cleanliness"] = (nodes["cleanliness"] - nodes["cleanliness"].min()) / (nodes["cleanliness"].max() - nodes["cleanliness"].min())
 
 # Calculate satisfaction/desirability score based on crowd level, wait time
 # Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
 # link to popularity
 def satisfaction_score(crowd_level, affordability, cleanliness):
     # Using a logarithmic transformation for diminishing returns
-    satisfaction_score = (
-        10
-        - 0.5 * np.log1p(crowd_level) # higher crowd level results in lower satisfaction score
-        + 0.4 * np.log1p(affordability) # more affordable items results in higher satisfaction score
-        + 0.2 * np.log1p(cleanliness) # better cleanliness results in higher satisfaction score
-        # + 0.5 / np.log1p(actual_wait_time) # longer wait time results in lower satisfaction score
-        # + 0.3 / np.log1pm(weather) # bad weather results in lower satisfaction score (heat and rain)
-        # + 0.4 * np.log1pm(ride_quality) # better ride quality results in higher satisfaction score
+    satisfaction_score_lr = (
+        - 5 * crowd_level # higher crowd level results in lower satisfaction score
+        + 4 * affordability # more affordable items results in higher satisfaction score
+        + 2 * cleanliness # better cleanliness results in higher satisfaction score
+        # + 5 / np.log1p(actual_wait_time) # longer wait time results in lower satisfaction score
+        # + 3 / np.log1p(weather) # bad weather results in lower satisfaction score (heat and rain)
+        # + 4 * np.log1p(ride_quality) # better ride quality results in higher satisfaction score
     ) # we input a first guess of the coefficients here first
     # logistic regression to get a value between 0 and 100?
-    # satisfaction_score = 1 / (1 + np.exp(-satisfaction_score_lr)) * 100
+    satisfaction_score = 1 / (1 + np.exp(-satisfaction_score_lr)) * 100
     return satisfaction_score
 # Satisfaction score refers to the score for a single NODE, not the visitors.
 # but it should be based on the visitor!
@@ -197,6 +198,7 @@ satisfaction_score_y = pd.DataFrame() # generate satisfaction scores based on X
 for entry in satisfaction_score_X.itertuples():
     actual_satisfaction_score = satisfaction_score(entry.crowd_level, entry.affordability, entry.cleanliness)
     satisfaction_score_y = pd.concat([satisfaction_score_y, pd.DataFrame({"waiting_time": [actual_satisfaction_score]})], ignore_index=True)
+print(satisfaction_score_X)
 print(satisfaction_score_y)
 
 # Train a Random Forest regressor to evaluate importance of each feature
@@ -271,6 +273,7 @@ plt.xlabel('% Change in Crowd Level')
 plt.ylabel('Satisfaction Score')
 plt.title('Effect of Crowd Level on Satisfaction Score')
 plt.legend()
+plt.ylim(0, 60)
 
 # Plot for affordability
 plt.subplot(1, 3, 2)
@@ -280,6 +283,7 @@ plt.xlabel('% Change in Affordability')
 plt.ylabel('Satisfaction Score')
 plt.title('Effect of Affordability on Satisfaction Score')
 plt.legend()
+plt.ylim(0, 60)
 
 # Plot for cleanliness
 plt.subplot(1, 3, 3)
@@ -289,6 +293,7 @@ plt.xlabel('% Change in Cleanliness')
 plt.ylabel('Satisfaction Score')
 plt.title('Effect of Cleanliness on Satisfaction Score')
 plt.legend()
+plt.ylim(0, 60)
 
 plt.tight_layout()
 plt.show()
@@ -423,7 +428,6 @@ pio.renderers.default = "plotly_mimetype"
 # Create a blank figure
 fig = go.Figure()
 
-
 pos_nodes = {
     "Mel's Mixtape": (6.5, 4.2),
     "Margo, Edith and Agnes Meet-and-Greet": (6.4, 2.4),
@@ -490,7 +494,6 @@ pos_nodes = {
     "Goldilocks": (4.2, 7.2),
     "Fairy Godmother's Potion Shop": (2.8, 7),
 }
-
 
 edge_x = []
 edge_y = []
