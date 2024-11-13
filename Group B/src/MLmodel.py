@@ -84,7 +84,7 @@ nodes["popularity"] = (nodes["popularity"] - nodes["popularity"].min()) / (nodes
 nodes["staff"] = (nodes["staff"] - nodes["staff"].min()) / (nodes["staff"].max() - nodes["staff"].min())
 nodes["duration"] = (nodes["duration"] - nodes["duration"].min()) / (nodes["duration"].max() - nodes["duration"].min())
 
-def waiting_time(duration, crowd_level, capacity, staff, popularity, outdoor, time_of_day, ride_type, maintenance=False):
+def waiting_time(duration, crowd_level, capacity, staff, popularity, outdoor):
     """
     Calculate the expected waiting time for a ride.
 
@@ -150,16 +150,17 @@ nodes["cleanliness"] = (nodes["cleanliness"] - nodes["cleanliness"].min()) / (no
 # Calculate satisfaction/desirability score based on crowd level, wait time
 # Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
 # link to popularity
-def satisfaction_score(crowd_level, affordability, cleanliness, actual_wait_time, temperature, rain, ride_quality):
+def satisfaction_score(crowd_level, affordability, cleanliness, capacity):
     # Using a logarithmic transformation for diminishing returns
     satisfaction_score_lr = (
         - 5 * crowd_level # higher crowd level results in lower satisfaction score
         + 4 * affordability # more affordable items results in higher satisfaction score
         + 2 * cleanliness # better cleanliness results in higher satisfaction score
-        + 5 / actual_wait_time # longer wait time results in lower satisfaction score
-        + 3 / temperature # bad weather results in lower satisfaction score (heat and rain)
-        + 3 / rain # bad weather results in lower satisfaction score (heat and rain)
-        + 4 * ride_quality # better ride quality results in higher satisfaction score
+        + 2 * capacity # higher capacity results in higher satisfaction score
+        # + 5 / actual_wait_time # longer wait time results in lower satisfaction score
+        # + 3 / temperature # bad weather results in lower satisfaction score (heat and rain)
+        # + 3 / rain # bad weather results in lower satisfaction score (heat and rain)
+        # + 4 * ride_quality # better ride quality results in higher satisfaction score
     ) # we input a first guess of the coefficients here first
     # logistic regression to get a value between 0 and 100?
     satisfaction_score = 1 / (1 + np.exp(-satisfaction_score_lr)) * 100
@@ -167,11 +168,11 @@ def satisfaction_score(crowd_level, affordability, cleanliness, actual_wait_time
 # Satisfaction score refers to the score for a single NODE, not the visitors.
 # but it should be based on the visitor!
 
-satisfaction_score_X = nodes[['name', 'crowd_level', 'affordability', 'cleanliness']]
-satisfaction_score_X_key_features = ['crowd_level', 'affordability', 'cleanliness']
+satisfaction_score_X = nodes[['name', 'crowd_level', 'affordability', 'cleanliness', 'capacity']]
+satisfaction_score_X_key_features = ['crowd_level', 'affordability', 'cleanliness', 'capacity']
 satisfaction_score_y = pd.DataFrame() # generate satisfaction scores based on X
 for entry in satisfaction_score_X.itertuples():
-    actual_satisfaction_score = satisfaction_score(entry.crowd_level, entry.affordability, entry.cleanliness)
+    actual_satisfaction_score = satisfaction_score(entry.crowd_level, entry.affordability, entry.cleanliness, entry.capacity)
     satisfaction_score_y = pd.concat([satisfaction_score_y, pd.DataFrame({"waiting_time": [actual_satisfaction_score]})], ignore_index=True)
 print(satisfaction_score_X)
 print(satisfaction_score_y)
@@ -214,36 +215,43 @@ percentage_changes = np.linspace(-0.5, 0.5, 100)
 mean_crowd_level = satisfaction_score_X['crowd_level'].mean()
 mean_affordability = satisfaction_score_X['affordability'].mean()
 mean_cleanliness = satisfaction_score_X['cleanliness'].mean()
+mean_capacity = satisfaction_score_X['capacity'].mean()
 
 # Initialize lists to store satisfaction scores for each feature
 satisfaction_scores_crowd = []
 satisfaction_scores_affordability = []
 satisfaction_scores_cleanliness = []
+satisfaction_scores_capacity = []
 
 # Calculate the satisfaction score for each percentage change in the feature
 for change in percentage_changes:
     # Vary crowd_level while keeping others constant
     crowd_level = mean_crowd_level * (1 + change)
-    score_crowd = satisfaction_score(crowd_level, mean_affordability, mean_cleanliness)
+    score_crowd = satisfaction_score(crowd_level, mean_affordability, mean_cleanliness, mean_capacity)
     satisfaction_scores_crowd.append(score_crowd)
 
     # Vary affordability while keeping others constant
     affordability = mean_affordability * (1 + change)
-    score_affordability = satisfaction_score(mean_crowd_level, affordability, mean_cleanliness)
+    score_affordability = satisfaction_score(mean_crowd_level, affordability, mean_cleanliness, mean_capacity)
     satisfaction_scores_affordability.append(score_affordability)
 
     # Vary cleanliness while keeping others constant
     cleanliness = mean_cleanliness * (1 + change)
-    score_cleanliness = satisfaction_score(mean_crowd_level, mean_affordability, cleanliness)
+    score_cleanliness = satisfaction_score(mean_crowd_level, mean_affordability, cleanliness, mean_capacity)
     satisfaction_scores_cleanliness.append(score_cleanliness)
+    
+    # Vary capacity while keeping others constant
+    capacity = mean_capacity * (1 + change)
+    score_capacity = satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness, capacity)
+    satisfaction_scores_capacity.append(score_capacity)
 
 # Plotting the results
-plt.figure(figsize=(15, 5))
+plt.figure(figsize=(10, 10))
 
 # Plot for crowd_level
-plt.subplot(1, 3, 1)
+plt.subplot(2, 2, 1)
 plt.plot(percentage_changes * 100, satisfaction_scores_crowd, label='Crowd Level', color='blue')
-plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness), color='gray', linestyle='--', label='Baseline Score')
+plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness,mean_capacity), color='gray', linestyle='--', label='Baseline Score')
 plt.xlabel('% Change in Crowd Level')
 plt.ylabel('Satisfaction Score')
 plt.title('Effect of Crowd Level on Satisfaction Score')
@@ -251,9 +259,9 @@ plt.legend()
 plt.ylim(0, 60)
 
 # Plot for affordability
-plt.subplot(1, 3, 2)
+plt.subplot(2, 2, 2)
 plt.plot(percentage_changes * 100, satisfaction_scores_affordability, label='Affordability', color='green')
-plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness), color='gray', linestyle='--', label='Baseline Score')
+plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness,mean_capacity), color='gray', linestyle='--', label='Baseline Score')
 plt.xlabel('% Change in Affordability')
 plt.ylabel('Satisfaction Score')
 plt.title('Effect of Affordability on Satisfaction Score')
@@ -261,16 +269,24 @@ plt.legend()
 plt.ylim(0, 60)
 
 # Plot for cleanliness
-plt.subplot(1, 3, 3)
+plt.subplot(2, 2, 3)
 plt.plot(percentage_changes * 100, satisfaction_scores_cleanliness, label='Cleanliness', color='red')
-plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness), color='gray', linestyle='--', label='Baseline Score')
+plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness,mean_capacity), color='gray', linestyle='--', label='Baseline Score')
 plt.xlabel('% Change in Cleanliness')
 plt.ylabel('Satisfaction Score')
 plt.title('Effect of Cleanliness on Satisfaction Score')
 plt.legend()
 plt.ylim(0, 60)
 
-## I also want to include an increase in capacity.
+# Plot for capacity
+plt.subplot(2, 2, 4)
+plt.plot(percentage_changes * 100, satisfaction_scores_capacity, label='Capacity', color='purple')
+plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness,mean_capacity), color='gray', linestyle='--', label='Baseline Score')
+plt.xlabel('% Change in Capacity')
+plt.ylabel('Satisfaction Score')
+plt.title('Effect of Capacity on Satisfaction Score')
+plt.legend()
+plt.ylim(0, 60)
 
 plt.tight_layout()
 plt.show()
