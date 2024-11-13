@@ -24,29 +24,6 @@ weather_df['Date'] = pd.to_datetime(weather_df[['Year', 'Month', 'Day']])
 
 weather_df['Public Holiday'] = weather_df['Date'].dt.date.isin(public_holidays).astype(int)
 
-school_holidays = [
-    ('2023-03-11', '2023-03-19'),  # Sat 11 Mar to Sun 19 Mar
-    ('2023-05-27', '2023-06-25'),  # Sat 27 May to Sun 25 Jun
-    ('2023-09-02', '2023-09-10'),  # Sat 2 Sep to Sun 10 Sep
-    ('2023-11-18', '2023-12-31'),  # Sat 18 Nov to Sun 31 Dec
-    ('2023-07-03', '2023-07-03'),  # Mon 3 Jul
-    ('2023-08-10', '2023-08-10'),  # Thu 10 Aug
-    ('2023-09-01', '2023-09-01'),  # Fri 1 Sep
-    ('2023-10-06', '2023-10-06'),  # Fri 6 Oct
-]
-
-school_holiday_dates = set()
-for start_date, end_date in school_holidays:
-    start_date = pd.to_datetime(start_date)
-    end_date = pd.to_datetime(end_date)
-    school_holiday_dates.update(pd.date_range(start=start_date, end=end_date).date)
-
-public_holidays -= {datetime(2023, 9, 1).date()}
-
-school_holiday_dates.update(public_holidays)
-
-weather_df['School Holiday'] = weather_df['Date'].dt.date.isin(school_holiday_dates).astype(int)
-
 # weather_df.to_csv('../data/2023_daily_weather_with_holidays.csv', index=False)
 
 file_paths = [
@@ -87,28 +64,34 @@ weather_df = pd.merge(weather_df, all_avg_wait_times, on='Date', how='left')
 
 # weather_df.to_csv('../data/2023_daily_weather_with_wait_times.csv', index=False)
 
-def categorize_weather(row):
+def categorize_rain(row):
     daily_rainfall = pd.to_numeric(row['Daily Rainfall Total (mm)'], errors='coerce')
-    highest_60_min_rainfall = pd.to_numeric(row['Highest 60 min Rainfall (mm)'], errors='coerce')
     
     if daily_rainfall <= 2.4:
         return 0  # Sunny
-    elif highest_60_min_rainfall >= 4:
-        return 2  # Rainy
     else:
+        return 1  # Rainy
+    
+def categorize_shower(row):
+    daily_rainfall = pd.to_numeric(row['Daily Rainfall Total (mm)'], errors='coerce')
+    highest_60_min_rainfall = pd.to_numeric(row['Highest 60 min Rainfall (mm)'], errors='coerce')
+    
+    if daily_rainfall > 2.4 and highest_60_min_rainfall <= 4:
         return 1  # Shower
+    else:
+        return 0  # Sunny
 
-weather_df['Weather Condition'] = weather_df.apply(categorize_weather, axis=1)
+
+weather_df['Rain Condition'] = weather_df.apply(categorize_rain, axis=1)
+weather_df['Shower Condition'] = weather_df.apply(categorize_shower, axis=1)
 
 weather_df['Day'] = pd.to_datetime(weather_df['Date']).dt.day_name()
 
 weather_df = weather_df.dropna(subset=['Wait Time'])
 
-weather_df['Weekend'] = weather_df['Day'].apply(lambda x: 1 if x in ['Saturday', 'Sunday'] else 0)
-
 columns_to_keep = [
-    'Date','Day', 'Wait Time', 'Weekend','Public Holiday', 'School Holiday', 
-    'Weather Condition', 'Daily Rainfall Total (mm)', 
+    'Date','Day', 'Wait Time','Public Holiday', 'Rain Condition',
+    'Shower Condition', 'Daily Rainfall Total (mm)', 
     'Highest 30 min Rainfall (mm)', 'Highest 60 min Rainfall (mm)', 
     'Highest 120 min Rainfall (mm)', 'Mean Temperature (°C)', 
     'Maximum Temperature (°C)', 'Minimum Temperature (°C)'
@@ -119,6 +102,4 @@ weather_df = weather_df[columns_to_keep]
 weather_df = weather_df.drop(16) # manually dropped 2023-01-17 as all entries are 7, clearly a data errer
 weather_df = weather_df.drop(352) # manually dropped 2023-12-19 as only one entry at 19:55, loss of data
 
-weather_df.to_csv('../data/2023_daily_weather_with_wait_times_and_conditions.csv', index=False)
-
-
+# weather_df.to_csv('../data/2023_daily_weather_with_wait_times_and_conditions.csv', index=False)
