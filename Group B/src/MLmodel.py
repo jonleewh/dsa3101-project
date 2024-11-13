@@ -39,7 +39,6 @@ optimise guest flow and resource allocation (staff variable)
 seasonal variation (after Group A gives us the weather index, etc)
 """
 
-
 """
 2 ML models
 Y1 = average satisfaction score of ALL visitors passing through the ONE node (using a combination of the factors) --> apply Random Forest separately
