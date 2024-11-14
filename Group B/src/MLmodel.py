@@ -170,7 +170,7 @@ def satisfaction_score(crowd_level, affordability, cleanliness, capacity, temper
                              + 2 * cleanliness # better cleanliness results in higher satisfaction score
                              + 2 * capacity # higher capacity results in higher satisfaction score
                              # + 5 / actual_wait_time # longer wait time results in lower satisfaction score
-                             # + 3 / temperature # bad weather results in lower satisfaction score (heat and rain)
+                             # - 5 * temperature # bad weather results in lower satisfaction score (heat and rain)
                              # for temperature, try to normalise the values where 30 degrees is zero, anything above has positive value, anything below has negative value
                              # + 3 / rain # bad weather results in lower satisfaction score (heat and rain)
                              # + 4 * ride_quality # better ride quality results in higher satisfaction score
