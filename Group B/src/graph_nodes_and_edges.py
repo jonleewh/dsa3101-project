@@ -9,15 +9,15 @@ nodes_data = [
     {"name": "Entrance", "type": "Entrance", "outdoor": 1},
     
     # Hollywood
-    {"name": "Mel's Mixtape", "type": "Seasonal", "zone": "Hollywood", "outdoor": 1,
+    {"name": "Mel's Mixtape", "type": "Seasonal", "zone": "Hollywood", "outdoor": 1, "capacity": 999,
      "duration": 20, "popularity": 80, "timeslots": [datetime.time(10, 35), datetime.time(13, 0), datetime.time(15, 0), datetime.time(17, 55)],
      "crowd_level": 60},
 
-    {"name": "Margo, Edith and Agnes Meet-and-Greet", "type": "Seasonal", "zone": "Hollywood", "outdoor": 1,
+    {"name": "Margo, Edith and Agnes Meet-and-Greet", "type": "Seasonal", "zone": "Hollywood", "outdoor": 1, "capacity": 999,
      "duration": 5, "popularity": 80, "timeslots": [datetime.time(10, 5), datetime.time(11, 55), datetime.time(13, 55), datetime.time(15, 55), datetime.time(17, 25)],
      "crowd_level": 60},
 
-    {"name": "Illuminations Minion Monsters", "type": "Seasonal", "zone": "Hollywood", "outdoor": 1,
+    {"name": "Illuminations Minion Monsters", "type": "Seasonal", "zone": "Hollywood", "outdoor": 1, "capacity": 999,
      "duration": 5, "popularity": 80, "timeslots": [datetime.time(10, 15), datetime.time(12, 25), datetime.time(14, 5), datetime.time(15, 50)],
      "crowd_level": 60},
 
@@ -76,7 +76,7 @@ nodes_data = [
      "duration": 10, "capacity": 20, "expected_wait_time": 10, "popularity": 99,
      "crowd_level": 80, "actual_wait_time": 5},
 
-    {"name": "Rhythm Truck", "type": "Seasonal", "zone": "New York", "outdoor": 1,
+    {"name": "Rhythm Truck", "type": "Seasonal", "zone": "New York", "outdoor": 1, "capacity": 999,
      "duration": 20, "popularity": 80,
      "timeslots": [datetime.time(11, 30), datetime.time(13, 30), datetime.time(15, 30), datetime.time(18, 20)],
      "crowd_level": 60},
@@ -221,12 +221,12 @@ nodes_data = [
      "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
-    {"name": "Donkey Live", "type": "Seasonal", "zone": "Far Far Away", "outdoor": 0, "popularity": 80,
+    {"name": "Donkey Live", "type": "Seasonal", "zone": "Far Far Away", "outdoor": 0, "popularity": 80, "capacity": 999,
      "duration": 20, "timeslots": [datetime.time(12, 0), datetime.time(13, 0), datetime.time(14, 0),
                                    datetime.time(15, 0), datetime.time(16, 0), datetime.time(17, 0),datetime.time(18, 0)],
      "crowd_level": 60},
 
-    {"name": "Fortune Favours The Furry", "type": "Seasonal", "zone": "Far Far Away", "outdoor": 1, "popularity": 80,
+    {"name": "Fortune Favours The Furry", "type": "Seasonal", "zone": "Far Far Away", "outdoor": 1, "popularity": 80, "capacity": 999,
      "duration": 10, "timeslots": [datetime.time(12, 55), datetime.time(14, 25), datetime.time(15, 55), datetime.time(17, 25)],
      "crowd_level": 60},
 

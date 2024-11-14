@@ -158,24 +158,25 @@ nodes["affordability"] = (nodes["affordability"] - nodes["affordability"].min())
 nodes["cleanliness"] = (nodes["cleanliness"] - nodes["cleanliness"].min()) / (nodes["cleanliness"].max() - nodes["cleanliness"].min())
 
 # Calculate satisfaction/desirability score based on crowd level, wait time
+# Satisfaction score refers to the score for a single NODE, not the visitors.
 # Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
 # link to popularity
-def satisfaction_score(crowd_level, affordability, cleanliness, capacity):
+def satisfaction_score(crowd_level, affordability, cleanliness, capacity, temperature, wait_time):
     # Using a logarithmic transformation for diminishing returns
+    # we input a first guess of the coefficients here first
     satisfaction_score_lr = (50
-        - 5 * crowd_level # higher crowd level results in lower satisfaction score
-        + 4 * affordability # more affordable items results in higher satisfaction score
-        + 2 * cleanliness # better cleanliness results in higher satisfaction score
-        + 2 * capacity # higher capacity results in higher satisfaction score
-        # + 5 / actual_wait_time # longer wait time results in lower satisfaction score
-        # + 3 / temperature # bad weather results in lower satisfaction score (heat and rain)
-        # + 3 / rain # bad weather results in lower satisfaction score (heat and rain)
-        # + 4 * ride_quality # better ride quality results in higher satisfaction score
-    ) # we input a first guess of the coefficients here first
-    # logistic regression to get a value between 0 and 100?
-    satisfaction_score = 1 / (1 + np.exp(-satisfaction_score_lr)) * 100
+                             - 5 * crowd_level # higher crowd level results in lower satisfaction score
+                             + 4 * affordability # more affordable items results in higher satisfaction score
+                             + 2 * cleanliness # better cleanliness results in higher satisfaction score
+                             + 2 * capacity # higher capacity results in higher satisfaction score
+                             # + 5 / actual_wait_time # longer wait time results in lower satisfaction score
+                             # + 3 / temperature # bad weather results in lower satisfaction score (heat and rain)
+                             # for temperature, try to normalise the values where 30 degrees is zero, anything above has positive value, anything below has negative value
+                             # + 3 / rain # bad weather results in lower satisfaction score (heat and rain)
+                             # + 4 * ride_quality # better ride quality results in higher satisfaction score
+                             + np.random.normal(-10, 15) # we introduce noise into the data
+                             )
     return satisfaction_score
-# Satisfaction score refers to the score for a single NODE, not the visitors.
 # but it should be based on the visitor!
 
 satisfaction_score_X = nodes[['name', 'crowd_level', 'affordability', 'cleanliness', 'capacity']]
@@ -197,6 +198,7 @@ satisfaction_score_importances = satisfaction_score_rf_model.feature_importances
 satisfaction_score_feature_importance = pd.DataFrame({'Feature': satisfaction_score_X_key_features,
                                                       'Importance': satisfaction_score_importances}
                                                      ).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
+
 plt.figure(figsize=(10, 5))
 sns.barplot(x='Importance', y='Feature', data = satisfaction_score_feature_importance, palette='viridis')
 plt.suptitle('Importance of each feature in determining Satisfaction Score', fontsize = 18)

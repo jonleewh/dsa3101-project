@@ -1,5 +1,3 @@
-# migrate this to SQL eventually
-
 import pandas as pd
 import os
 
