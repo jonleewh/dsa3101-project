@@ -8,7 +8,6 @@ facilities_df = pd.read_csv("../data/activity_counts_and_popularity_percentages.
 
 # for rides
 nodes_rides = nodes_df.loc[nodes_df["type"] == "Ride"]
-nodes_rides["index"] = "A"
 nodes_rides["cleanliness"] = 84
 df_rides = pd.merge(nodes_rides, facilities_df, left_on = 'index', right_on = 'letter', how='left')
 

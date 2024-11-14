@@ -68,11 +68,11 @@ nodes_data = [
      "crowd_level": 80, "actual_wait_time": 10},
 
     # New York
-    {"name": "Lights Camera Action Hosted by Steven Spielberg", "type": "Ride", "zone": "New York", "outdoor": 0,
+    {"name": "Lights Camera Action Hosted by Steven Spielberg", "type": "Ride", "zone": "New York", "outdoor": 0, "index": "I",
      "duration": 10, "capacity": 150, "expected_wait_time": 15, "popularity": 99,
      "crowd_level": 80, "actual_wait_time": 10},
 
-    {"name": "Sesame Street Spaghetti Space Chase", "type": "Ride", "zone": "New York", "outdoor": 0,
+    {"name": "Sesame Street Spaghetti Space Chase", "type": "Ride", "zone": "New York", "outdoor": 0, "index": "G",
      "duration": 10, "capacity": 20, "expected_wait_time": 10, "popularity": 99,
      "crowd_level": 80, "actual_wait_time": 5},
 
@@ -94,6 +94,7 @@ nodes_data = [
 
     # Sci-Fi City
     {"name": "TRANSFORMERS The Ride: The Ultimate 3D Battle", "type": "Ride", "zone": "Sci-Fi City", "outdoor": 0, "popularity": 99,
+     "index": "I",
      "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
     
@@ -101,15 +102,15 @@ nodes_data = [
      "capacity": 150, "expected_wait_time": 10, "staff": 3,
      "crowd_level": 80, "actual_wait_time": 10},
 
-    {"name": "Accelerator", "type": "Ride", "zone": "Sci-Fi City", "outdoor": 0, "popularity": 99,
+    {"name": "Accelerator", "type": "Ride", "zone": "Sci-Fi City", "outdoor": 0, "popularity": 99, "index": "K",
      "duration": 10, "capacity": 30, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
-    {"name": "Battlestar Galactica: HUMAN", "type": "Ride", "zone": "Sci-Fi City", "outdoor": 1, "popularity": 99,
+    {"name": "Battlestar Galactica: HUMAN", "type": "Ride", "zone": "Sci-Fi City", "outdoor": 1, "popularity": 99, "index": "A",
      "duration": 3, "capacity": 20, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
-    {"name": "Battlestar Galactica: CYLON", "type": "Ride", "zone": "Sci-Fi City", "outdoor": 1, "popularity": 99,
+    {"name": "Battlestar Galactica: CYLON", "type": "Ride", "zone": "Sci-Fi City", "outdoor": 1, "popularity": 99, "index": "A",
      "duration": 3, "capacity": 20, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
@@ -133,11 +134,11 @@ nodes_data = [
      "crowd_level": 80, "actual_wait_time": 10},
 
     # Ancient Egypt
-    {"name": "Revenge of the Mummy", "type": "Ride", "zone": "Ancient Egypt", "outdoor": 0, "popularity": 99,
+    {"name": "Revenge of the Mummy", "type": "Ride", "zone": "Ancient Egypt", "outdoor": 0, "popularity": 99, "index": "A",
      "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
-    {"name": "Treasure Hunters", "type": "Ride", "zone": "Ancient Egypt", "outdoor": 1, "popularity": 99,
+    {"name": "Treasure Hunters", "type": "Ride", "zone": "Ancient Egypt", "outdoor": 1, "popularity": 99, "index": "G",
      "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
@@ -161,15 +162,15 @@ nodes_data = [
      "crowd_level": 80, "actual_wait_time": 10},
     
     # The Lost World
-    {"name": "Jurassic Park Rapids Adventure", "type": "Ride", "zone": "The Lost World", "outdoor": 1, "popularity": 99,
+    {"name": "Jurassic Park Rapids Adventure", "type": "Ride", "zone": "The Lost World", "outdoor": 1, "popularity": 99, "index": "A",
      "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
-    {"name": "Dino Soarin'", "type": "Ride", "zone": "The Lost World", "outdoor": 1, "popularity": 99,
+    {"name": "Dino Soarin'", "type": "Ride", "zone": "The Lost World", "outdoor": 1, "popularity": 99, "index": "G",
      "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
-    {"name": "Canopy Flyer", "type": "Ride", "zone": "The Lost World", "outdoor": 1, "popularity": 99,
+    {"name": "Canopy Flyer", "type": "Ride", "zone": "The Lost World", "outdoor": 1, "popularity": 99, "index": "A",
      "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
@@ -205,19 +206,19 @@ nodes_data = [
      "crowd_level": 80, "actual_wait_time": 10},
     
     # Far Far Away
-    {"name": "Puss In Boots Giant Journey", "type": "Ride", "zone": "Far Far Away", "outdoor": 1, "popularity": 99,
+    {"name": "Puss In Boots Giant Journey", "type": "Ride", "zone": "Far Far Away", "outdoor": 1, "popularity": 99, "index": "G",
      "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
-    {"name": "Magic Potion Spin", "type": "Ride", "zone": "Far Far Away", "outdoor": 0, "popularity": 99,
+    {"name": "Magic Potion Spin", "type": "Ride", "zone": "Far Far Away", "outdoor": 0, "popularity": 99, "index": "I",
      "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
-    {"name": "Shrek 4D Adventure", "type": "Ride", "zone": "Far Far Away", "outdoor": 0, "popularity": 99,
+    {"name": "Shrek 4D Adventure", "type": "Ride", "zone": "Far Far Away", "outdoor": 0, "popularity": 99, "index": "I",
      "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
-    {"name": "Enchanted Airways", "type": "Ride", "zone": "Far Far Away", "outdoor": 1, "popularity": 99,
+    {"name": "Enchanted Airways", "type": "Ride", "zone": "Far Far Away", "outdoor": 1, "popularity": 99, "index": "A",
      "duration": 10, "capacity": 40, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 

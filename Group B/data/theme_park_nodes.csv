@@ -1,18 +1,18 @@
 name,type,outdoor,zone,capacity,duration,popularity,timeslots,crowd_level,cleanliness,affordability,actual_wait_time,expected_wait_time,staff,index,count,percentage
-Lights Camera Action Hosted by Steven Spielberg,Ride,0,New York,150.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,A,83.0,52.86624203821656
-Sesame Street Spaghetti Space Chase,Ride,0,New York,20.0,10.0,99.0,,80.0,84.0,,5.0,10.0,,A,83.0,52.86624203821656
-TRANSFORMERS The Ride: The Ultimate 3D Battle,Ride,0,Sci-Fi City,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,A,83.0,52.86624203821656
-Accelerator,Ride,0,Sci-Fi City,30.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,A,83.0,52.86624203821656
+Lights Camera Action Hosted by Steven Spielberg,Ride,0,New York,150.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,I,14.0,8.9171974522293
+Sesame Street Spaghetti Space Chase,Ride,0,New York,20.0,10.0,99.0,,80.0,84.0,,5.0,10.0,,G,8.0,5.095541401273885
+TRANSFORMERS The Ride: The Ultimate 3D Battle,Ride,0,Sci-Fi City,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,I,14.0,8.9171974522293
+Accelerator,Ride,0,Sci-Fi City,30.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,K,2.0,1.2738853503184713
 Battlestar Galactica: HUMAN,Ride,1,Sci-Fi City,20.0,3.0,99.0,,80.0,84.0,,10.0,15.0,,A,83.0,52.86624203821656
 Battlestar Galactica: CYLON,Ride,1,Sci-Fi City,20.0,3.0,99.0,,80.0,84.0,,10.0,15.0,,A,83.0,52.86624203821656
 Revenge of the Mummy,Ride,0,Ancient Egypt,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,A,83.0,52.86624203821656
-Treasure Hunters,Ride,1,Ancient Egypt,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,A,83.0,52.86624203821656
+Treasure Hunters,Ride,1,Ancient Egypt,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,G,8.0,5.095541401273885
 Jurassic Park Rapids Adventure,Ride,1,The Lost World,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,A,83.0,52.86624203821656
-Dino Soarin',Ride,1,The Lost World,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,A,83.0,52.86624203821656
+Dino Soarin',Ride,1,The Lost World,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,G,8.0,5.095541401273885
 Canopy Flyer,Ride,1,The Lost World,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,A,83.0,52.86624203821656
-Puss In Boots Giant Journey,Ride,1,Far Far Away,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,A,83.0,52.86624203821656
-Magic Potion Spin,Ride,0,Far Far Away,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,A,83.0,52.86624203821656
-Shrek 4D Adventure,Ride,0,Far Far Away,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,A,83.0,52.86624203821656
+Puss In Boots Giant Journey,Ride,1,Far Far Away,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,G,8.0,5.095541401273885
+Magic Potion Spin,Ride,0,Far Far Away,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,I,14.0,8.9171974522293
+Shrek 4D Adventure,Ride,0,Far Far Away,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,I,14.0,8.9171974522293
 Enchanted Airways,Ride,1,Far Far Away,40.0,10.0,99.0,,80.0,84.0,,10.0,15.0,,A,83.0,52.86624203821656
 Mel's Mixtape,Seasonal,1,Hollywood,999.0,20.0,80.0,"10:35, 13:00, 15:00, 17:55",60.0,84.0,,,,,J,43.0,27.38853503184713
 "Margo, Edith and Agnes Meet-and-Greet",Seasonal,1,Hollywood,999.0,5.0,80.0,"10:05, 11:55, 13:55, 15:55, 17:25",60.0,84.0,,,,,J,43.0,27.38853503184713
