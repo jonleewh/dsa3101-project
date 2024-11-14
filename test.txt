@@ -1,4 +1,0 @@
-Note on facilities_informaiton.csv:
-the indices are based on what is presented in the survey. additional index list below:
-J, Sightseeing : also used for parade and mascot (not in survey)
-L: seasonal attractions
