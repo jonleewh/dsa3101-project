@@ -73,7 +73,7 @@ class Visitor:
             print(f"{self} has no next location to move towards.")
             return  # Exit early if no next location
 
-        matching_rows = paths_df[(paths_df['source'] == self.current_location) & (paths_df['target'] == self.next_location)]
+        matching_rows = self.paths_df[(self.paths_df['source'] == self.current_location) & (self.paths_df['target'] == self.next_location)]
         if not matching_rows.empty:
             self.count_down = matching_rows['distance'].iloc[0]
             self.status = "moving"
