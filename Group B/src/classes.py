@@ -294,7 +294,7 @@ class Seasonal: # Including shows, rides, has fixed timing
                        'regular_queue':len(self.regular_queue)}
         curr_wait_time = {'fast_pass_queue':math.floor(crowd_level['fast_pass_queue']/self.ride_capacity)*self.ride_duration, 
                           'regular_queue':math.floor(crowd_level['regular_queue']/self.ride_capacity)*self.ride_duration}
-        return self.current_time, crowd_level #, curr_wait_time
+        return self.current_time, crowd_level, curr_wait_time
 
 ########################################################################################################################
 
