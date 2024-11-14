@@ -2,7 +2,7 @@ import papermill as pm
 import os
 
 # This ensures that executive.py runs from the /src directory
-os.chdir('/Users/tran/Documents/GitHub/dsa3101-project/Group B/src/')
+os.chdir('Group B/src/')
 
 
 # Folder path where the CSV files are located

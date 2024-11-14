@@ -6,6 +6,7 @@ import plotly.graph_objects as go
 import plotly.io as pio
 import webbrowser
 import os
+from PIL import Image
 
 np.random.seed(2024)
 os.chdir('Group B/src')
@@ -147,6 +148,7 @@ pos_nodes = {
     "Friar's Good Food": (4.1, 7.6),
     "Goldilocks": (4.2, 7.2),
     "Fairy Godmother's Potion Shop": (2.8, 7),
+    "Entrance": (5, 0)
 }
 
 edge_x = []

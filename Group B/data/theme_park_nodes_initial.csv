@@ -1,5 +1,5 @@
 name,type,outdoor,zone,duration,popularity,timeslots,crowd_level,cleanliness,affordability,capacity,actual_wait_time,expected_wait_time,staff
-Entrance,Entrance,1,,0,,,,,,,,,
+Entrance,Entrance,1,,,,,,,,,,,
 Mel's Mixtape,Seasonal,1,Hollywood,20.0,80.0,"10:35, 13:00, 15:00, 17:55",60.0,,,,,,
 "Margo, Edith and Agnes Meet-and-Greet",Seasonal,1,Hollywood,5.0,80.0,"10:05, 11:55, 13:55, 15:55, 17:25",60.0,,,,,,
 Illuminations Minion Monsters,Seasonal,1,Hollywood,5.0,80.0,"10:15, 12:25, 14:05, 15:50",60.0,,,,,,

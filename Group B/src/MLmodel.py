@@ -84,32 +84,25 @@ nodes["popularity"] = (nodes["popularity"] - nodes["popularity"].min()) / (nodes
 nodes["staff"] = (nodes["staff"] - nodes["staff"].min()) / (nodes["staff"].max() - nodes["staff"].min())
 nodes["duration"] = (nodes["duration"] - nodes["duration"].min()) / (nodes["duration"].max() - nodes["duration"].min())
 
-def waiting_time(duration, crowd_level, capacity, staff, popularity, outdoor):
+def waiting_time(type, duration, crowd_level, capacity, staff, popularity, outdoor): # calculate expected waiting time for a ride.
     """
-    Calculate the expected waiting time for a ride.
-
     Parameters:
     - duration: Duration of the ride (in minutes).
     - crowd_level: Number of people currently in the queue.
     - capacity: Capacity of the attraction (people per cycle).
-    - staff: Number of staff working at the attraction.
+    - staff: Number of staff available (for F&B and retail).
     - popularity: Popularity of the attraction.
     - outdoor: Whether the attraction is outdoor (influenced by weather).
-    - time_of_day: Current time of day (e.g., morning, afternoon, evening).
-    - ride_type: Type of ride (e.g., thrill, family-friendly).
     
-    Returns:
-    - Expected waiting time in minutes.
+    Return expected waiting time in minutes.
     """
-    waiting_time = (crowd_level / (capacity + 1) * duration +
-                    0.5 / (staff + 1) +
-                    0.8 * popularity + 
-                    0.5 * outdoor +
-                    np.random.normal(-5, 15) # we introduce noise into the data
-                    )
+    if type == 'Retail' or type == 'Food Cart' or type == "Dining Outlet":
+        waiting_time = crowd_level / (capacity + 1) * duration + np.random.normal(-5, 15) # we introduce noise into the data
+    else:
+        waiting_time = crowd_level / (capacity + 1) * duration + np.random.normal(-5, 15) # we introduce noise into the data
     return waiting_time
 
-wait_time_X = nodes[['name', 'duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']]
+wait_time_X = nodes[['name', 'type', 'duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']]
 wait_time_key_X_features = ['duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']
 wait_time_y_synthetic = pd.DataFrame() # generate wait times based on X
 for entry in wait_time_X.itertuples():
