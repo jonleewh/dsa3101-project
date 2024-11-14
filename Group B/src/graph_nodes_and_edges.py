@@ -24,10 +24,10 @@ nodes_data = [
     {"name": "Restroom 1", "type": "Restroom", "zone": "Hollywood", "outdoor": 0,
      "cleanliness": 78},
 
-    {"name": "Starbucks", "type": "Dining Outlet", "zone": "Hollywood", "outdoor": 1, "popularity": 99,
+    {"name": "Starbucks", "type": "Dining Outlet", "zone": "Hollywood", "outdoor": 0, "popularity": 99,
      "affordability": 42.4, "capacity": 150, "crowd_level": 80, "actual_wait_time": 100},
 
-    {"name": "Mel's Drive-In", "type": "Dining Outlet", "zone": "Hollywood", "outdoor": 1, "popularity": 99,
+    {"name": "Mel's Drive-In", "type": "Dining Outlet", "zone": "Hollywood", "outdoor": 0, "popularity": 99,
      "affordability": 42.4, "capacity": 150, "expected_wait_time": 20, "staff": 12,
      "crowd_level": 80, "actual_wait_time": 30},
 

@@ -84,9 +84,10 @@ nodes["popularity"] = (nodes["popularity"] - nodes["popularity"].min()) / (nodes
 nodes["staff"] = (nodes["staff"] - nodes["staff"].min()) / (nodes["staff"].max() - nodes["staff"].min())
 nodes["duration"] = (nodes["duration"] - nodes["duration"].min()) / (nodes["duration"].max() - nodes["duration"].min())
 
-def waiting_time(type, duration, crowd_level, capacity, temperature, rain, staff, popularity, outdoor): # calculate expected waiting time for a ride.
+def waiting_time(type, duration, crowd_level, capacity, temperature, rain, staff, outdoor): # calculate expected waiting time for a ride.
     """
     Parameters:
+    - type: the type of the ride.
     - duration: Duration of the ride (in minutes).
     - crowd_level: Number of people currently in the queue.
     - capacity: Capacity of the attraction (people per cycle).
@@ -96,10 +97,30 @@ def waiting_time(type, duration, crowd_level, capacity, temperature, rain, staff
     
     Return expected waiting time in minutes.
     """
-    if type == 'Retail' or type == 'Food Cart' or type == "Dining Outlet":
-        waiting_time = crowd_level / (capacity + 1) * duration + np.random.normal(-5, 15) # we introduce noise into the data
-    else:
-        waiting_time = crowd_level / (capacity + 1) * duration + np.random.normal(-5, 15) # we introduce noise into the data
+    if type == 'Food Cart': # assumed to be outdoors
+        if rain == 1:
+            waiting_time = 0 # because there will be no customers who will be out buying F&B from the food carts
+        else:
+            waiting_time = min(0,
+                               crowd_level / (capacity + 1) * duration
+                               + 10 / staff
+                               + np.random.normal(-1, 5))
+    
+    elif type == 'Retail' or type == "Dining Outlet": # assumed to be indoors
+        waiting_time = min(0, 
+                           crowd_level / (capacity + 1) * duration
+                           + 10 / staff
+                           + 15 * rain # if it is raining, we assume an additional 15 minutes of waiting time added
+                           + np.random.normal(-5, 15)) # we introduce noise into the data
+    
+    else: # for rides, we assume that there will be sufficient staff to operate the rides
+        if rain == 1 and outdoor == 1:
+            waiting_time = 0
+        else:
+            waiting_time = min(0,
+                               crowd_level / (capacity + 1) * duration
+                               + 15 * rain # if it is raining, we assume an additional 15 minutes of waiting time added
+                               + np.random.normal(-5, 15)) # we introduce noise into the data
     return waiting_time
 
 wait_time_X = nodes[['name', 'type', 'duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']]
