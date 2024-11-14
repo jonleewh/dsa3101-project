@@ -22,7 +22,7 @@ nodes_data = [
      "crowd_level": 60},
 
     {"name": "Restroom 1", "type": "Restroom", "zone": "Hollywood", "outdoor": 0,
-     "cleanliness": 84},
+     "cleanliness": 78},
 
     {"name": "Starbucks", "type": "Dining Outlet", "zone": "Hollywood", "outdoor": 1, "popularity": 99,
      "affordability": 42.4, "capacity": 150, "crowd_level": 80, "actual_wait_time": 100},
@@ -82,7 +82,7 @@ nodes_data = [
      "crowd_level": 60},
 
     {"name": "Restroom 2", "type": "Restroom", "zone": "New York", "outdoor": 0,
-     "cleanliness": 84},
+     "cleanliness": 78},
 
     {"name": "Loui's NY Pizza Parlor", "type": "Dining Outlet", "zone": "New York", "outdoor": 0, "popularity": 99,
      "affordability": 42.4, "capacity": 150, "expected_wait_time": 20, "staff": 12,
@@ -106,15 +106,15 @@ nodes_data = [
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Battlestar Galactica: HUMAN", "type": "Ride", "zone": "Sci-Fi City", "outdoor": 1, "popularity": 99,
-     "duration": 3, "capacity": 20, "expected_wait_time": 15, "staff": 8,
+     "duration": 3, "capacity": 20, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Battlestar Galactica: CYLON", "type": "Ride", "zone": "Sci-Fi City", "outdoor": 1, "popularity": 99,
-     "duration": 3, "capacity": 20, "expected_wait_time": 15, "staff": 8,
+     "duration": 3, "capacity": 20, "expected_wait_time": 15,
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Restroom 3", "type": "Restroom", "zone": "Sci-Fi City", "outdoor": 0,
-     "cleanliness": 84},
+     "cleanliness": 78},
 
     {"name": "StarBot Cafe", "type": "Dining Outlet", "zone": "Sci-Fi City", "outdoor": 0, "popularity": 99,
      "affordability": 42.4, "capacity": 150, "expected_wait_time": 20, "staff": 12,
@@ -142,7 +142,7 @@ nodes_data = [
      "crowd_level": 80, "actual_wait_time": 10},
 
     {"name": "Restroom 4", "type": "Restroom", "zone": "Ancient Egypt", "outdoor": 0,
-     "cleanliness": 84},
+     "cleanliness": 78},
 
     {"name": "Oasis Spice Cafe", "type": "Dining Outlet", "zone": "Ancient Egypt", "outdoor": 0, "popularity": 99,
      "affordability": 42.4, "capacity": 150, "expected_wait_time": 20, "staff": 12,
@@ -179,10 +179,10 @@ nodes_data = [
      "crowd_level": 60},
 
     {"name": "Restroom 5", "type": "Restroom", "zone": "The Lost World", "outdoor": 0,
-     "cleanliness": 84},
+     "cleanliness": 78},
 
     {"name": "Restroom 6", "type": "Restroom", "zone": "The Lost World", "outdoor": 0,
-     "cleanliness": 84},
+     "cleanliness": 78},
 
     {"name": "Discovery Food Court", "type": "Dining Outlet", "zone": "The Lost World", "outdoor": 0, "popularity": 99,
      "affordability": 42.4, "capacity": 150, "expected_wait_time": 20,
@@ -231,7 +231,7 @@ nodes_data = [
      "crowd_level": 60},
 
     {"name": "Restroom 7", "type": "Restroom", "zone": "Far Far Away", "outdoor": 0,
-     "cleanliness": 84},
+     "cleanliness": 78},
 
     {"name": "Friar's Good Food", "type": "Dining Outlet", "zone": "Far Far Away", "outdoor": 0, "popularity": 99,
      "affordability": 42.4, "capacity": 150, "expected_wait_time": 20,
