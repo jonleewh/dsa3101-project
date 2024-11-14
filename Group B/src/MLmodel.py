@@ -10,21 +10,135 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 import os
+import glob
+import sqlite3
 
 np.random.seed(2024)
 os.chdir('Group B/src')
 
-############################################
-## Read in Nodes Data + Data Manipulation ##
-############################################
+################################################################
+## Read in Nodes & Weather Data + Data Manipulation using SQL ##
+################################################################
 nodes = pd.read_csv('../data/theme_park_nodes.csv')
 nodes.fillna(0, inplace=True)
-columns_to_convert = ["duration", "crowd_level", "cleanliness", "affordability", "capacity",
-                      "actual_wait_time", "expected_wait_time", "staff"]
+nodes.drop(["actual_wait_time", "expected_wait_time", "crowd_level"], axis=1, inplace = True)
+columns_to_convert = ["duration", "cleanliness", "affordability", "capacity", "staff"]
 for column in columns_to_convert:
     nodes[column] = pd.to_numeric(nodes[column], errors='coerce')
-edges = pd.read_csv('../data/theme_park_edges.csv')
 
+weather_data = pd.read_csv('../data/weather_data_hour.csv')
+weather_data["type_of_day"] = weather_data["type_of_day"].fillna(0).astype(int) # remove the fillNA when Inez provides the updated data
+
+####################################
+## Read in Simulation Output Data ##
+####################################
+
+# Get a list of all CSV files in a directory
+simulation_output_both_holiday = glob.glob('../data/simulation_output_both_holiday/*.csv')
+simulation_output_public_holiday = glob.glob('../data/simulation_output_public_holiday/*.csv')
+simulation_output_school_holiday = glob.glob('../data/simulation_output_school_holiday/*.csv')
+simulation_output_weekday_non_holiday = glob.glob('../data/simulation_output_weekday_non_holiday/*.csv')
+simulation_output_weekend_non_holiday = glob.glob('../data/simulation_output_weekend_non_holiday/*.csv')
+
+# Create an empty dataframe to store the combined data
+combined_df_both_holiday = pd.DataFrame()
+combined_df_public_holiday = pd.DataFrame()
+combined_df_school_holiday = pd.DataFrame()
+combined_df_weekday_non_holiday = pd.DataFrame()
+combined_df_weekend_non_holiday = pd.DataFrame()
+
+# Loop through each CSV file and append its contents to the combined dataframe
+for csv_file in simulation_output_both_holiday:
+    df = pd.read_csv(csv_file)
+    df.drop(columns = ["fast_pass_waiting_time", "regular_waiting_time"], inplace=True)
+    df["attraction"] = csv_file.replace("../data/simulation_output_both_holiday/", "").replace("_df.csv", "")
+    df = df[['attraction'] + [col for col in df.columns if col != 'attraction']]
+    df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
+    df['type_of_day'] = 1
+    combined_df_both_holiday = pd.concat([combined_df_both_holiday, df])
+
+
+## Changing this to SQL because it takes WAY TOO LONG to join the data in python!
+## combined_df_both_holiday is more than 1GB!!!
+
+# Connect to an SQLite database
+conn1 = sqlite3.connect("combined_df_both_holiday.db")
+conn2 = sqlite3.connect("theme_park_nodes.db")
+combined_df_both_holiday.to_sql("combined_df_both_holiday", conn1, if_exists="replace", index=False)
+nodes.to_sql("theme_park_nodes", conn2, if_exists="replace", index=False)
+
+# Verify by querying the first few rows
+cursor1 = conn1.cursor()  # Cursor for combined_df_both_holiday.db
+cursor2 = conn2.cursor()  # Cursor for theme_park_nodes.db
+cursor1.execute()
+"""
+CREATE TABLE combined_with_nodes AS
+SELECT c.*, n.*  -- Select all columns from combined_df_both_holiday and nodes
+FROM combined_df_both_holiday c
+LEFT JOIN nodes n
+ON c.attraction = n.name;
+
+PRAGMA foreign_keys=off;  -- Disable foreign key constraints temporarily
+CREATE TABLE combined_with_nodes_final AS
+SELECT * FROM combined_with_nodes;
+PRAGMA foreign_keys=on;  -- Re-enable foreign key constraints
+"""
+
+cursor.execute("SELECT * FROM combined_df_both_holiday LIMIT 5")
+rows = cursor.fetchall()
+print(rows)
+
+# Close the connection when done
+conn.close()
+
+combined_df_both_holiday = pd.merge(combined_df_both_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
+combined_df_both_holiday = pd.merge(weather_data, combined_df_both_holiday, on = 'type_of_day', how='left')
+combined_df_both_holiday.to_csv("combined_df_both_holiday.csv")
+
+for csv_file in simulation_output_public_holiday:
+    df = pd.read_csv(csv_file)
+    df.drop(columns = ["fast_pass_waiting_time", "regular_waiting_time"], inplace=True)
+    df["attraction"] = csv_file.replace("../data/simulation_output_public_holiday/", "").replace("_df.csv", "")
+    df = df[['attraction'] + [col for col in df.columns if col != 'attraction']]
+    df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
+    df['type_of_day'] = 2
+    combined_df_public_holiday = pd.concat([combined_df_public_holiday, df])
+combined_df_public_holiday = pd.merge(combined_df_public_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
+
+for csv_file in simulation_output_school_holiday:
+    df = pd.read_csv(csv_file)
+    df.drop(columns = ["fast_pass_waiting_time", "regular_waiting_time"], inplace=True)
+    df["attraction"] = csv_file.replace("../data/simulation_output_school_holiday/", "").replace("_df.csv", "")
+    df = df[['attraction'] + [col for col in df.columns if col != 'attraction']]
+    df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
+    df['type_of_day'] = 3
+    combined_df_school_holiday = pd.concat([combined_df_school_holiday, df])
+combined_df_school_holiday = pd.merge(combined_df_school_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
+
+for csv_file in simulation_output_weekday_non_holiday:
+    df = pd.read_csv(csv_file)
+    df.drop(columns = ["fast_pass_waiting_time", "regular_waiting_time"], inplace=True)
+    df["attraction"] = csv_file.replace("../data/simulation_output_weekday_non_holiday/", "").replace("_df.csv", "")
+    df = df[['attraction'] + [col for col in df.columns if col != 'attraction']]
+    df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
+    df['type_of_day'] = 4
+    combined_df_weekday_non_holiday = pd.concat([combined_df_weekday_non_holiday, df])
+combined_df_weekday_non_holiday = pd.merge(combined_df_weekday_non_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
+
+for csv_file in simulation_output_weekend_non_holiday:
+    df = pd.read_csv(csv_file)
+    df.drop(columns = ["fast_pass_waiting_time", "regular_waiting_time"], inplace=True)
+    df["attraction"] = csv_file.replace("../data/simulation_output_weekend_non_holiday/", "").replace("_df.csv", "")
+    df = df[['attraction'] + [col for col in df.columns if col != 'attraction']]
+    df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
+    df['type_of_day'] = 5
+    combined_df_weekend_non_holiday = pd.concat([combined_df_weekend_non_holiday, df])
+combined_df_weekend_non_holiday = pd.merge(combined_df_weekend_non_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
+
+combined_dfs = [combined_df_both_holiday, combined_df_public_holiday, combined_df_school_holiday,
+               combined_df_weekday_non_holiday, combined_df_weekend_non_holiday]
+for combined_df in combined_dfs:
+    print(combined_df)
 
 """
 for every visitor, we need to know, what attraction types do they prefer and have to visit?
@@ -118,7 +232,9 @@ def waiting_time(type, duration, crowd_level, capacity, temperature, rain, staff
                                )
     return waiting_time
 
-wait_time_X = nodes[['name', 'type', 'duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']]
+
+for combined_df in combined_dfs:
+    wait_time_X = combined_df[['attraction', 'type', 'duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']]
 wait_time_key_X_features = ['duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']
 wait_time_y_synthetic = pd.DataFrame() # generate wait times based on X
 for entry in wait_time_X.itertuples():
@@ -185,6 +301,12 @@ def satisfaction_score(crowd_level, affordability, cleanliness, capacity, actual
                                 )
     return satisfaction_score
 
+ # split this into the 5 different types of days:
+ # weekday and non-holiday
+ # weekend and non-holiday
+ # school holiday
+ # public holiday
+ # both school and public holiday
 satisfaction_score_X = nodes[['name', 'crowd_level', 'affordability', 'cleanliness', 'capacity']]
 satisfaction_score_X_key_features = ['crowd_level', 'affordability', 'cleanliness', 'capacity']
 satisfaction_score_y = pd.DataFrame() # generate satisfaction scores based on X
@@ -236,6 +358,7 @@ mean_cleanliness = satisfaction_score_X['cleanliness'].mean()
 mean_capacity = satisfaction_score_X['capacity'].mean()
 
 # Initialize lists to store satisfaction scores for each feature
+# for weekdays and non-holidays
 satisfaction_scores_crowd = []
 satisfaction_scores_affordability = []
 satisfaction_scores_cleanliness = []
@@ -268,8 +391,10 @@ plt.figure(figsize=(10, 10))
 
 # Plot for crowd_level
 plt.subplot(2, 2, 1)
+# for all the graphs, have multiple lines that shows the percentage changes for each type of day
 plt.plot(percentage_changes * 100, satisfaction_scores_crowd, label='Crowd Level', color='blue')
-plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness,mean_capacity), color='gray', linestyle='--', label='Baseline Score')
+plt.axhline(y = satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness, mean_capacity),
+            color = 'gray', linestyle = '--', label = 'Baseline Score')
 plt.xlabel('% Change in Crowd Level')
 plt.ylabel('Satisfaction Score')
 plt.title('Effect of Crowd Level on Satisfaction Score')
@@ -279,7 +404,8 @@ plt.ylim(0, 60)
 # Plot for affordability
 plt.subplot(2, 2, 2)
 plt.plot(percentage_changes * 100, satisfaction_scores_affordability, label='Affordability', color='green')
-plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness,mean_capacity), color='gray', linestyle='--', label='Baseline Score')
+plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness, mean_capacity),
+            color='gray', linestyle='--', label='Baseline Score')
 plt.xlabel('% Change in Affordability')
 plt.ylabel('Satisfaction Score')
 plt.title('Effect of Affordability on Satisfaction Score')
