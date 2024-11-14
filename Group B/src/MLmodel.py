@@ -84,7 +84,7 @@ nodes["popularity"] = (nodes["popularity"] - nodes["popularity"].min()) / (nodes
 nodes["staff"] = (nodes["staff"] - nodes["staff"].min()) / (nodes["staff"].max() - nodes["staff"].min())
 nodes["duration"] = (nodes["duration"] - nodes["duration"].min()) / (nodes["duration"].max() - nodes["duration"].min())
 
-def waiting_time(type, duration, crowd_level, capacity, staff, popularity, outdoor): # calculate expected waiting time for a ride.
+def waiting_time(type, duration, crowd_level, capacity, temperature, rain, staff, popularity, outdoor): # calculate expected waiting time for a ride.
     """
     Parameters:
     - duration: Duration of the ride (in minutes).
