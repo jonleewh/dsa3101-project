@@ -1,15 +1,20 @@
 import papermill as pm
 import os
 
+import os
+print("Current working directory:", os.getcwd())
+
+
+
 # Folder path where the CSV files are located
-folder_path = '../data/spawning csv files'  
+folder_path_auto_run = 'Group B/data/spawning csv files'  
 
 # List all CSV files in the folder
-csv_files = [f for f in os.listdir(folder_path) if f.endswith('.csv')]
+csv_files = [f for f in os.listdir(folder_path_auto_run) if f.endswith('.csv')]
 
 # Loop through each file and run the notebook with that CSV file
 for file_name in csv_files:
-    file_path = os.path.join(folder_path, file_name)
+    file_path = os.path.join(folder_path_auto_run, file_name)
     
     # Define the output notebook file name (you can append the file name for uniqueness)
     output_notebook = f"output_{file_name.replace('.csv', '')}.ipynb"
