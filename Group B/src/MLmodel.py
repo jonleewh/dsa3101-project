@@ -78,12 +78,6 @@ If any variable is particularly important, how to improve the model?
 ######################################
 
 # normalise data
-nodes["capacity"] = (nodes["capacity"] - nodes["capacity"].min()) / (nodes["capacity"].max() - nodes["capacity"].min())
-nodes["crowd_level"] = (nodes["crowd_level"] - nodes["crowd_level"].min()) / (nodes["crowd_level"].max() - nodes["crowd_level"].min())
-nodes["popularity"] = (nodes["popularity"] - nodes["popularity"].min()) / (nodes["popularity"].max() - nodes["popularity"].min())
-nodes["staff"] = (nodes["staff"] - nodes["staff"].min()) / (nodes["staff"].max() - nodes["staff"].min())
-nodes["duration"] = (nodes["duration"] - nodes["duration"].min()) / (nodes["duration"].max() - nodes["duration"].min())
-
 def waiting_time(type, duration, crowd_level, capacity, temperature, rain, staff, outdoor): # calculate expected waiting time for a ride.
     """
     Parameters:
@@ -158,6 +152,8 @@ wait_time_ml_model.fit(wait_time_X_importance, wait_time_y_synthetic)
 ## Calculating Satisfaction Score ##
 ####################################
 # Arguments are the properties of the node. Can put in the object
+nodes["popularity"] = (nodes["popularity"] - nodes["popularity"].min()) / (nodes["popularity"].max() - nodes["popularity"].min())
+nodes["staff"] = (nodes["staff"] - nodes["staff"].min()) / (nodes["staff"].max() - nodes["staff"].min())
 nodes["affordability"] = (nodes["affordability"] - nodes["affordability"].min()) / (nodes["affordability"].max() - nodes["affordability"].min())
 nodes["cleanliness"] = (nodes["cleanliness"] - nodes["cleanliness"].min()) / (nodes["cleanliness"].max() - nodes["cleanliness"].min())
 
@@ -166,7 +162,7 @@ nodes["cleanliness"] = (nodes["cleanliness"] - nodes["cleanliness"].min()) / (no
 # link to popularity
 def satisfaction_score(crowd_level, affordability, cleanliness, capacity):
     # Using a logarithmic transformation for diminishing returns
-    satisfaction_score_lr = (
+    satisfaction_score_lr = (50
         - 5 * crowd_level # higher crowd level results in lower satisfaction score
         + 4 * affordability # more affordable items results in higher satisfaction score
         + 2 * cleanliness # better cleanliness results in higher satisfaction score
