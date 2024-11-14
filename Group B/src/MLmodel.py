@@ -114,7 +114,8 @@ def waiting_time(type, duration, crowd_level, capacity, temperature, rain, staff
             waiting_time = min(0,
                                crowd_level / (capacity + 1) * duration
                                + 15 * rain # if it is raining, we assume an additional 15 minutes of waiting time added
-                               + np.random.normal(-5, 15)) # we introduce noise into the data
+                               + np.random.normal(-5, 15) # we introduce noise into the data
+                               )
     return waiting_time
 
 wait_time_X = nodes[['name', 'type', 'duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']]
@@ -161,23 +162,28 @@ nodes["cleanliness"] = (nodes["cleanliness"] - nodes["cleanliness"].min()) / (no
 # Satisfaction score refers to the score for a single NODE, not the visitors.
 # Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
 # link to popularity
-def satisfaction_score(crowd_level, affordability, cleanliness, capacity, temperature, wait_time):
+def satisfaction_score(crowd_level, affordability, cleanliness, capacity, actual_wait_time, temperature, rain, ride_quality):
     # Using a logarithmic transformation for diminishing returns
     # we input a first guess of the coefficients here first
-    satisfaction_score_lr = (50
-                             - 5 * crowd_level # higher crowd level results in lower satisfaction score
-                             + 4 * affordability # more affordable items results in higher satisfaction score
-                             + 2 * cleanliness # better cleanliness results in higher satisfaction score
-                             + 2 * capacity # higher capacity results in higher satisfaction score
-                             # + 5 / actual_wait_time # longer wait time results in lower satisfaction score
-                             # - 5 * temperature # bad weather results in lower satisfaction score (heat and rain)
-                             # for temperature, try to normalise the values where 30 degrees is zero, anything above has positive value, anything below has negative value
-                             # + 3 / rain # bad weather results in lower satisfaction score (heat and rain)
-                             # + 4 * ride_quality # better ride quality results in higher satisfaction score
-                             + np.random.normal(-10, 15) # we introduce noise into the data
-                             )
+    # score is between 0 and 100, but we assume that there are no extremes.
+    # it is impossible for a customer to be 100% satisfied or 100% dissatisfied.
+    satisfaction_score_lr = max(5,
+                                min(95,
+                                    (50 # average satisfaction score
+                                     - 5 * crowd_level # higher crowd level results in lower satisfaction score
+                                     + 4 * affordability # more affordable items results in higher satisfaction score
+                                     + 2 * cleanliness # better cleanliness results in higher satisfaction score
+                                     + 2 * capacity # higher capacity results in higher satisfaction score
+                                     - 5 * actual_wait_time # longer wait time results in lower satisfaction score
+                                     - 5 * temperature # higher temperatures results in lower satisfaction score
+                                     # for temperature, try to normalise the values where 30 degrees is zero, anything above has positive value, anything below has negative value
+                                     - 5 * rain # rain results in lower satisfaction score
+                                     + 4 * ride_quality # better ride quality results in higher satisfaction score
+                                     + np.random.normal(-10, 15) # we introduce noise into the data
+                                     )
+                                    )
+                                )
     return satisfaction_score
-# but it should be based on the visitor!
 
 satisfaction_score_X = nodes[['name', 'crowd_level', 'affordability', 'cleanliness', 'capacity']]
 satisfaction_score_X_key_features = ['crowd_level', 'affordability', 'cleanliness', 'capacity']
