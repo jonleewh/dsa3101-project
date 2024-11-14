@@ -10,7 +10,7 @@ import random
 ########################################################################################################################
 
 class Visitor:
-    def __init__(self, id, itinerary, fast_pass: int, arrival_time):
+    def __init__(self, id, itinerary, fast_pass: int, arrival_time, attraction_generator_df):
         """
         :param id: a unique ID
         :param itinerary: a list of itinerary (where they will go, in sequence)
@@ -20,6 +20,7 @@ class Visitor:
         self.id = id
         self.fast_pass = fast_pass 
         self.itinerary = copy.deepcopy(itinerary) 
+        self.attraction_generator_df = attraction_generator_df
 
         self.current_time = arrival_time # First set to when they are 'spawned'
         self.current_location = "Entrance"
@@ -49,7 +50,7 @@ class Visitor:
         choice_index = self.itinerary.pop(0)
         print(f"The current choice index for {self} is {choice_index}.")
         
-        choices = attraction_generator_df[attraction_generator_df['index'] == choice_index]['name']
+        choices = self.attraction_generator_df[self.attraction_generator_df['index'] == choice_index]['name']
         if not choices.empty:
             options = random.choices(choices.tolist(),k=1) # random.choices() return a list
             if options:
@@ -388,14 +389,15 @@ class ThemePark:
     def add_seasonal(self, seasonal: Seasonal):
         self.seasonals.append(seasonal)
 
-    def spawn_visitor(self, time):
+    def spawn_visitor(self, time, attraction_generator_df):
         visitors = [] # List to store Visitor objects
         
         for _ in range(int(self.spawning_dict[time.strftime('%H:%M')])):
             new_visitor = Visitor(id= self.visitors_count, 
                                     itinerary=random.choice(self.all_possible_itineraries), 
                                     fast_pass=random.choices([0,1], weights=[0.8, 0.2],k=1)[0], # 20% of purchasing express pass
-                                    arrival_time=time)
+                                    arrival_time=time,
+                                    attraction_generator_df = attraction_generator_df)
             self.visitors_count += 1
             visitors.append(new_visitor)
         return visitors
