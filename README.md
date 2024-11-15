@@ -63,20 +63,35 @@ Process and normalize park layout data to build graph-based representations of p
   
 **dynamic_pricing_weather.ipynb**
 
-Satisfaction Score: A calculated score based on weather conditions (0–100) from daily_weather_data.csv.
+* Satisfaction Score: A calculated score based on weather conditions (0–100) from daily_weather_data.csv.
 
-Dynamic Price (SGD): Adjusted ticket price based on satisfaction score on weather.
+* Dynamic Price (SGD): Adjusted ticket price based on satisfaction score on weather.
 
-Possible Extra Revenue (SGD): Revenue generated from dynamic pricing adjustments.
+* Possible Extra Revenue (SGD): Revenue generated from dynamic pricing adjustments.
 
 ### Group B
 
 **daily_weather_data.csv**
 
-Rainfall (mm): Maximum rainfall in a window (mm).
+* Rainfall (mm): Maximum rainfall in a window (mm).
   
-Daily Rainfall Total (mm): Total rainfall for the day (mm).
+* Daily Rainfall Total (mm): Total rainfall for the day (mm).
   
-Mean Temperature (°C): Average temperature for the day (°C).
+* Mean Temperature (°C): Average temperature for the day (°C).
   
-Max Wind Speed (km/h): Maximum recorded wind speed for the day (km/h).
+* Max Wind Speed (km/h): Maximum recorded wind speed for the day (km/h).
+
+**theme_park_nodes.csv**
+* name: the name of the attraction in USS=
+* type: the type of attraction (e.g. ride, Dining Outlet, etc)
+* outdoor: whether the attraction is located outdoors
+* zone: the zone the attraction is in (e.g. Hollywood, Far Far Away, etc)
+* capacity: the capacity of the attraction (e.g. number of seats in the restaurant, number of seats on a ride, etc)
+* duration: the time taken to complete the attraction (e.g. time taken for rides)
+* popularity: the popularity of the attraction
+* timeslots: for seasonal attractions (e.g. meet and greets)
+* crowd_level: number of people in the queue
+* cleanliness: the cleanliness of the attraction/restroom
+* affordability: how affordable is the F&B or retail outlet
+* staff: the number of staff available (mainly for F&B and retail outlets)
+* index: the index of the attraction (matched with our survey)
