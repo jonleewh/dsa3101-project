@@ -136,53 +136,6 @@ combined_dfs = [combined_df_both_holiday, combined_df_public_holiday, combined_d
                combined_df_weekday_non_holiday, combined_df_weekend_non_holiday]
 
 
-"""
-for every visitor, we need to know, what attraction types do they prefer and have to visit?
-Have a "checklist" of what attraction types to visit
-maximise satisfaction and minimise wait time
-run through all possible paths that are present from jamie's csv file and change parameters (but cannot change waiting time)
-might have to come up with a ML model to change parameters (e.g. defining a range of values for each parameter)
-maximise satisfaction overall
-
-Other things we need to do:
-optimise guest flow and resource allocation (staff variable)
-seasonal variation (after Group A gives us the weather index, etc)
-"""
-
-"""
-2 ML models
-Y1 = average satisfaction score of ALL visitors passing through the ONE node (using a combination of the factors) --> apply Random Forest separately
-Y2 = average waiting time of ALL visitors passing through the ONE node (using another combination of the factors) --> apply Random Forest separately
-X1, X2, .... = factors
-
-# Factors that affect satisfaction score of a SINGLE node: [MAX]
-(focus on what factors we can change)
-Need to justify that we used survey data
-# crowd level -- we can't change this!!!
-menu variety
-cleanliness
-# accumulated waiting time -- we can't change this!!!
-# weather -- we can't change this!!!
-# ride quality (only for rides, whether you want to take the ride again) -- we can't change this!!! --> try to link to re-rideability from the survey
-
-Business Suggestions:
-*** All visitors benefit from an enhanced satisfaction score, itinerary doesn't really affect the satisfaction score?
-*** For allocation of resources, we put the resources from the low demand attraction and transfer them to the high demand attraction
-*** Depending on the most important factor
-*** How will this impact revenue? e.g. Cleanliness --> increase satisfaction --> revenue likely to increase (explain this in the wiki)
-
-# Factors that affect waiting time of a SINGLE node: [MIN]
-(focus on what factors we can change)
-ride duration
-crowd level -- higher priority for this
-staff
-weather (indirect factor) --> Need to code which node is indoor/outdoor!
-
-Supervised learning requires an output!
-Run ML to determine the most important factor
-If any variable is particularly important, how to improve the model?
-"""
-
 ######################################
 ## Calculating Actual Waiting Times ##
 ######################################
@@ -279,10 +232,7 @@ wait_time_ml_model.fit(wait_time_X_importance, wait_time_y_synthetic)
 ####################################
 ## Calculating Satisfaction Score ##
 ####################################
-# Calculate satisfaction/desirability score based on crowd level, wait time
 # Satisfaction score refers to the score for a single NODE, not the visitors.
-# Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
-# link to popularity
 def satisfaction_score(fast_pass_crowd_level, regular_crowd_level, affordability,
                        cleanliness, capacity, waiting_time, temperature, rain):
     # we input a first guess of the coefficients here first
@@ -351,21 +301,9 @@ satisfaction_score_X_importance = satisfaction_score_X_combined[satisfaction_sco
 satisfaction_score_ml_model = LinearRegression()
 satisfaction_score_ml_model.fit(satisfaction_score_X_importance, satisfaction_score_y_synthetic)
 
-
-
-# split this into the 5 different types of days:
-# weekday and non-holiday
-# weekend and non-holiday
-# school holiday
-# public holiday
-# both school and public holiday
-
-
 ########################
 ## Seasonal Variation ##
 ########################
-
-# Define the percentage change range from -50% to +50%
 percentage_changes = np.linspace(-0.75, 0.75, 100)
 
 # Get the mean values of each feature to use as the baseline
@@ -448,35 +386,3 @@ plt.ylim(0, 100)
 
 plt.tight_layout()
 plt.show()
-
-
-# for seasonal variations, try to use things like Halloween
-# an example is to have an increased percentage of staff
-# (e.g. increase staff by 20%, what's the change in satisfaction? Consider the costs of doing this also)
-# look at the DIFFERENCES in outcomes by increasing a variable by a certain percentage
-# make a graph of this for business suggestions
-# satisfaction score will never be 100 because some people will always have issues
-# we can just choose the parameters with higher importance
-# --> if we have 3 variables, we need to consider all possible combinations!? 3C1 + 3C2 + 3C3
-# tweak some parameters for the dynamic queue --> e.g. staff deployment
-
-# input: csv file
-# variables: to be decided
-
-
-"""
-let's import data from the csv file instead of hard coding it
-if the Ride doesn't exist in the csv file, keep it but
-- current columns in csv file: index, name of attraction, duration
-- add columns like usage, crowd level, cleanliness etc
-- cleanliness taken from the survey (justify this)
-- crowd level from dynamic queue
-- menu variety from survey
-"""
-
-"""
-Assumptions:
-Roads are not congested, although the ideal is to reduce congestion.
-Everyone walks at the same speed (this means that it takes the same time for anyone to get from point A to point B).
-
-"""

@@ -11,21 +11,6 @@ from PIL import Image
 np.random.seed(2024)
 os.chdir('Group B/src')
 
-"""
-# walkthrough: change parameters of nodes and edges so that the satisfactory score is maximised and time spent in total is minimised
-# constrained range of values
-# capacity and staff available at the venue
-# peak hours, special events, seasonal variations
-
-look at theme park as a whole and what's happening at any point in time
-generate each attraction's information every 5 minutes
-graph --> physical space
-dynamic queue --> time
-combine both --> cohesive picture of how the theme park looks over time
-separate the two graphs, have another graph where we can think of how to add/remove nodes
-and how to adjust parameters like duration, capacity, etc --> run ML iteration
-"""
-
 ############################################
 ## Read in Graph Data + Data Manipulation ##
 ############################################
