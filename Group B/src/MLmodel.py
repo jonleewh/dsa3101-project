@@ -26,8 +26,16 @@ columns_to_convert = ["duration", "cleanliness", "affordability", "capacity", "s
 for column in columns_to_convert:
     nodes[column] = pd.to_numeric(nodes[column], errors='coerce')
 
-weather_data = pd.read_csv('../data/weather_data_hour.csv')
-weather_data["type_of_day"] = weather_data["type_of_day"].fillna(0).astype(int) # remove the fillNA when Inez provides the updated data
+weather_data_hour_1 = pd.read_csv('../data/weather_data_hour_1.csv')
+weather_data_hour_2 = pd.read_csv('../data/weather_data_hour_2.csv')
+weather_data_hour_3 = pd.read_csv('../data/weather_data_hour_3.csv')
+weather_data_hour_4 = pd.read_csv('../data/weather_data_hour_4.csv')
+weather_data_hour_5 = pd.read_csv('../data/weather_data_hour_5.csv')
+weather_data_hour_1["type_of_day"] = weather_data_hour_1["type_of_day"].astype(int)
+weather_data_hour_2["type_of_day"] = weather_data_hour_2["type_of_day"].astype(int)
+weather_data_hour_3["type_of_day"] = weather_data_hour_3["type_of_day"].astype(int)
+weather_data_hour_4["type_of_day"] = weather_data_hour_4["type_of_day"].astype(int)
+weather_data_hour_5["type_of_day"] = weather_data_hour_5["type_of_day"].astype(int)
 
 ####################################
 ## Read in Simulation Output Data ##
@@ -57,44 +65,6 @@ for csv_file in simulation_output_both_holiday:
     df['type_of_day'] = 1
     combined_df_both_holiday = pd.concat([combined_df_both_holiday, df])
 
-
-## Changing this to SQL because it takes WAY TOO LONG to join the data in python!
-## combined_df_both_holiday is more than 1GB!!!
-
-# Connect to an SQLite database
-conn1 = sqlite3.connect("combined_df_both_holiday.db")
-conn2 = sqlite3.connect("theme_park_nodes.db")
-combined_df_both_holiday.to_sql("combined_df_both_holiday", conn1, if_exists="replace", index=False)
-nodes.to_sql("theme_park_nodes", conn2, if_exists="replace", index=False)
-
-# Verify by querying the first few rows
-cursor1 = conn1.cursor()  # Cursor for combined_df_both_holiday.db
-cursor2 = conn2.cursor()  # Cursor for theme_park_nodes.db
-cursor1.execute()
-"""
-CREATE TABLE combined_with_nodes AS
-SELECT c.*, n.*  -- Select all columns from combined_df_both_holiday and nodes
-FROM combined_df_both_holiday c
-LEFT JOIN nodes n
-ON c.attraction = n.name;
-
-PRAGMA foreign_keys=off;  -- Disable foreign key constraints temporarily
-CREATE TABLE combined_with_nodes_final AS
-SELECT * FROM combined_with_nodes;
-PRAGMA foreign_keys=on;  -- Re-enable foreign key constraints
-"""
-
-cursor.execute("SELECT * FROM combined_df_both_holiday LIMIT 5")
-rows = cursor.fetchall()
-print(rows)
-
-# Close the connection when done
-conn.close()
-
-combined_df_both_holiday = pd.merge(combined_df_both_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
-combined_df_both_holiday = pd.merge(weather_data, combined_df_both_holiday, on = 'type_of_day', how='left')
-combined_df_both_holiday.to_csv("combined_df_both_holiday.csv")
-
 for csv_file in simulation_output_public_holiday:
     df = pd.read_csv(csv_file)
     df.drop(columns = ["fast_pass_waiting_time", "regular_waiting_time"], inplace=True)
@@ -103,7 +73,6 @@ for csv_file in simulation_output_public_holiday:
     df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
     df['type_of_day'] = 2
     combined_df_public_holiday = pd.concat([combined_df_public_holiday, df])
-combined_df_public_holiday = pd.merge(combined_df_public_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
 
 for csv_file in simulation_output_school_holiday:
     df = pd.read_csv(csv_file)
@@ -113,7 +82,6 @@ for csv_file in simulation_output_school_holiday:
     df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
     df['type_of_day'] = 3
     combined_df_school_holiday = pd.concat([combined_df_school_holiday, df])
-combined_df_school_holiday = pd.merge(combined_df_school_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
 
 for csv_file in simulation_output_weekday_non_holiday:
     df = pd.read_csv(csv_file)
@@ -123,7 +91,6 @@ for csv_file in simulation_output_weekday_non_holiday:
     df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
     df['type_of_day'] = 4
     combined_df_weekday_non_holiday = pd.concat([combined_df_weekday_non_holiday, df])
-combined_df_weekday_non_holiday = pd.merge(combined_df_weekday_non_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
 
 for csv_file in simulation_output_weekend_non_holiday:
     df = pd.read_csv(csv_file)
@@ -133,12 +100,127 @@ for csv_file in simulation_output_weekend_non_holiday:
     df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
     df['type_of_day'] = 5
     combined_df_weekend_non_holiday = pd.concat([combined_df_weekend_non_holiday, df])
-combined_df_weekend_non_holiday = pd.merge(combined_df_weekend_non_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
 
 combined_dfs = [combined_df_both_holiday, combined_df_public_holiday, combined_df_school_holiday,
                combined_df_weekday_non_holiday, combined_df_weekend_non_holiday]
-for combined_df in combined_dfs:
-    print(combined_df)
+
+combined_df_both_holiday = pd.merge(combined_df_both_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
+combined_df_public_holiday = pd.merge(combined_df_public_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
+combined_df_school_holiday = pd.merge(combined_df_school_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
+combined_df_weekday_non_holiday = pd.merge(combined_df_weekday_non_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
+combined_df_weekend_non_holiday = pd.merge(combined_df_weekend_non_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
+
+print(combined_df_both_holiday)
+print(combined_df_public_holiday)
+print(combined_df_school_holiday)
+print(combined_df_weekday_non_holiday)
+print(combined_df_weekend_non_holiday)
+
+# conn = sqlite3.connect("weather_holiday_database.db")
+# combined_df_both_holiday.to_sql("combined_df_both_holiday", conn, if_exists="replace", index=False)
+# combined_df_public_holiday.to_sql("combined_df_public_holiday", conn, if_exists="replace", index=False)
+# combined_df_school_holiday.to_sql("combined_df_school_holiday", conn, if_exists="replace", index=False)
+# combined_df_weekday_non_holiday.to_sql("combined_df_weekday_non_holiday", conn, if_exists="replace", index=False)
+# combined_df_weekend_non_holiday.to_sql("combined_df_weekend_non_holiday", conn, if_exists="replace", index=False)
+# weather_data_hour_1.to_sql("weather_data_hour_1", conn, if_exists="replace", index=False)
+# weather_data_hour_2.to_sql("weather_data_hour_2", conn, if_exists="replace", index=False)
+# weather_data_hour_3.to_sql("weather_data_hour_3", conn, if_exists="replace", index=False)
+# weather_data_hour_4.to_sql("weather_data_hour_4", conn, if_exists="replace", index=False)
+# weather_data_hour_5.to_sql("weather_data_hour_5", conn, if_exists="replace", index=False)
+
+# print("Tables in database:")
+# cursor = conn.cursor()
+
+# # Join with weather_data_hour_1
+# cursor.execute("DROP TABLE IF EXISTS combined_df_both_holiday_updated;")
+# cursor.execute(
+#     """
+#     CREATE TABLE combined_df_both_holiday_updated AS
+#     SELECT a.*, b.* 
+#     FROM combined_df_both_holiday AS a
+#     LEFT JOIN weather_data_hour_1 AS b ON a.type_of_day = b.type_of_day;
+#     """)
+
+# # Join with weather_data_hour_2
+# cursor.execute("DROP TABLE IF EXISTS combined_df_public_holiday_updated;")
+# cursor.execute(
+#     """
+#     CREATE TABLE combined_df_public_holiday_updated AS
+#     SELECT a.*, b.* 
+#     FROM combined_df_public_holiday AS a
+#     LEFT JOIN weather_data_hour_2 AS b ON a.type_of_day = b.type_of_day;
+#     """)
+
+# # Join with weather_data_hour_3
+# cursor.execute("DROP TABLE IF EXISTS combined_df_school_holiday_updated;")
+# cursor.execute(
+#     """
+#     CREATE TABLE combined_df_school_holiday_updated AS
+#     SELECT a.*, b.* 
+#     FROM combined_df_school_holiday AS a
+#     LEFT JOIN weather_data_hour_3 AS b ON a.type_of_day = b.type_of_day;
+#     """)
+
+# # Join with weather_data_hour_4
+# cursor.execute("DROP TABLE IF EXISTS combined_df_weekday_non_holiday_updated;")
+# cursor.execute(
+#     """
+#     CREATE TABLE combined_df_weekday_non_holiday_updated AS
+#     SELECT a.*, b.* 
+#     FROM combined_df_weekday_non_holiday AS a
+#     LEFT JOIN weather_data_hour_4 AS b ON a.type_of_day = b.type_of_day;
+#     """)
+
+# # Join with weather_data_hour_5
+# cursor.execute("DROP TABLE IF EXISTS combined_df_weekend_non_holiday_updated;")
+# cursor.execute(
+#     """
+#     CREATE TABLE combined_df_weekend_non_holiday_updated AS
+#     SELECT a.*, b.* 
+#     FROM combined_df_weekend_non_holiday AS a
+#     LEFT JOIN weather_data_hour_5 AS b ON a.type_of_day = b.type_of_day;
+#     """)
+
+# print("Tables in database:")
+# query1 = "SELECT * FROM combined_df_both_holiday_updated"
+# new_df1 = pd.read_sql_query(query1, conn)
+
+# query2 = "SELECT * FROM combined_df_public_holiday_updated"
+# new_df2 = pd.read_sql_query(query2, conn)
+
+# query3 = "SELECT * FROM combined_df_school_holiday_updated"
+# new_df3 = pd.read_sql_query(query3, conn)
+
+# query4 = "SELECT * FROM combined_df_weekday_non_holiday_updated"
+# new_df4 = pd.read_sql_query(query4, conn)
+
+# query5 = "SELECT * FROM combined_df_weekend_non_holiday_updated"
+# new_df5 = pd.read_sql_query(query5, conn)
+
+# print("done")
+
+# conn.close()
+
+# print(new_df1.head())
+
+# Original Python code
+combined_df_both_holiday = pd.merge(weather_data_hour_1, combined_df_both_holiday, on = 'type_of_day', how='left')
+print("done 1")
+combined_df_public_holiday = pd.merge(weather_data_hour_2, combined_df_public_holiday, on = 'type_of_day', how='left')
+print("done 2")
+combined_df_school_holiday = pd.merge(weather_data_hour_3, combined_df_school_holiday, on = 'type_of_day', how='left')
+print("done 3")
+combined_df_weekday_non_holiday = pd.merge(weather_data_hour_4, combined_df_weekday_non_holiday, on = 'type_of_day', how='left')
+print("done 4")
+combined_df_weekend_non_holiday = pd.merge(weather_data_hour_5, combined_df_weekend_non_holiday, on = 'type_of_day', how='left')
+print("done 5")
+
+print(combined_df_both_holiday)
+print(combined_df_public_holiday)
+print(combined_df_school_holiday)
+print(combined_df_weekday_non_holiday)
+print(combined_df_weekend_non_holiday)
+
 
 """
 for every visitor, we need to know, what attraction types do they prefer and have to visit?

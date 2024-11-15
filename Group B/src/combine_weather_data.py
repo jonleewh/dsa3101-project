@@ -22,8 +22,8 @@ hourly_weather_data.drop(['Barometer', 'Visibility', 'Weather', 'Wind', 'Humidit
 hourly_weather_data['Date'] = pd.to_datetime(hourly_weather_data['Date'])
 hourly_weather_data['Time'] = pd.to_datetime(hourly_weather_data['Time'], format='%H:%M:%S').dt.time
 hourly_weather_data = hourly_weather_data[
-    (hourly_weather_data['Time'] >= pd.to_datetime("09:00:00", format='%H:%M:%S').time()) &
-    (hourly_weather_data['Time'] <= pd.to_datetime("22:00:00", format='%H:%M:%S').time())
+    (hourly_weather_data['Time'] >= pd.to_datetime("10:00:00", format='%H:%M:%S').time()) &
+    (hourly_weather_data['Time'] <= pd.to_datetime("21:00:00", format='%H:%M:%S').time())
 ]
 
 # Information about each dates
@@ -61,9 +61,9 @@ for date in hourly_weather_data['Date'].unique():
     # Extract the subset of the data for that day
     day_data = hourly_weather_data[hourly_weather_data['Date'] == date]
     
-    # Generate the minute-level timestamps for 9 AM to 10 PM
-    day_start = pd.to_datetime(f"{date} 09:00:00")
-    day_end = pd.to_datetime(f"{date} 22:00:00")
+    # Generate the minute-level timestamps for 10am to 9pm
+    day_start = pd.to_datetime(f"{date} 10:00:00")
+    day_end = pd.to_datetime(f"{date} 21:00:00")
     minute_range = pd.date_range(start=day_start, end=day_end, freq='min')
     
     # Repeat the weather data for every minute within the range
@@ -83,5 +83,10 @@ for date in hourly_weather_data['Date'].unique():
     # Append the generated data for the day
     new_hourly_weather_data = pd.concat([new_hourly_weather_data, temp_df])
 
-print(new_hourly_weather_data)
 new_hourly_weather_data.to_csv("Group B/data/weather_data_hour.csv")
+
+filtered_hourly_weather_data = {}
+for day_type in new_hourly_weather_data['type_of_day'].unique():
+    filtered_hourly_weather_data[f"weather_data_hour_{day_type}"] = new_hourly_weather_data[new_hourly_weather_data['type_of_day'] == day_type]
+for day_type, df in filtered_hourly_weather_data.items():
+    df.to_csv(f"Group B/data/{day_type}.csv", index=False)
