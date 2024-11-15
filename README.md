@@ -82,7 +82,7 @@ Process and normalize park layout data to build graph-based representations of p
 * Max Wind Speed (km/h): Maximum recorded wind speed for the day (km/h).
 
 **theme_park_nodes.csv**
-* name: the name of the attraction in USS=
+* name: the name of the attraction in USS
 * type: the type of attraction (e.g. ride, Dining Outlet, etc)
 * outdoor: whether the attraction is located outdoors
 * zone: the zone the attraction is in (e.g. Hollywood, Far Far Away, etc)
