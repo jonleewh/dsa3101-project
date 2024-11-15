@@ -4,8 +4,6 @@
 
 <p style="text-align:center;"> Links for <a href="https://github.com/jonleewh/dsa3101-project/wiki">Wiki</a> | <a href="https://drive.google.com/file/d/1QV9PJHPw-stN7Pmp9BVfXapTJ1KUpGPL/view?usp=sharing">Video Presentation</a> | <a href="https://docs.google.com/presentation/d/1urI6WNKLM9l0d_93LzmhSDVLFZ0NExVDGPfZtjjuqN0/edit?usp=sharing">Video Presentation Slides</a> </p>
 
-
-
 ## About the Project
 
 Attractions and entertainment venues often struggle to provide consistently excellent guest experiences due to a lack of comprehensive understanding of the guest journey, preferences, and pain points. Traditional methods of gathering and analyzing guest data often fall short in providing actionable insights to improve operations, marketing strategies, and overall guest satisfaction.
@@ -48,13 +46,13 @@ Summary of Key Folders and Files
 Provides an overview of the project, setup instructions, and usage.
 
 ## Data Sources:
-Survey Data: `Theme Parks Survey Responses 4 Nov.csv` (contains responses from our theme park visitor survey).
-Simulation Data: Generated simulation output files (e.g. `simulation_output_2024-11-10_22-11-01`).
-Weather Data: Collected daily and hourly weather data (e.g. `daily_weather_data.csv`, `hourly_weather_data.xlsx`).
-Park Layout Data: Includes CSV files describing park nodes and edges (e.g. `theme_park_nodes.csv`, `theme_park_edges.csv`).
+* **Survey Data:** `Theme Parks Survey Responses 4 Nov.csv` (contains responses from our theme park visitor survey).
+* **Simulation Data:** Generated simulation output files (e.g. `simulation_output_2024-11-10_22-11-01`).
+* **Weather Data:** Collected daily and hourly weather data (e.g. `daily_weather_data.csv`, `hourly_weather_data.xlsx`).
+* **Park Layout Data:** Includes CSV files describing park nodes and edges (e.g. `theme_park_nodes.csv`, `theme_park_edges.csv`).
 
 ### Data Preparation:
-Clean and preprocess the raw survey data (e.g., remove missing values, standardize date formats).
+Clean and preprocess the raw survey data (e.g., remove missing values, standardise date formats).
 Merge weather data with simulation data for analysis (e.g., combine temperature, attendance, and queue times).
 Process and normalize park layout data to build graph-based representations of park paths.
 
