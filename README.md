@@ -2,7 +2,7 @@
 
 <p style="text-align:center;">A project for NUS DSA3101: Data Science in Practice (AY2024/25 Semester 1)</p>
 
-<p style="text-align:center;">Video | <a href="https://github.com/jonleewh/dsa3101-project/wiki">Wiki</a> | Dashboard (Links to be attached)</p>
+<p style="text-align:center;"> <a href="https://drive.google.com/file/d/1QV9PJHPw-stN7Pmp9BVfXapTJ1KUpGPL/view?usp=sharing">Video</a> | <a href="https://github.com/jonleewh/dsa3101-project/wiki">Wiki</a> | Dashboard (Links to be attached)</p>
 
 
 
