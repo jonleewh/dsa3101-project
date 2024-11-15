@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 # Daily Weather Data
 daily_weather_data = pd.read_csv("Group B/data/daily_weather_data.csv")
@@ -88,5 +89,28 @@ new_hourly_weather_data.to_csv("Group B/data/weather_data_hour.csv")
 filtered_hourly_weather_data = {}
 for day_type in new_hourly_weather_data['type_of_day'].unique():
     filtered_hourly_weather_data[f"weather_data_hour_{day_type}"] = new_hourly_weather_data[new_hourly_weather_data['type_of_day'] == day_type]
-for day_type, df in filtered_hourly_weather_data.items():
-    df.to_csv(f"Group B/data/{day_type}.csv", index=False)
+
+# Function to randomly sample dates from a DataFrame
+def random_sample_dates(weather_data, num_days=1):
+    # Extract unique dates
+    unique_dates = weather_data['Date'].unique()
+    
+    # Randomly sample 1 unique date
+    sampled_dates = np.random.choice(unique_dates, num_days, replace=False)
+    
+    # Filter the DataFrame for the sampled dates
+    filtered_data = weather_data[weather_data['Date'].isin(sampled_dates)]
+    
+    return filtered_data
+
+weather_data_hour_1_sampled = random_sample_dates(filtered_hourly_weather_data["weather_data_hour_1"], num_days=1)
+weather_data_hour_2_sampled = random_sample_dates(filtered_hourly_weather_data["weather_data_hour_2"], num_days=1)
+weather_data_hour_3_sampled = random_sample_dates(filtered_hourly_weather_data["weather_data_hour_3"], num_days=1)
+weather_data_hour_4_sampled = random_sample_dates(filtered_hourly_weather_data["weather_data_hour_4"], num_days=1)
+weather_data_hour_5_sampled = random_sample_dates(filtered_hourly_weather_data["weather_data_hour_5"], num_days=1)
+
+weather_data_hour_1_sampled.to_csv("Group B/data/weather_data_hour_1.csv")
+weather_data_hour_2_sampled.to_csv("Group B/data/weather_data_hour_2.csv")
+weather_data_hour_3_sampled.to_csv("Group B/data/weather_data_hour_3.csv")
+weather_data_hour_4_sampled.to_csv("Group B/data/weather_data_hour_4.csv")
+weather_data_hour_5_sampled.to_csv("Group B/data/weather_data_hour_5.csv")

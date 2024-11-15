@@ -25,7 +25,8 @@ nodes_data = [
      "cleanliness": 78},
 
     {"name": "Starbucks", "type": "Dining Outlet", "zone": "Hollywood", "outdoor": 0, "popularity": 99,
-     "affordability": 42.4, "capacity": 150, "crowd_level": 80, "actual_wait_time": 100},
+     "affordability": 42.4, "capacity": 150, "expected_wait_time": 10, "staff": 5,
+     "crowd_level": 80, "actual_wait_time": 15},
 
     {"name": "Mel's Drive-In", "type": "Dining Outlet", "zone": "Hollywood", "outdoor": 0, "popularity": 99,
      "affordability": 42.4, "capacity": 150, "expected_wait_time": 20, "staff": 12,

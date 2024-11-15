@@ -101,125 +101,20 @@ for csv_file in simulation_output_weekend_non_holiday:
     df['type_of_day'] = 5
     combined_df_weekend_non_holiday = pd.concat([combined_df_weekend_non_holiday, df])
 
-combined_dfs = [combined_df_both_holiday, combined_df_public_holiday, combined_df_school_holiday,
-               combined_df_weekday_non_holiday, combined_df_weekend_non_holiday]
-
 combined_df_both_holiday = pd.merge(combined_df_both_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
 combined_df_public_holiday = pd.merge(combined_df_public_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
 combined_df_school_holiday = pd.merge(combined_df_school_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
 combined_df_weekday_non_holiday = pd.merge(combined_df_weekday_non_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
 combined_df_weekend_non_holiday = pd.merge(combined_df_weekend_non_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
 
-print(combined_df_both_holiday)
-print(combined_df_public_holiday)
-print(combined_df_school_holiday)
-print(combined_df_weekday_non_holiday)
-print(combined_df_weekend_non_holiday)
+combined_df_both_holiday = pd.merge(weather_data_hour_1, combined_df_both_holiday, on = 'type_of_day', how='left').drop(columns = ["datetime", "Day of the Week", "School Holiday", "Public Holiday", "Weekend"])
+combined_df_public_holiday = pd.merge(weather_data_hour_2, combined_df_public_holiday, on = 'type_of_day', how='left').drop(columns = ["datetime", "Day of the Week", "School Holiday", "Public Holiday", "Weekend"])
+combined_df_school_holiday = pd.merge(weather_data_hour_3, combined_df_school_holiday, on = 'type_of_day', how='left').drop(columns = ["datetime", "Day of the Week", "School Holiday", "Public Holiday", "Weekend"])
+combined_df_weekday_non_holiday = pd.merge(weather_data_hour_4, combined_df_weekday_non_holiday, on = 'type_of_day', how='left').drop(columns = ["datetime", "Day of the Week", "School Holiday", "Public Holiday", "Weekend"])
+combined_df_weekend_non_holiday = pd.merge(weather_data_hour_5, combined_df_weekend_non_holiday, on = 'type_of_day', how='left').drop(columns = ["datetime", "Day of the Week", "School Holiday", "Public Holiday", "Weekend"])
 
-# conn = sqlite3.connect("weather_holiday_database.db")
-# combined_df_both_holiday.to_sql("combined_df_both_holiday", conn, if_exists="replace", index=False)
-# combined_df_public_holiday.to_sql("combined_df_public_holiday", conn, if_exists="replace", index=False)
-# combined_df_school_holiday.to_sql("combined_df_school_holiday", conn, if_exists="replace", index=False)
-# combined_df_weekday_non_holiday.to_sql("combined_df_weekday_non_holiday", conn, if_exists="replace", index=False)
-# combined_df_weekend_non_holiday.to_sql("combined_df_weekend_non_holiday", conn, if_exists="replace", index=False)
-# weather_data_hour_1.to_sql("weather_data_hour_1", conn, if_exists="replace", index=False)
-# weather_data_hour_2.to_sql("weather_data_hour_2", conn, if_exists="replace", index=False)
-# weather_data_hour_3.to_sql("weather_data_hour_3", conn, if_exists="replace", index=False)
-# weather_data_hour_4.to_sql("weather_data_hour_4", conn, if_exists="replace", index=False)
-# weather_data_hour_5.to_sql("weather_data_hour_5", conn, if_exists="replace", index=False)
-
-# print("Tables in database:")
-# cursor = conn.cursor()
-
-# # Join with weather_data_hour_1
-# cursor.execute("DROP TABLE IF EXISTS combined_df_both_holiday_updated;")
-# cursor.execute(
-#     """
-#     CREATE TABLE combined_df_both_holiday_updated AS
-#     SELECT a.*, b.* 
-#     FROM combined_df_both_holiday AS a
-#     LEFT JOIN weather_data_hour_1 AS b ON a.type_of_day = b.type_of_day;
-#     """)
-
-# # Join with weather_data_hour_2
-# cursor.execute("DROP TABLE IF EXISTS combined_df_public_holiday_updated;")
-# cursor.execute(
-#     """
-#     CREATE TABLE combined_df_public_holiday_updated AS
-#     SELECT a.*, b.* 
-#     FROM combined_df_public_holiday AS a
-#     LEFT JOIN weather_data_hour_2 AS b ON a.type_of_day = b.type_of_day;
-#     """)
-
-# # Join with weather_data_hour_3
-# cursor.execute("DROP TABLE IF EXISTS combined_df_school_holiday_updated;")
-# cursor.execute(
-#     """
-#     CREATE TABLE combined_df_school_holiday_updated AS
-#     SELECT a.*, b.* 
-#     FROM combined_df_school_holiday AS a
-#     LEFT JOIN weather_data_hour_3 AS b ON a.type_of_day = b.type_of_day;
-#     """)
-
-# # Join with weather_data_hour_4
-# cursor.execute("DROP TABLE IF EXISTS combined_df_weekday_non_holiday_updated;")
-# cursor.execute(
-#     """
-#     CREATE TABLE combined_df_weekday_non_holiday_updated AS
-#     SELECT a.*, b.* 
-#     FROM combined_df_weekday_non_holiday AS a
-#     LEFT JOIN weather_data_hour_4 AS b ON a.type_of_day = b.type_of_day;
-#     """)
-
-# # Join with weather_data_hour_5
-# cursor.execute("DROP TABLE IF EXISTS combined_df_weekend_non_holiday_updated;")
-# cursor.execute(
-#     """
-#     CREATE TABLE combined_df_weekend_non_holiday_updated AS
-#     SELECT a.*, b.* 
-#     FROM combined_df_weekend_non_holiday AS a
-#     LEFT JOIN weather_data_hour_5 AS b ON a.type_of_day = b.type_of_day;
-#     """)
-
-# print("Tables in database:")
-# query1 = "SELECT * FROM combined_df_both_holiday_updated"
-# new_df1 = pd.read_sql_query(query1, conn)
-
-# query2 = "SELECT * FROM combined_df_public_holiday_updated"
-# new_df2 = pd.read_sql_query(query2, conn)
-
-# query3 = "SELECT * FROM combined_df_school_holiday_updated"
-# new_df3 = pd.read_sql_query(query3, conn)
-
-# query4 = "SELECT * FROM combined_df_weekday_non_holiday_updated"
-# new_df4 = pd.read_sql_query(query4, conn)
-
-# query5 = "SELECT * FROM combined_df_weekend_non_holiday_updated"
-# new_df5 = pd.read_sql_query(query5, conn)
-
-# print("done")
-
-# conn.close()
-
-# print(new_df1.head())
-
-# Original Python code
-combined_df_both_holiday = pd.merge(weather_data_hour_1, combined_df_both_holiday, on = 'type_of_day', how='left')
-print("done 1")
-combined_df_public_holiday = pd.merge(weather_data_hour_2, combined_df_public_holiday, on = 'type_of_day', how='left')
-print("done 2")
-combined_df_school_holiday = pd.merge(weather_data_hour_3, combined_df_school_holiday, on = 'type_of_day', how='left')
-print("done 3")
-combined_df_weekday_non_holiday = pd.merge(weather_data_hour_4, combined_df_weekday_non_holiday, on = 'type_of_day', how='left')
-print("done 4")
-combined_df_weekend_non_holiday = pd.merge(weather_data_hour_5, combined_df_weekend_non_holiday, on = 'type_of_day', how='left')
-print("done 5")
-
-print(combined_df_both_holiday)
-print(combined_df_public_holiday)
-print(combined_df_school_holiday)
-print(combined_df_weekday_non_holiday)
-print(combined_df_weekend_non_holiday)
+combined_dfs = [combined_df_both_holiday, combined_df_public_holiday, combined_df_school_holiday,
+               combined_df_weekday_non_holiday, combined_df_weekend_non_holiday]
 
 
 """
@@ -274,7 +169,8 @@ If any variable is particularly important, how to improve the model?
 ######################################
 
 # normalise data
-def waiting_time(type, duration, crowd_level, capacity, temperature, rain, staff, outdoor): # calculate expected waiting time for a ride.
+def waiting_time(type, duration, fast_pass_crowd_level, regular_crowd_level, popularity,
+                 capacity, rain, staff, outdoor): # calculate expected waiting time for a ride.
     """
     Parameters:
     - type: the type of the ride.
@@ -287,52 +183,65 @@ def waiting_time(type, duration, crowd_level, capacity, temperature, rain, staff
     
     Return expected waiting time in minutes.
     """
+    capacity = 1 if capacity == 0 else capacity # to ensure capacity is not zero, avoid division by 0
+    
     if type == 'Food Cart': # assumed to be outdoors
         if rain == 1:
             waiting_time = 0 # because there will be no customers who will be out buying F&B from the food carts
         else:
-            waiting_time = min(0,
-                               crowd_level / (capacity + 1) * duration
-                               + 10 / staff
-                               + np.random.normal(-1, 5))
+            waiting_time = round(min(0,
+                                     (popularity / 100) * (fast_pass_crowd_level + regular_crowd_level) / capacity * duration
+                                     + 10 / staff
+                                     + np.random.normal(-1, 5)), 0)
     
     elif type == 'Retail' or type == "Dining Outlet": # assumed to be indoors
-        waiting_time = min(0, 
-                           crowd_level / (capacity + 1) * duration
-                           + 10 / staff
-                           + 15 * rain # if it is raining, we assume an additional 15 minutes of waiting time added
-                           + np.random.normal(-5, 15)) # we introduce noise into the data
+        waiting_time = round(min(0,
+                                 (popularity / 100) * (fast_pass_crowd_level + regular_crowd_level) / capacity * duration
+                                 + 10 / staff
+                                 + 15 * rain # if it is raining, we assume an additional 15 minutes of waiting time added
+                                 + np.random.normal(-5, 15)), 0) # we introduce noise into the data
     
     else: # for rides, we assume that there will be sufficient staff to operate the rides
         if rain == 1 and outdoor == 1:
             waiting_time = 0
         else:
-            waiting_time = min(0,
-                               crowd_level / (capacity + 1) * duration
-                               + 15 * rain # if it is raining, we assume an additional 15 minutes of waiting time added
-                               + np.random.normal(-5, 15) # we introduce noise into the data
-                               )
+            waiting_time = round(min(0,
+                                     (popularity / 100) * (fast_pass_crowd_level + regular_crowd_level) / capacity * duration
+                                     + 15 * rain # if it is raining, we assume an additional 15 minutes of waiting time added
+                                     + np.random.normal(-5, 15)), 0) # we introduce noise into the data
+    
     return waiting_time
 
 
-for combined_df in combined_dfs:
-    wait_time_X = combined_df[['attraction', 'type', 'duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']]
-wait_time_key_X_features = ['duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']
-wait_time_y_synthetic = pd.DataFrame() # generate wait times based on X
-for entry in wait_time_X.itertuples():
-    actual_waiting_time = waiting_time(entry.duration, entry.crowd_level, entry.capacity, entry.staff, entry.popularity, entry.outdoor)
-    wait_time_y_synthetic = pd.concat([wait_time_y_synthetic, pd.DataFrame({"waiting_time": [actual_waiting_time]})], ignore_index=True)
-print(wait_time_y_synthetic)
+wait_time_key_X_features = ['type', 'duration', 'fast_pass_crowd_level', 'regular_crowd_level',
+                            'popularity', 'capacity', 'rain', 'staff', 'outdoor']
+
+# for combined_df_both_holiday
+wait_time_X_both_holiday = combined_df_both_holiday[['attraction', 'type_of_day', 'type', 'duration',
+                                                     'fast_pass_crowd_level', 'regular_crowd_level',
+                                                     'popularity', 'capacity', 'rain', 'staff', 'outdoor']]
+
+wait_time_y_synthetic_both_holiday = pd.DataFrame() # generate wait times based on X
+
+for entry in wait_time_X_both_holiday.itertuples():
+    actual_waiting_time = waiting_time(entry.type, entry.duration, entry.fast_pass_crowd_level, entry.regular_crowd_level,
+                                       entry.popularity, entry.capacity, entry.rain, entry.staff, entry.outdoor)
+    wait_time_y_synthetic_both_holiday = pd.concat([wait_time_y_synthetic_both_holiday,
+                                                    pd.DataFrame({"waiting_time": [actual_waiting_time]})],
+                                                   ignore_index=True)
+
+print(wait_time_y_synthetic_both_holiday)
 
 # Train a Random Forest regressor to evaluate importance of each feature
-wait_time_rf_model = RandomForestRegressor(n_estimators = 10)
-wait_time_rf_model.fit(wait_time_X[wait_time_key_X_features], wait_time_y_synthetic)
-wait_time_importances = wait_time_rf_model.feature_importances_
+wait_time_rf_model_both_holiday = RandomForestRegressor(n_estimators = 50)
+wait_time_rf_model_both_holiday.fit(wait_time_X_both_holiday[wait_time_key_X_features], wait_time_y_synthetic_both_holiday)
+wait_time_importances_both_holiday = wait_time_rf_model_both_holiday.feature_importances_
+print("done1")
 
 # Plot a graph of the importance of each variable
-wait_time_feature_importance = pd.DataFrame({'Feature': wait_time_key_X_features, 'Importance': wait_time_importances}).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
+wait_time_feature_importance_both_holiday = pd.DataFrame({'Feature': wait_time_key_X_features, 'Importance': wait_time_importances_both_holiday}).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
 plt.figure(figsize=(10, 5))
-sns.barplot(x='Importance', y='Feature', data = wait_time_feature_importance, palette='viridis')
+sns.barplot(x='Importance', y='Feature', data = wait_time_feature_importance_both_holiday, palette='viridis')
 plt.suptitle('Importance of each feature in determining Waiting Time', fontsize = 18)
 plt.title("determined using Random Forest Model", fontsize = 12)
 plt.xlabel('Importance')
@@ -340,11 +249,206 @@ plt.ylabel('Feature')
 plt.show()
 
 # Apply weights based on feature importances
-wait_time_X_importance = wait_time_X[wait_time_key_X_features] * wait_time_importances # Each column in X is scaled by its corresponding importance from the random forest model
+wait_time_X_importance_both_holiday = wait_time_X_both_holiday[wait_time_key_X_features] * wait_time_importances_both_holiday # Each column in X is scaled by its corresponding importance from the random forest model
 
 # Train the linear regression model with the coefficients accounting for the importance
-wait_time_ml_model = LinearRegression()
-wait_time_ml_model.fit(wait_time_X_importance, wait_time_y_synthetic)
+wait_time_ml_model_both_holiday = LinearRegression()
+wait_time_ml_model_both_holiday.fit(wait_time_X_importance_both_holiday, wait_time_y_synthetic_both_holiday)
+
+
+# for combined_df_public_holiday
+wait_time_X_public_holiday = combined_df_public_holiday[['attraction', 'type_of_day', 'type', 'duration',
+                                                     'fast_pass_crowd_level', 'regular_crowd_level',
+                                                     'popularity', 'capacity', 'rain', 'staff', 'outdoor']]
+
+wait_time_y_synthetic_public_holiday = pd.DataFrame() # generate wait times based on X
+
+for entry in wait_time_X_public_holiday.itertuples():
+    actual_waiting_time = waiting_time(entry.type, entry.duration, entry.fast_pass_crowd_level, entry.regular_crowd_level,
+                                       entry.popularity, entry.capacity, entry.rain, entry.staff, entry.outdoor)
+    wait_time_y_synthetic_public_holiday = pd.concat([wait_time_y_synthetic_public_holiday,
+                                                      pd.DataFrame({"waiting_time": [actual_waiting_time]})],
+                                                     ignore_index=True)
+
+print(wait_time_y_synthetic_public_holiday)
+
+# Train a Random Forest regressor to evaluate importance of each feature
+wait_time_rf_model_public_holiday = RandomForestRegressor(n_estimators = 50)
+wait_time_rf_model_public_holiday.fit(wait_time_X_public_holiday[wait_time_key_X_features], wait_time_y_synthetic_public_holiday)
+wait_time_importances_public_holiday = wait_time_rf_model_public_holiday.feature_importances_
+
+# Plot a graph of the importance of each variable
+wait_time_feature_importance_public_holiday = pd.DataFrame({'Feature': wait_time_key_X_features, 'Importance': wait_time_importances_public_holiday}).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
+plt.figure(figsize=(10, 5))
+sns.barplot(x='Importance', y='Feature', data = wait_time_feature_importance_public_holiday, palette='viridis')
+plt.suptitle('Importance of each feature in determining Waiting Time', fontsize = 18)
+plt.title("determined using Random Forest Model", fontsize = 12)
+plt.xlabel('Importance')
+plt.ylabel('Feature')
+plt.show()
+
+# Apply weights based on feature importances
+wait_time_X_importance_public_holiday = wait_time_X_public_holiday[wait_time_key_X_features] * wait_time_importances_public_holiday # Each column in X is scaled by its corresponding importance from the random forest model
+
+# Train the linear regression model with the coefficients accounting for the importance
+wait_time_ml_model_public_holiday = LinearRegression()
+wait_time_ml_model_public_holiday.fit(wait_time_X_importance_public_holiday, wait_time_y_synthetic_public_holiday)
+
+
+# for combined_df_school_holiday
+wait_time_X_school_holiday = combined_df_school_holiday[['attraction', 'type_of_day', 'type', 'duration',
+                                                     'fast_pass_crowd_level', 'regular_crowd_level',
+                                                     'popularity', 'capacity', 'rain', 'staff', 'outdoor']]
+
+wait_time_y_synthetic_school_holiday = pd.DataFrame() # generate wait times based on X
+
+for entry in wait_time_X_school_holiday.itertuples():
+    actual_waiting_time = waiting_time(entry.type, entry.duration, entry.fast_pass_crowd_level, entry.regular_crowd_level,
+                                       entry.popularity, entry.capacity, entry.rain, entry.staff, entry.outdoor)
+    wait_time_y_synthetic_school_holiday = pd.concat([wait_time_y_synthetic_school_holiday,
+                                                    pd.DataFrame({"waiting_time": [actual_waiting_time]})],
+                                                   ignore_index=True)
+
+print(wait_time_y_synthetic_school_holiday)
+
+# Train a Random Forest regressor to evaluate importance of each feature
+wait_time_rf_model_school_holiday = RandomForestRegressor(n_estimators = 50)
+wait_time_rf_model_school_holiday.fit(wait_time_X_school_holiday[wait_time_key_X_features], wait_time_y_synthetic_school_holiday)
+wait_time_importances_school_holiday = wait_time_rf_model_school_holiday.feature_importances_
+
+# Plot a graph of the importance of each variable
+wait_time_feature_importance_school_holiday = pd.DataFrame({'Feature': wait_time_key_X_features, 'Importance': wait_time_importances_school_holiday}).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
+plt.figure(figsize=(10, 5))
+sns.barplot(x='Importance', y='Feature', data = wait_time_feature_importance_school_holiday, palette='viridis')
+plt.suptitle('Importance of each feature in determining Waiting Time', fontsize = 18)
+plt.title("determined using Random Forest Model", fontsize = 12)
+plt.xlabel('Importance')
+plt.ylabel('Feature')
+plt.show()
+
+# Apply weights based on feature importances
+wait_time_X_importance_school_holiday = wait_time_X_school_holiday[wait_time_key_X_features] * wait_time_importances_school_holiday # Each column in X is scaled by its corresponding importance from the random forest model
+
+# Train the linear regression model with the coefficients accounting for the importance
+wait_time_ml_model_school_holiday = LinearRegression()
+wait_time_ml_model_school_holiday.fit(wait_time_X_importance_school_holiday, wait_time_y_synthetic_school_holiday)
+
+
+# for combined_df_weekday_non_holiday
+wait_time_X_weekday_non_holiday = combined_df_weekday_non_holiday[['attraction', 'type_of_day', 'type', 'duration',
+                                                     'fast_pass_crowd_level', 'regular_crowd_level',
+                                                     'popularity', 'capacity', 'rain', 'staff', 'outdoor']]
+
+wait_time_y_synthetic_weekday_non_holiday = pd.DataFrame() # generate wait times based on X
+
+for entry in wait_time_X_weekday_non_holiday.itertuples():
+    actual_waiting_time = waiting_time(entry.type, entry.duration, entry.fast_pass_crowd_level, entry.regular_crowd_level,
+                                       entry.popularity, entry.capacity, entry.rain, entry.staff, entry.outdoor)
+    wait_time_y_synthetic_weekday_non_holiday = pd.concat([wait_time_y_synthetic_weekday_non_holiday,
+                                                    pd.DataFrame({"waiting_time": [actual_waiting_time]})],
+                                                   ignore_index=True)
+
+print(wait_time_y_synthetic_weekday_non_holiday)
+
+# Train a Random Forest regressor to evaluate importance of each feature
+wait_time_rf_model_weekday_non_holiday = RandomForestRegressor(n_estimators = 50)
+wait_time_rf_model_weekday_non_holiday.fit(wait_time_X_weekday_non_holiday[wait_time_key_X_features], wait_time_y_synthetic_weekday_non_holiday)
+wait_time_importances_weekday_non_holiday = wait_time_rf_model_weekday_non_holiday.feature_importances_
+
+# Plot a graph of the importance of each variable
+wait_time_feature_importance_weekday_non_holiday = pd.DataFrame({'Feature': wait_time_key_X_features, 'Importance': wait_time_importances_weekday_non_holiday}).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
+plt.figure(figsize=(10, 5))
+sns.barplot(x='Importance', y='Feature', data = wait_time_feature_importance_weekday_non_holiday, palette='viridis')
+plt.suptitle('Importance of each feature in determining Waiting Time', fontsize = 18)
+plt.title("determined using Random Forest Model", fontsize = 12)
+plt.xlabel('Importance')
+plt.ylabel('Feature')
+plt.show()
+
+# Apply weights based on feature importances
+wait_time_X_importance_weekday_non_holiday = wait_time_X_weekday_non_holiday[wait_time_key_X_features] * wait_time_importances_weekday_non_holiday # Each column in X is scaled by its corresponding importance from the random forest model
+
+# Train the linear regression model with the coefficients accounting for the importance
+wait_time_ml_model_weekday_non_holiday = LinearRegression()
+wait_time_ml_model_weekday_non_holiday.fit(wait_time_X_importance_weekday_non_holiday, wait_time_y_synthetic_weekday_non_holiday)
+
+
+# for combined_df_weekend_non_holiday
+wait_time_X_weekend_non_holiday = combined_df_weekend_non_holiday[['attraction', 'type_of_day', 'type', 'duration',
+                                                     'fast_pass_crowd_level', 'regular_crowd_level',
+                                                     'popularity', 'capacity', 'rain', 'staff', 'outdoor']]
+
+wait_time_y_synthetic_weekend_non_holiday = pd.DataFrame() # generate wait times based on X
+
+for entry in wait_time_X_weekend_non_holiday.itertuples():
+    actual_waiting_time = waiting_time(entry.type, entry.duration, entry.fast_pass_crowd_level, entry.regular_crowd_level,
+                                       entry.popularity, entry.capacity, entry.rain, entry.staff, entry.outdoor)
+    wait_time_y_synthetic_weekend_non_holiday = pd.concat([wait_time_y_synthetic_weekend_non_holiday,
+                                                    pd.DataFrame({"waiting_time": [actual_waiting_time]})],
+                                                   ignore_index=True)
+
+print(wait_time_y_synthetic_weekend_non_holiday)
+
+# Train a Random Forest regressor to evaluate importance of each feature
+wait_time_rf_model_weekend_non_holiday = RandomForestRegressor(n_estimators = 50)
+wait_time_rf_model_weekend_non_holiday.fit(wait_time_X_weekend_non_holiday[wait_time_key_X_features], wait_time_y_synthetic_weekend_non_holiday)
+wait_time_importances_weekend_non_holiday = wait_time_rf_model_weekend_non_holiday.feature_importances_
+
+# Plot a graph of the importance of each variable
+wait_time_feature_importance_weekend_non_holiday = pd.DataFrame({'Feature': wait_time_key_X_features, 'Importance': wait_time_importances_weekend_non_holiday}).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
+plt.figure(figsize=(10, 5))
+sns.barplot(x='Importance', y='Feature', data = wait_time_feature_importance_weekend_non_holiday, palette='viridis')
+plt.suptitle('Importance of each feature in determining Waiting Time', fontsize = 18)
+plt.title("determined using Random Forest Model", fontsize = 12)
+plt.xlabel('Importance')
+plt.ylabel('Feature')
+plt.show()
+
+# Apply weights based on feature importances
+wait_time_X_importance_weekend_non_holiday = wait_time_X_weekend_non_holiday[wait_time_key_X_features] * wait_time_importances_weekend_non_holiday # Each column in X is scaled by its corresponding importance from the random forest model
+
+# Train the linear regression model with the coefficients accounting for the importance
+wait_time_ml_model_weekend_non_holiday = LinearRegression()
+wait_time_ml_model_weekend_non_holiday.fit(wait_time_X_importance_weekend_non_holiday, wait_time_y_synthetic_weekend_non_holiday)
+
+
+
+
+
+# for combined_df in [combined_df_both_holiday, combined_df_public_holiday, combined_df_school_holiday,
+#                     combined_df_weekday_non_holiday, combined_df_weekend_non_holiday]:
+#     wait_time_X = combined_df_both_holiday[['attraction', 'type_of_day', 'type', 'duration', 'fast_pass_crowd_level', 'regular_crowd_level',
+#                                'popularity', 'capacity', 'rain', 'staff', 'outdoor']]
+#     wait_time_X_combined = pd.concat([wait_time_X_combined, wait_time_X])
+
+# wait_time_y_synthetic = pd.DataFrame() # generate wait times based on X
+# for entry in wait_time_X_combined.itertuples():
+#     actual_waiting_time = waiting_time(entry.type, entry.duration, entry.fast_pass_crowd_level, entry.regular_crowd_level,
+#                                        entry.popularity, entry.capacity, entry.rain, entry.staff, entry.outdoor)
+#     wait_time_y_synthetic = pd.concat([wait_time_y_synthetic, pd.DataFrame({"waiting_time": [actual_waiting_time]})], ignore_index=True)
+# print(wait_time_y_synthetic)
+
+# # Train a Random Forest regressor to evaluate importance of each feature
+# wait_time_rf_model = RandomForestRegressor(n_estimators = 50)
+# wait_time_rf_model.fit(wait_time_X_combined[wait_time_key_X_features], wait_time_y_synthetic)
+# wait_time_importances = wait_time_rf_model.feature_importances_
+
+# # Plot a graph of the importance of each variable
+# wait_time_feature_importance = pd.DataFrame({'Feature': wait_time_key_X_features, 'Importance': wait_time_importances}).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
+# plt.figure(figsize=(10, 5))
+# sns.barplot(x='Importance', y='Feature', data = wait_time_feature_importance, palette='viridis')
+# plt.suptitle('Importance of each feature in determining Waiting Time', fontsize = 18)
+# plt.title("determined using Random Forest Model", fontsize = 12)
+# plt.xlabel('Importance')
+# plt.ylabel('Feature')
+# plt.show()
+
+# Apply weights based on feature importances
+# wait_time_X_importance = wait_time_X_combined[wait_time_key_X_features] * wait_time_importances # Each column in X is scaled by its corresponding importance from the random forest model
+
+# # Train the linear regression model with the coefficients accounting for the importance
+# wait_time_ml_model = LinearRegression()
+# wait_time_ml_model.fit(wait_time_X_importance, wait_time_y_synthetic)
 
 
 ####################################
@@ -565,39 +669,3 @@ for hour in range(10, 20):
         # Print status
         print(f"{node[0]} - Wait Time: {wait_time:.1f} mins, Crowd Level: {crowd_level:.1f}, Satisfaction: {satisfaction:.1f}")
 """
-
-##########################
-## Optimising Itinerary ##
-##########################
-def optimized_itinerary(start, attractions_list, current_hour):
-    total_time = 0
-    itinerary = [start]
-    current_location = start
-    
-    for attraction in attractions_list:
-        # Calculate dynamic wait time and crowd level for attraction
-        wait_time, crowd_level = waiting_time(current_hour,
-                                              G.nodes[attraction]["base_wait"],
-                                              G.nodes[attraction]["base_crowd"])
-        
-        # Satisfaction score
-        satisfaction = satisfaction_score(wait_time, crowd_level, G.nodes[attraction]["popularity"])
-        
-        # Pathfinding to minimize travel time between attractions
-        path = find_shortest_path(G, current_location, attraction)
-        travel_time = sum(G.edges[path[i], path[i+1]]["distance"] for i in range(len(path)-1))
-        
-        # Update itinerary and time
-        # how to track wait time and minimise it?
-        # A possible way is based on the guest's threshold waiting time vs the expected waiting time
-        # If the waiting time is suddenly reduced, will it allow the customer to return to the node?
-        # After every period of time, the guest can re-evaluate the optimised itinerary
-        # Consider both the global time and attraction-specific time (e.g. different Ride durations)
-        total_time += wait_time + travel_time
-        itinerary.append((attraction, wait_time, satisfaction))
-        current_location = attraction
-        
-        # Simulate moving to the next hour
-        current_hour = (current_hour + 1) % 24
-    
-    return itinerary, total_time
