@@ -45,7 +45,7 @@ Summary of Key Folders and Files
 ### `README.md` (this file)
 Provides an overview of the project, setup instructions, and usage.
 
-## Data Sources:
+## Data Sources
 * **Survey Data:** `Theme Parks Survey Responses 4 Nov.csv` (contains responses from our theme park visitor survey).
 * **Simulation Data:** Generated simulation output files (e.g. `simulation_output_2024-11-10_22-11-01`).
 * **Weather Data:** Collected daily and hourly weather data (e.g. `daily_weather_data.csv`, `hourly_weather_data.xlsx`).
