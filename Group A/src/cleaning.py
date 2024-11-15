@@ -12,7 +12,7 @@ weather_files = [
 
 weather_df = pd.concat([pd.read_csv(file) for file in weather_files])
 
-# weather_df.to_csv('../data/2023_daily_weather.csv')
+weather_df.to_csv('../data/2023_daily_weather.csv')
 
 holidays_df = pd.read_csv('../data/PublicHolidaysfor2023.csv')
 
@@ -24,7 +24,7 @@ weather_df['Date'] = pd.to_datetime(weather_df[['Year', 'Month', 'Day']])
 
 weather_df['Public Holiday'] = weather_df['Date'].dt.date.isin(public_holidays).astype(int)
 
-# weather_df.to_csv('../data/2023_daily_weather_with_holidays.csv', index=False)
+weather_df.to_csv('../data/2023_daily_weather_with_holidays.csv', index=False)
 
 file_paths = [
     '../../Group B/data/USS daily waiting time/download_universal-studios-singapore_jan.csv',
@@ -60,9 +60,17 @@ for file_path in file_paths:
 
 weather_df['Date'] = pd.to_datetime(weather_df['Date']).dt.date
 
+weather_df['Maximum Temperature (°C)'] = pd.to_numeric(weather_df['Maximum Temperature (°C)'], errors='coerce')
+
+weather_df['Daily Rainfall Total (mm)'] = pd.to_numeric(weather_df['Daily Rainfall Total (mm)'], errors='coerce')
+
+weather_df['Mean Temperature (°C)'] = pd.to_numeric(weather_df['Mean Temperature (°C)'], errors='coerce')
+
+weather_df['Highest 60 min Rainfall (mm)'] = pd.to_numeric(weather_df['Highest 60 min Rainfall (mm)'], errors='coerce')
+
 weather_df = pd.merge(weather_df, all_avg_wait_times, on='Date', how='left')
 
-# weather_df.to_csv('../data/2023_daily_weather_with_wait_times.csv', index=False)
+weather_df.to_csv('../data/2023_daily_weather_with_wait_times.csv', index=False)
 
 def categorize_rain(row):
     daily_rainfall = pd.to_numeric(row['Daily Rainfall Total (mm)'], errors='coerce')
@@ -73,10 +81,9 @@ def categorize_rain(row):
         return 1  # Rainy
     
 def categorize_shower(row):
-    daily_rainfall = pd.to_numeric(row['Daily Rainfall Total (mm)'], errors='coerce')
     highest_60_min_rainfall = pd.to_numeric(row['Highest 60 min Rainfall (mm)'], errors='coerce')
     
-    if daily_rainfall > 2.4 and highest_60_min_rainfall <= 4:
+    if highest_60_min_rainfall > 0 and highest_60_min_rainfall <= 4:
         return 1  # Shower
     else:
         return 0  # Sunny
@@ -102,4 +109,5 @@ weather_df = weather_df[columns_to_keep]
 weather_df = weather_df.drop(16) # manually dropped 2023-01-17 as all entries are 7, clearly a data errer
 weather_df = weather_df.drop(352) # manually dropped 2023-12-19 as only one entry at 19:55, loss of data
 
-# weather_df.to_csv('../data/2023_daily_weather_with_wait_times_and_conditions.csv', index=False)
+weather_df.to_csv('../data/2023_daily_weather_with_wait_times_and_conditions.csv', index=False)
+
