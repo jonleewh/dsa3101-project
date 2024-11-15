@@ -62,23 +62,16 @@ Process and normalize park layout data to build graph-based representations of p
 ### Group A
   
 **dynamic_pricing_weather.ipynb**
-
-* Satisfaction Score: A calculated score based on weather conditions (0–100) from daily_weather_data.csv.
-
-* Dynamic Price (SGD): Adjusted ticket price based on satisfaction score on weather.
-
-* Possible Extra Revenue (SGD): Revenue generated from dynamic pricing adjustments.
+* Satisfaction Score: A calculated score based on weather conditions (0–100) from daily_weather_data.csv
+* Dynamic Price (SGD): Adjusted ticket price based on satisfaction score on weather
+* Possible Extra Revenue (SGD): Revenue generated from dynamic pricing adjustments
 
 ### Group B
 
 **daily_weather_data.csv**
-
 * Rainfall (mm): Maximum rainfall in a window (mm).
-  
 * Daily Rainfall Total (mm): Total rainfall for the day (mm).
-  
 * Mean Temperature (°C): Average temperature for the day (°C).
-  
 * Max Wind Speed (km/h): Maximum recorded wind speed for the day (km/h).
 
 **theme_park_nodes.csv**
