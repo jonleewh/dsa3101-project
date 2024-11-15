@@ -293,7 +293,7 @@ def satisfaction_score(fast_pass_crowd_level, regular_crowd_level, affordability
                                             + 4 * affordability # more affordable items results in higher satisfaction score
                                             + 2 * cleanliness # better cleanliness results in higher satisfaction score
                                             + 2 * capacity # higher capacity results in higher satisfaction score
-                                            + 5 * waiting_time # longer wait time results in lower satisfaction score
+                                            - 5 * waiting_time # longer wait time results in lower satisfaction score
                                             - 5 * temperature # higher temperatures results in lower satisfaction score
                                             - 5 * rain # rain results in lower satisfaction score
                                             )))
