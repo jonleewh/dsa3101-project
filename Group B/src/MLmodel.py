@@ -26,8 +26,28 @@ columns_to_convert = ["duration", "cleanliness", "affordability", "capacity", "s
 for column in columns_to_convert:
     nodes[column] = pd.to_numeric(nodes[column], errors='coerce')
 
-weather_data = pd.read_csv('../data/weather_data_hour.csv')
-weather_data["type_of_day"] = weather_data["type_of_day"].fillna(0).astype(int) # remove the fillNA when Inez provides the updated data
+weather_data_hour_1 = pd.read_csv('../data/weather_data_hour_1.csv')
+weather_data_hour_2 = pd.read_csv('../data/weather_data_hour_2.csv')
+weather_data_hour_3 = pd.read_csv('../data/weather_data_hour_3.csv')
+weather_data_hour_4 = pd.read_csv('../data/weather_data_hour_4.csv')
+weather_data_hour_5 = pd.read_csv('../data/weather_data_hour_5.csv')
+weather_data_hour_1["type_of_day"] = weather_data_hour_1["type_of_day"].astype(int)
+weather_data_hour_2["type_of_day"] = weather_data_hour_2["type_of_day"].astype(int)
+weather_data_hour_3["type_of_day"] = weather_data_hour_3["type_of_day"].astype(int)
+weather_data_hour_4["type_of_day"] = weather_data_hour_4["type_of_day"].astype(int)
+weather_data_hour_5["type_of_day"] = weather_data_hour_5["type_of_day"].astype(int)
+
+weather_data_hour_1['datetime'] = pd.to_datetime(weather_data_hour_1['datetime'])
+weather_data_hour_1 = weather_data_hour_1[weather_data_hour_1['datetime'].dt.minute % 30 == 0]
+weather_data_hour_2['datetime'] = pd.to_datetime(weather_data_hour_2['datetime'])
+weather_data_hour_2 = weather_data_hour_2[weather_data_hour_2['datetime'].dt.minute % 30 == 0]
+weather_data_hour_3['datetime'] = pd.to_datetime(weather_data_hour_3['datetime'])
+weather_data_hour_3 = weather_data_hour_3[weather_data_hour_3['datetime'].dt.minute % 30 == 0]
+weather_data_hour_4['datetime'] = pd.to_datetime(weather_data_hour_4['datetime'])
+weather_data_hour_4 = weather_data_hour_4[weather_data_hour_4['datetime'].dt.minute % 30 == 0]
+weather_data_hour_5['datetime'] = pd.to_datetime(weather_data_hour_5['datetime'])
+weather_data_hour_5 = weather_data_hour_5[weather_data_hour_5['datetime'].dt.minute % 30 == 0]
+
 
 ####################################
 ## Read in Simulation Output Data ##
@@ -57,44 +77,6 @@ for csv_file in simulation_output_both_holiday:
     df['type_of_day'] = 1
     combined_df_both_holiday = pd.concat([combined_df_both_holiday, df])
 
-
-## Changing this to SQL because it takes WAY TOO LONG to join the data in python!
-## combined_df_both_holiday is more than 1GB!!!
-
-# Connect to an SQLite database
-conn1 = sqlite3.connect("combined_df_both_holiday.db")
-conn2 = sqlite3.connect("theme_park_nodes.db")
-combined_df_both_holiday.to_sql("combined_df_both_holiday", conn1, if_exists="replace", index=False)
-nodes.to_sql("theme_park_nodes", conn2, if_exists="replace", index=False)
-
-# Verify by querying the first few rows
-cursor1 = conn1.cursor()  # Cursor for combined_df_both_holiday.db
-cursor2 = conn2.cursor()  # Cursor for theme_park_nodes.db
-cursor1.execute()
-"""
-CREATE TABLE combined_with_nodes AS
-SELECT c.*, n.*  -- Select all columns from combined_df_both_holiday and nodes
-FROM combined_df_both_holiday c
-LEFT JOIN nodes n
-ON c.attraction = n.name;
-
-PRAGMA foreign_keys=off;  -- Disable foreign key constraints temporarily
-CREATE TABLE combined_with_nodes_final AS
-SELECT * FROM combined_with_nodes;
-PRAGMA foreign_keys=on;  -- Re-enable foreign key constraints
-"""
-
-cursor.execute("SELECT * FROM combined_df_both_holiday LIMIT 5")
-rows = cursor.fetchall()
-print(rows)
-
-# Close the connection when done
-conn.close()
-
-combined_df_both_holiday = pd.merge(combined_df_both_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
-combined_df_both_holiday = pd.merge(weather_data, combined_df_both_holiday, on = 'type_of_day', how='left')
-combined_df_both_holiday.to_csv("combined_df_both_holiday.csv")
-
 for csv_file in simulation_output_public_holiday:
     df = pd.read_csv(csv_file)
     df.drop(columns = ["fast_pass_waiting_time", "regular_waiting_time"], inplace=True)
@@ -103,7 +85,6 @@ for csv_file in simulation_output_public_holiday:
     df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
     df['type_of_day'] = 2
     combined_df_public_holiday = pd.concat([combined_df_public_holiday, df])
-combined_df_public_holiday = pd.merge(combined_df_public_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
 
 for csv_file in simulation_output_school_holiday:
     df = pd.read_csv(csv_file)
@@ -113,7 +94,6 @@ for csv_file in simulation_output_school_holiday:
     df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
     df['type_of_day'] = 3
     combined_df_school_holiday = pd.concat([combined_df_school_holiday, df])
-combined_df_school_holiday = pd.merge(combined_df_school_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
 
 for csv_file in simulation_output_weekday_non_holiday:
     df = pd.read_csv(csv_file)
@@ -123,7 +103,6 @@ for csv_file in simulation_output_weekday_non_holiday:
     df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
     df['type_of_day'] = 4
     combined_df_weekday_non_holiday = pd.concat([combined_df_weekday_non_holiday, df])
-combined_df_weekday_non_holiday = pd.merge(combined_df_weekday_non_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
 
 for csv_file in simulation_output_weekend_non_holiday:
     df = pd.read_csv(csv_file)
@@ -133,12 +112,22 @@ for csv_file in simulation_output_weekend_non_holiday:
     df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
     df['type_of_day'] = 5
     combined_df_weekend_non_holiday = pd.concat([combined_df_weekend_non_holiday, df])
+
+combined_df_both_holiday = pd.merge(combined_df_both_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
+combined_df_public_holiday = pd.merge(combined_df_public_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
+combined_df_school_holiday = pd.merge(combined_df_school_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
+combined_df_weekday_non_holiday = pd.merge(combined_df_weekday_non_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
 combined_df_weekend_non_holiday = pd.merge(combined_df_weekend_non_holiday, nodes, left_on = 'attraction', right_on = 'name', how='left').drop(columns = ["name"])
+
+combined_df_both_holiday = pd.merge(weather_data_hour_1, combined_df_both_holiday, on = 'type_of_day', how='left').drop(columns = ["datetime", "Day of the Week", "School Holiday", "Public Holiday", "Weekend"])
+combined_df_public_holiday = pd.merge(weather_data_hour_2, combined_df_public_holiday, on = 'type_of_day', how='left').drop(columns = ["datetime", "Day of the Week", "School Holiday", "Public Holiday", "Weekend"])
+combined_df_school_holiday = pd.merge(weather_data_hour_3, combined_df_school_holiday, on = 'type_of_day', how='left').drop(columns = ["datetime", "Day of the Week", "School Holiday", "Public Holiday", "Weekend"])
+combined_df_weekday_non_holiday = pd.merge(weather_data_hour_4, combined_df_weekday_non_holiday, on = 'type_of_day', how='left').drop(columns = ["datetime", "Day of the Week", "School Holiday", "Public Holiday", "Weekend"])
+combined_df_weekend_non_holiday = pd.merge(weather_data_hour_5, combined_df_weekend_non_holiday, on = 'type_of_day', how='left').drop(columns = ["datetime", "Day of the Week", "School Holiday", "Public Holiday", "Weekend"])
 
 combined_dfs = [combined_df_both_holiday, combined_df_public_holiday, combined_df_school_holiday,
                combined_df_weekday_non_holiday, combined_df_weekend_non_holiday]
-for combined_df in combined_dfs:
-    print(combined_df)
+
 
 """
 for every visitor, we need to know, what attraction types do they prefer and have to visit?
@@ -192,59 +181,75 @@ If any variable is particularly important, how to improve the model?
 ######################################
 
 # normalise data
-def waiting_time(type, duration, crowd_level, capacity, temperature, rain, staff, outdoor): # calculate expected waiting time for a ride.
+def waiting_time(type, duration, fast_pass_crowd_level, regular_crowd_level, popularity,
+                 capacity, rain, staff, outdoor): # calculate expected waiting time for a ride.
     """
     Parameters:
-    - type: the type of the ride.
-    - duration: Duration of the ride (in minutes).
-    - crowd_level: Number of people currently in the queue.
-    - capacity: Capacity of the attraction (people per cycle).
-    - staff: Number of staff available (for F&B and retail).
-    - popularity: Popularity of the attraction.
-    - outdoor: Whether the attraction is outdoor (influenced by weather).
-    
-    Return expected waiting time in minutes.
+    # type: type of ride
+    # duration: duration of the ride (in minutes)
+    # crowd_level: Number of people currently in the queue.
+    # capacity: Capacity of the attraction (people per cycle).
+    # staff: Number of staff available (for F&B and retail).
+    # popularity: Popularity of the attraction.
+    # outdoor: Whether the attraction is outdoor (influenced by weather).
     """
+    capacity = 1 if capacity == 0 else capacity # to ensure capacity is not zero, avoid division by 0
+    
     if type == 'Food Cart': # assumed to be outdoors
         if rain == 1:
             waiting_time = 0 # because there will be no customers who will be out buying F&B from the food carts
         else:
-            waiting_time = min(0,
-                               crowd_level / (capacity + 1) * duration
-                               + 10 / staff
-                               + np.random.normal(-1, 5))
+            waiting_time = round(max(0,
+                                     (popularity / 100) * (fast_pass_crowd_level + regular_crowd_level) / capacity * duration
+                                     + 10 / staff
+                                     + np.random.normal(-1, 5)), 0)
     
     elif type == 'Retail' or type == "Dining Outlet": # assumed to be indoors
-        waiting_time = min(0, 
-                           crowd_level / (capacity + 1) * duration
-                           + 10 / staff
-                           + 15 * rain # if it is raining, we assume an additional 15 minutes of waiting time added
-                           + np.random.normal(-5, 15)) # we introduce noise into the data
+        waiting_time = round(max(0,
+                                 (popularity / 100) * (fast_pass_crowd_level + regular_crowd_level) / capacity * duration
+                                 + 10 / staff
+                                 + 15 * rain # if it is raining, we assume an additional 15 minutes of waiting time added
+                                 + np.random.normal(-1, 5)), 0) # we introduce noise into the data
     
     else: # for rides, we assume that there will be sufficient staff to operate the rides
         if rain == 1 and outdoor == 1:
             waiting_time = 0
         else:
-            waiting_time = min(0,
-                               crowd_level / (capacity + 1) * duration
-                               + 15 * rain # if it is raining, we assume an additional 15 minutes of waiting time added
-                               + np.random.normal(-5, 15) # we introduce noise into the data
-                               )
+            waiting_time = round(max(0,
+                                     (popularity / 100) * (fast_pass_crowd_level + regular_crowd_level) / capacity * duration
+                                     + 15 * rain # if it is raining, we assume an additional 15 minutes of waiting time added
+                                     + np.random.normal(-1, 5)), 0) # we introduce noise into the data
+    
     return waiting_time
 
+combined_data = pd.DataFrame()
+
+wait_time_key_X_features = ['type', 'duration', 'fast_pass_crowd_level', 'regular_crowd_level',
+                            'popularity', 'capacity', 'rain', 'staff', 'outdoor']
+wait_time_X_combined = pd.DataFrame()
+wait_time_y_synthetic = pd.DataFrame() # generate wait times based on X
 
 for combined_df in combined_dfs:
-    wait_time_X = combined_df[['attraction', 'type', 'duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']]
-wait_time_key_X_features = ['duration', 'crowd_level', 'capacity', 'staff', 'popularity', 'outdoor']
-wait_time_y_synthetic = pd.DataFrame() # generate wait times based on X
-for entry in wait_time_X.itertuples():
-    actual_waiting_time = waiting_time(entry.duration, entry.crowd_level, entry.capacity, entry.staff, entry.popularity, entry.outdoor)
-    wait_time_y_synthetic = pd.concat([wait_time_y_synthetic, pd.DataFrame({"waiting_time": [actual_waiting_time]})], ignore_index=True)
-print(wait_time_y_synthetic)
+    combined_data = pd.concat([combined_data, combined_df])
+    wait_time_X = combined_df[['attraction', 'type_of_day', 'type', 'duration',
+                               'fast_pass_crowd_level', 'regular_crowd_level',
+                               'popularity', 'capacity', 'rain', 'staff', 'outdoor']]
+    wait_time_X_combined = pd.concat([wait_time_X_combined, wait_time_X])
+
+for entry in wait_time_X_combined.itertuples():
+    actual_waiting_time = waiting_time(entry.type, entry.duration, entry.fast_pass_crowd_level, entry.regular_crowd_level,
+                                       entry.popularity, entry.capacity, entry.rain, entry.staff, entry.outdoor)
+    wait_time_y_synthetic = pd.concat([wait_time_y_synthetic,
+                                       pd.DataFrame({"waiting_time": [actual_waiting_time]})], ignore_index=True)
+    print(wait_time_y_synthetic)
+
+combined_data = combined_data.reset_index(drop=True)  # Reset index to ensure alignment
+wait_time_y_synthetic = wait_time_y_synthetic.reset_index(drop=True)
+combined_data['waiting_time'] = wait_time_y_synthetic['waiting_time']
 
 # Train a Random Forest regressor to evaluate importance of each feature
-wait_time_rf_model = RandomForestRegressor(n_estimators = 10)
-wait_time_rf_model.fit(wait_time_X[wait_time_key_X_features], wait_time_y_synthetic)
+wait_time_rf_model = RandomForestRegressor(n_estimators = 50)
+wait_time_rf_model.fit(wait_time_X_combined[wait_time_key_X_features], wait_time_y_synthetic)
 wait_time_importances = wait_time_rf_model.feature_importances_
 
 # Plot a graph of the importance of each variable
@@ -263,69 +268,70 @@ wait_time_X_importance = wait_time_X[wait_time_key_X_features] * wait_time_impor
 # Train the linear regression model with the coefficients accounting for the importance
 wait_time_ml_model = LinearRegression()
 wait_time_ml_model.fit(wait_time_X_importance, wait_time_y_synthetic)
+print(wait_time_ml_model)
 
 
 ####################################
 ## Calculating Satisfaction Score ##
 ####################################
-# Arguments are the properties of the node. Can put in the object
-nodes["popularity"] = (nodes["popularity"] - nodes["popularity"].min()) / (nodes["popularity"].max() - nodes["popularity"].min())
-nodes["staff"] = (nodes["staff"] - nodes["staff"].min()) / (nodes["staff"].max() - nodes["staff"].min())
-nodes["affordability"] = (nodes["affordability"] - nodes["affordability"].min()) / (nodes["affordability"].max() - nodes["affordability"].min())
-nodes["cleanliness"] = (nodes["cleanliness"] - nodes["cleanliness"].min()) / (nodes["cleanliness"].max() - nodes["cleanliness"].min())
-
 # Calculate satisfaction/desirability score based on crowd level, wait time
 # Satisfaction score refers to the score for a single NODE, not the visitors.
 # Suggestion: track how long a guest spends waiting, maximise satisfaction score AND minimise wait time.
 # link to popularity
-def satisfaction_score(crowd_level, affordability, cleanliness, capacity, actual_wait_time, temperature, rain, ride_quality):
-    # Using a logarithmic transformation for diminishing returns
+def satisfaction_score(fast_pass_crowd_level, regular_crowd_level, affordability,
+                       cleanliness, capacity, waiting_time, temperature, rain):
     # we input a first guess of the coefficients here first
     # score is between 0 and 100, but we assume that there are no extremes.
     # it is impossible for a customer to be 100% satisfied or 100% dissatisfied.
     satisfaction_score_lr = max(5,
                                 min(95,
                                     (50 # average satisfaction score
-                                     - 5 * crowd_level # higher crowd level results in lower satisfaction score
+                                     - 5 * (fast_pass_crowd_level + regular_crowd_level) # higher crowd level results in lower satisfaction score
                                      + 4 * affordability # more affordable items results in higher satisfaction score
                                      + 2 * cleanliness # better cleanliness results in higher satisfaction score
                                      + 2 * capacity # higher capacity results in higher satisfaction score
-                                     - 5 * actual_wait_time # longer wait time results in lower satisfaction score
+                                     - 5 * waiting_time # longer wait time results in lower satisfaction score
                                      - 5 * temperature # higher temperatures results in lower satisfaction score
-                                     # for temperature, try to normalise the values where 30 degrees is zero, anything above has positive value, anything below has negative value
                                      - 5 * rain # rain results in lower satisfaction score
-                                     + 4 * ride_quality # better ride quality results in higher satisfaction score
-                                     + np.random.normal(-10, 15) # we introduce noise into the data
                                      )
                                     )
                                 )
     return satisfaction_score
 
- # split this into the 5 different types of days:
- # weekday and non-holiday
- # weekend and non-holiday
- # school holiday
- # public holiday
- # both school and public holiday
-satisfaction_score_X = nodes[['name', 'crowd_level', 'affordability', 'cleanliness', 'capacity']]
 satisfaction_score_X_key_features = ['crowd_level', 'affordability', 'cleanliness', 'capacity']
-satisfaction_score_y = pd.DataFrame() # generate satisfaction scores based on X
-for entry in satisfaction_score_X.itertuples():
-    actual_satisfaction_score = satisfaction_score(entry.crowd_level, entry.affordability, entry.cleanliness, entry.capacity)
-    satisfaction_score_y = pd.concat([satisfaction_score_y, pd.DataFrame({"waiting_time": [actual_satisfaction_score]})], ignore_index=True)
-print(satisfaction_score_X)
-print(satisfaction_score_y)
+satisfaction_score_X_combined = pd.DataFrame()
+satisfaction_score_y_synthetic = pd.DataFrame() # generate satisfaction scores based on X
+
+combined_data["popularity"] = (combined_data["popularity"] - combined_data["popularity"].min()) / (combined_data["popularity"].max() - combined_data["popularity"].min())
+combined_data["staff"] = (combined_data["staff"] - combined_data["staff"].min()) / (combined_data["staff"].max() - combined_data["staff"].min())
+combined_data["affordability"] = (combined_data["affordability"] - combined_data["affordability"].min()) / (combined_data["affordability"].max() - combined_data["affordability"].min())
+combined_data["cleanliness"] = (combined_data["cleanliness"] - combined_data["cleanliness"].min()) / (combined_data["cleanliness"].max() - combined_data["cleanliness"].min())
+combined_data["temperature"] = combined_data["temperature"] - 30 # for temperature, we normalise the values where 30 degrees is zero, anything above has positive value, anything below has negative value
+
+# Normalisation & Standardisation of Data
+for combined_df in combined_dfs:
+    satisfaction_score_X = combined_data[['attraction', 'type_of_day', 'type', 
+                                          'fast_pass_crowd_level', 'regular_crowd_level',
+                                          'affordability', 'cleanliness', 'capacity',
+                                          "waiting_time", "Temp", 'rain']]
+    satisfaction_score_X_combined = pd.concat([satisfaction_score_X_combined, satisfaction_score_X])
+
+for entry in satisfaction_score_X_combined.itertuples():
+    actual_satisfaction_score = satisfaction_score(entry.fast_pass_crowd_level, entry.regular_crowd_level, entry.affordability,
+                                                   entry.cleanliness, entry.capacity, entry.waiting_time, entry.temperature, entry.rain)
+    satisfaction_score_y_synthetic = pd.concat([satisfaction_score_y_synthetic,
+                                                pd.DataFrame({"satisfaction_score": [actual_satisfaction_score]})], ignore_index=True)
+    print(satisfaction_score_y_synthetic)
 
 # Train a Random Forest regressor to evaluate importance of each feature
 satisfaction_score_rf_model = RandomForestRegressor(n_estimators = 10)
-satisfaction_score_rf_model.fit(satisfaction_score_X[satisfaction_score_X_key_features],
-                                satisfaction_score_y)
+satisfaction_score_rf_model.fit(satisfaction_score_X_combined[satisfaction_score_X_key_features],
+                                satisfaction_score_y_synthetic)
 satisfaction_score_importances = satisfaction_score_rf_model.feature_importances_
 
 # Plot a graph of the importance of each variable
 satisfaction_score_feature_importance = pd.DataFrame({'Feature': satisfaction_score_X_key_features,
-                                                      'Importance': satisfaction_score_importances}
-                                                     ).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
+                                                      'Importance': satisfaction_score_importances}.sort_values(by='Importance', ascending = False)) # Sort the DataFrame by importance for a better plot
 
 plt.figure(figsize=(10, 5))
 sns.barplot(x='Importance', y='Feature', data = satisfaction_score_feature_importance, palette='viridis')
@@ -336,12 +342,21 @@ plt.ylabel('Feature')
 plt.show()
 
 # Apply weights based on feature importances
-satisfaction_score_X_importance = satisfaction_score_X[satisfaction_score_X_key_features] * satisfaction_score_importances # Each column in X is scaled by its corresponding importance from the random forest model
+satisfaction_score_X_importance = satisfaction_score_X_combined[satisfaction_score_X_key_features] * satisfaction_score_importances # Each column in X is scaled by its corresponding importance from the random forest model
 
 # Train the linear regression model with the coefficients accounting for the importance
 satisfaction_score_ml_model = LinearRegression()
-satisfaction_score_ml_model.fit(satisfaction_score_X_importance, satisfaction_score_y)
+satisfaction_score_ml_model.fit(satisfaction_score_X_importance, satisfaction_score_y_synthetic)
 print(satisfaction_score_ml_model)
+
+
+
+# split this into the 5 different types of days:
+# weekday and non-holiday
+# weekend and non-holiday
+# school holiday
+# public holiday
+# both school and public holiday
 
 
 ########################
@@ -352,10 +367,10 @@ print(satisfaction_score_ml_model)
 percentage_changes = np.linspace(-0.5, 0.5, 100)
 
 # Get the mean values of each feature to use as the baseline
-mean_crowd_level = satisfaction_score_X['crowd_level'].mean()
-mean_affordability = satisfaction_score_X['affordability'].mean()
-mean_cleanliness = satisfaction_score_X['cleanliness'].mean()
-mean_capacity = satisfaction_score_X['capacity'].mean()
+mean_crowd_level = satisfaction_score_X_combined['crowd_level'].mean()
+mean_affordability = satisfaction_score_X_combined['affordability'].mean()
+mean_cleanliness = satisfaction_score_X_combined['cleanliness'].mean()
+mean_capacity = satisfaction_score_X_combined['capacity'].mean()
 
 # Initialize lists to store satisfaction scores for each feature
 # for weekdays and non-holidays
@@ -448,8 +463,6 @@ plt.show()
 
 # input: csv file
 # variables: to be decided
-def seasonal_variation():
-    return
 
 
 """
@@ -467,55 +480,4 @@ Assumptions:
 Roads are not congested, although the ideal is to reduce congestion.
 Everyone walks at the same speed (this means that it takes the same time for anyone to get from point A to point B).
 
-# Simulate park experience over a day (time range: 10am to 7pm)
-for hour in range(10, 20):
-    print(f"\n--- Time: {hour}:00 ---")
-    for node in G.nodes(data=True):
-        base_wait = node[1]["base_wait"]
-        base_crowd = node[1]["base_crowd"]
-        
-        # Update wait time and crowd level dynamically
-        wait_time, crowd_level = dynamic_crowd_wait(hour, base_wait, base_crowd)
-        
-        # Calculate satisfaction score
-        satisfaction = calculate_satisfaction(wait_time, crowd_level, popularity)
-        
-        # Print status
-        print(f"{node[0]} - Wait Time: {wait_time:.1f} mins, Crowd Level: {crowd_level:.1f}, Satisfaction: {satisfaction:.1f}")
 """
-
-##########################
-## Optimising Itinerary ##
-##########################
-def optimized_itinerary(start, attractions_list, current_hour):
-    total_time = 0
-    itinerary = [start]
-    current_location = start
-    
-    for attraction in attractions_list:
-        # Calculate dynamic wait time and crowd level for attraction
-        wait_time, crowd_level = waiting_time(current_hour,
-                                              G.nodes[attraction]["base_wait"],
-                                              G.nodes[attraction]["base_crowd"])
-        
-        # Satisfaction score
-        satisfaction = satisfaction_score(wait_time, crowd_level, G.nodes[attraction]["popularity"])
-        
-        # Pathfinding to minimize travel time between attractions
-        path = find_shortest_path(G, current_location, attraction)
-        travel_time = sum(G.edges[path[i], path[i+1]]["distance"] for i in range(len(path)-1))
-        
-        # Update itinerary and time
-        # how to track wait time and minimise it?
-        # A possible way is based on the guest's threshold waiting time vs the expected waiting time
-        # If the waiting time is suddenly reduced, will it allow the customer to return to the node?
-        # After every period of time, the guest can re-evaluate the optimised itinerary
-        # Consider both the global time and attraction-specific time (e.g. different Ride durations)
-        total_time += wait_time + travel_time
-        itinerary.append((attraction, wait_time, satisfaction))
-        current_location = attraction
-        
-        # Simulate moving to the next hour
-        current_hour = (current_hour + 1) % 24
-    
-    return itinerary, total_time

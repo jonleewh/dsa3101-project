@@ -148,7 +148,7 @@ pos_nodes = {
     "Friar's Good Food": (4.1, 7.6),
     "Goldilocks": (4.2, 7.2),
     "Fairy Godmother's Potion Shop": (2.8, 7),
-    "Entrance": (5, 0)
+    "Entrance": (5.5, 1)
 }
 
 edge_x = []
