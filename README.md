@@ -56,7 +56,7 @@ Clean and preprocess the raw survey data (e.g., remove missing values, standardi
 Merge weather data with simulation data for analysis (e.g., combine temperature, attendance, and queue times).
 Process and normalize park layout data to build graph-based representations of park paths.
 
-## Data Dictionary
+## Data Dictionary of key datasets
 ### Group A
   
 **`dynamic_pricing_weather.ipynb`**
