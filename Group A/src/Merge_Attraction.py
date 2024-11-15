@@ -4,10 +4,10 @@ from datetime import datetime
 RIDE = '' # key in your ride name
 
 attraction_files = [
-    f'{RIDE}_jan.csv', f'{RIDE}_feb.csv', f'{RIDE}_mar.csv', 
-    f'{RIDE}_apr.csv', f'{RIDE}_may.csv', f'{RIDE}_jun.csv', 
-    f'{RIDE}_jul.csv', f'{RIDE}_aug.csv', f'{RIDE}_sep.csv', 
-    f'{RIDE}_oct.csv', f'{RIDE}_nov.csv', f'{RIDE}_dec.csv'
+    f'../data/{RIDE}_jan.csv', f'../data/{RIDE}_feb.csv', f'../data/{RIDE}_mar.csv', 
+    f'../data/{RIDE}_apr.csv', f'../data/{RIDE}_may.csv', f'../data/{RIDE}_jun.csv', 
+    f'../data/{RIDE}_jul.csv', f'../data/{RIDE}_aug.csv', f'../data/{RIDE}_sep.csv', 
+    f'../data/{RIDE}_oct.csv', f'../data/{RIDE}_nov.csv', f'../data/{RIDE}_dec.csv'
 ]
 
 attraction_df = pd.concat([pd.read_csv(file) for file in attraction_files])
@@ -51,5 +51,5 @@ def classify_day(date):
 
 attraction_df_filtered['DayType'] = attraction_df_filtered['Date/Time'].apply(classify_day)
 
-output_file_path = f'{RIDE}_cleaned.csv'
+output_file_path = f'../data/{RIDE}_cleaned.csv'
 attraction_df_filtered.to_csv(output_file_path, index=False)
