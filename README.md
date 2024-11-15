@@ -74,6 +74,18 @@ Process and normalize park layout data to build graph-based representations of p
 * Mean Temperature (°C): Average temperature for the day (°C).
 * Max Wind Speed (km/h): Maximum recorded wind speed for the day (km/h).
 
+**weather_data_hour_x.csv** (x = 1, 2, 3, 4, 5)
+* datetime: the dates and times of a random date selected from each category x
+* Date: a date from each category, randomly selected
+* Time: the times of the attraction, to the minute
+* Temp: the temperature at the time (assumed to be the same throughout the hour)
+* rain: whether it rains or not
+* Day of the Week: the day of the week (e.g. Monday, Tuesday)
+* School Holiday: whether it's a school holiday or not
+* Public Holiday: whether it's a public holiday or not
+* Weekend: whether it's a weekend or not
+* type_of_day: follows `x`.
+
 **theme_park_nodes.csv**
 * name: the name of the attraction in USS
 * type: the type of attraction (e.g. ride, Dining Outlet, etc)
