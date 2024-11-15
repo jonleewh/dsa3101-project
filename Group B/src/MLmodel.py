@@ -293,7 +293,7 @@ def satisfaction_score(fast_pass_crowd_level, regular_crowd_level, affordability
                                             + 4 * affordability # more affordable items results in higher satisfaction score
                                             + 2 * cleanliness # better cleanliness results in higher satisfaction score
                                             + 2 * capacity # higher capacity results in higher satisfaction score
-                                            - 5 * waiting_time # longer wait time results in lower satisfaction score
+                                            + 5 * waiting_time # longer wait time results in lower satisfaction score
                                             - 5 * temperature # higher temperatures results in lower satisfaction score
                                             - 5 * rain # rain results in lower satisfaction score
                                             )))
@@ -333,7 +333,8 @@ satisfaction_score_importances = satisfaction_score_rf_model.feature_importances
 
 # Plot a graph of the importance of each variable
 satisfaction_score_feature_importance = pd.DataFrame({'Feature': satisfaction_score_X_key_features,
-                                                      'Importance': satisfaction_score_importances}).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
+                                                      'Importance': satisfaction_score_importances}
+                                                     ).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
 
 plt.figure(figsize=(10, 5))
 sns.barplot(x='Importance', y='Feature', data = satisfaction_score_feature_importance, palette='viridis')
@@ -365,10 +366,9 @@ satisfaction_score_ml_model.fit(satisfaction_score_X_importance, satisfaction_sc
 ########################
 
 # Define the percentage change range from -50% to +50%
-percentage_changes = np.linspace(-0.5, 0.5, 100)
+percentage_changes = np.linspace(-0.75, 0.75, 100)
 
 # Get the mean values of each feature to use as the baseline
-print(satisfaction_score_X_combined.columns)
 mean_regular_crowd_level = satisfaction_score_X_combined['regular_crowd_level'].mean()
 mean_fast_pass_crowd_level = satisfaction_score_X_combined['fast_pass_crowd_level'].mean()
 mean_affordability = satisfaction_score_X_combined['affordability'].mean()
@@ -378,13 +378,8 @@ mean_waiting_time = satisfaction_score_X_combined['waiting_time'].mean()
 mean_temperature = satisfaction_score_X_combined['Temp'].mean() + 30
 rain_probability = satisfaction_score_X_combined['rain'].mean()
 
-satisfaction_score(entry.fast_pass_crowd_level, entry.regular_crowd_level, entry.affordability,
-                   entry.cleanliness, entry.capacity, entry.waiting_time, entry.Temp, entry.rain)
-
 # Initialize lists to store satisfaction scores for each feature
-# for weekdays and non-holidays
 satisfaction_scores_crowd = []
-satisfaction_scores_fast_pass_crowd = []
 satisfaction_scores_affordability = []
 satisfaction_scores_cleanliness = []
 satisfaction_scores_capacity = []
@@ -399,12 +394,6 @@ for change in percentage_changes:
                                      mean_cleanliness, mean_capacity, mean_waiting_time, mean_temperature, rain_probability)
     satisfaction_scores_crowd.append(score_crowd)
 
-    # Vary affordability while keeping others constant
-    affordability = mean_affordability * (1 + change)
-    score_affordability = satisfaction_score(mean_regular_crowd_level, mean_fast_pass_crowd_level, affordability,
-                                             mean_cleanliness, mean_capacity, mean_waiting_time, mean_temperature, rain_probability)
-    satisfaction_scores_affordability.append(score_affordability)
-
     # Vary cleanliness while keeping others constant
     cleanliness = mean_cleanliness * (1 + change)
     score_cleanliness = satisfaction_score(mean_regular_crowd_level, mean_fast_pass_crowd_level, mean_affordability,
@@ -418,10 +407,10 @@ for change in percentage_changes:
     satisfaction_scores_capacity.append(score_capacity)
 
 # Plotting the results
-plt.figure(figsize=(10, 10))
+plt.figure(figsize=(15, 5))
 
 # Plot for crowd_level
-plt.subplot(2, 2, 1)
+plt.subplot(1, 3, 1)
 # for all the graphs, have multiple lines that shows the percentage changes for each type of day
 plt.plot(percentage_changes * 100, satisfaction_scores_crowd, label='Crowd Level', color='blue')
 plt.axhline(y = satisfaction_score(mean_regular_crowd_level, mean_fast_pass_crowd_level, mean_affordability,
@@ -431,22 +420,10 @@ plt.xlabel('% Change in Crowd Level')
 plt.ylabel('Satisfaction Score')
 plt.title('Effect of Crowd Level on Satisfaction Score')
 plt.legend()
-plt.ylim(0, 60)
-
-# Plot for affordability
-plt.subplot(2, 2, 2)
-plt.plot(percentage_changes * 100, satisfaction_scores_affordability, label='Affordability', color='green')
-plt.axhline(y = satisfaction_score(mean_regular_crowd_level, mean_fast_pass_crowd_level, mean_affordability,
-                                   mean_cleanliness, mean_capacity, mean_waiting_time, mean_temperature, rain_probability),
-            color='gray', linestyle='--', label='Baseline Score')
-plt.xlabel('% Change in Affordability')
-plt.ylabel('Satisfaction Score')
-plt.title('Effect of Affordability on Satisfaction Score')
-plt.legend()
-plt.ylim(0, 60)
+plt.ylim(0, 100)
 
 # Plot for cleanliness
-plt.subplot(2, 2, 3)
+plt.subplot(1, 3, 2)
 plt.plot(percentage_changes * 100, satisfaction_scores_cleanliness, label='Cleanliness', color='red')
 plt.axhline(y = satisfaction_score(mean_regular_crowd_level, mean_fast_pass_crowd_level, mean_affordability,
                                    mean_cleanliness, mean_capacity, mean_waiting_time, mean_temperature, rain_probability),
@@ -455,10 +432,10 @@ plt.xlabel('% Change in Cleanliness')
 plt.ylabel('Satisfaction Score')
 plt.title('Effect of Cleanliness on Satisfaction Score')
 plt.legend()
-plt.ylim(0, 60)
+plt.ylim(0, 100)
 
 # Plot for capacity
-plt.subplot(2, 2, 4)
+plt.subplot(1, 3, 3)
 plt.plot(percentage_changes * 100, satisfaction_scores_capacity, label='Capacity', color='purple')
 plt.axhline(y = satisfaction_score(mean_regular_crowd_level, mean_fast_pass_crowd_level, mean_affordability,
                                    mean_cleanliness, mean_capacity, mean_waiting_time, mean_temperature, rain_probability),
@@ -467,7 +444,7 @@ plt.xlabel('% Change in Capacity')
 plt.ylabel('Satisfaction Score')
 plt.title('Effect of Capacity on Satisfaction Score')
 plt.legend()
-plt.ylim(0, 60)
+plt.ylim(0, 100)
 
 plt.tight_layout()
 plt.show()
