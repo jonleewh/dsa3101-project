@@ -31,6 +31,7 @@ weather_data_hour_2 = pd.read_csv('../data/weather_data_hour_2.csv')
 weather_data_hour_3 = pd.read_csv('../data/weather_data_hour_3.csv')
 weather_data_hour_4 = pd.read_csv('../data/weather_data_hour_4.csv')
 weather_data_hour_5 = pd.read_csv('../data/weather_data_hour_5.csv')
+
 weather_data_hour_1["type_of_day"] = weather_data_hour_1["type_of_day"].astype(int)
 weather_data_hour_2["type_of_day"] = weather_data_hour_2["type_of_day"].astype(int)
 weather_data_hour_3["type_of_day"] = weather_data_hour_3["type_of_day"].astype(int)
@@ -38,16 +39,17 @@ weather_data_hour_4["type_of_day"] = weather_data_hour_4["type_of_day"].astype(i
 weather_data_hour_5["type_of_day"] = weather_data_hour_5["type_of_day"].astype(int)
 
 weather_data_hour_1['datetime'] = pd.to_datetime(weather_data_hour_1['datetime'])
-weather_data_hour_1 = weather_data_hour_1[weather_data_hour_1['datetime'].dt.minute % 30 == 0]
 weather_data_hour_2['datetime'] = pd.to_datetime(weather_data_hour_2['datetime'])
-weather_data_hour_2 = weather_data_hour_2[weather_data_hour_2['datetime'].dt.minute % 30 == 0]
 weather_data_hour_3['datetime'] = pd.to_datetime(weather_data_hour_3['datetime'])
-weather_data_hour_3 = weather_data_hour_3[weather_data_hour_3['datetime'].dt.minute % 30 == 0]
 weather_data_hour_4['datetime'] = pd.to_datetime(weather_data_hour_4['datetime'])
-weather_data_hour_4 = weather_data_hour_4[weather_data_hour_4['datetime'].dt.minute % 30 == 0]
 weather_data_hour_5['datetime'] = pd.to_datetime(weather_data_hour_5['datetime'])
-weather_data_hour_5 = weather_data_hour_5[weather_data_hour_5['datetime'].dt.minute % 30 == 0]
 
+# to reduce the computational cost, we consider every hour
+weather_data_hour_1 = weather_data_hour_1[weather_data_hour_1['datetime'].dt.minute % 60 == 0]
+weather_data_hour_2 = weather_data_hour_2[weather_data_hour_2['datetime'].dt.minute % 60 == 0]
+weather_data_hour_3 = weather_data_hour_3[weather_data_hour_3['datetime'].dt.minute % 60 == 0]
+weather_data_hour_4 = weather_data_hour_4[weather_data_hour_4['datetime'].dt.minute % 60 == 0]
+weather_data_hour_5 = weather_data_hour_5[weather_data_hour_5['datetime'].dt.minute % 60 == 0]
 
 ####################################
 ## Read in Simulation Output Data ##
@@ -73,7 +75,8 @@ for csv_file in simulation_output_both_holiday:
     df.drop(columns = ["fast_pass_waiting_time", "regular_waiting_time"], inplace=True)
     df["attraction"] = csv_file.replace("../data/simulation_output_both_holiday/", "").replace("_df.csv", "")
     df = df[['attraction'] + [col for col in df.columns if col != 'attraction']]
-    df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
+    df['timestamp'] = pd.to_datetime(df['timestamp'])
+    df = df[df['timestamp'].dt.minute == 0]
     df['type_of_day'] = 1
     combined_df_both_holiday = pd.concat([combined_df_both_holiday, df])
 
@@ -82,7 +85,8 @@ for csv_file in simulation_output_public_holiday:
     df.drop(columns = ["fast_pass_waiting_time", "regular_waiting_time"], inplace=True)
     df["attraction"] = csv_file.replace("../data/simulation_output_public_holiday/", "").replace("_df.csv", "")
     df = df[['attraction'] + [col for col in df.columns if col != 'attraction']]
-    df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
+    df['timestamp'] = pd.to_datetime(df['timestamp'])
+    df = df[df['timestamp'].dt.minute == 0]
     df['type_of_day'] = 2
     combined_df_public_holiday = pd.concat([combined_df_public_holiday, df])
 
@@ -91,7 +95,8 @@ for csv_file in simulation_output_school_holiday:
     df.drop(columns = ["fast_pass_waiting_time", "regular_waiting_time"], inplace=True)
     df["attraction"] = csv_file.replace("../data/simulation_output_school_holiday/", "").replace("_df.csv", "")
     df = df[['attraction'] + [col for col in df.columns if col != 'attraction']]
-    df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
+    df['timestamp'] = pd.to_datetime(df['timestamp'])
+    df = df[df['timestamp'].dt.minute == 0]
     df['type_of_day'] = 3
     combined_df_school_holiday = pd.concat([combined_df_school_holiday, df])
 
@@ -100,7 +105,8 @@ for csv_file in simulation_output_weekday_non_holiday:
     df.drop(columns = ["fast_pass_waiting_time", "regular_waiting_time"], inplace=True)
     df["attraction"] = csv_file.replace("../data/simulation_output_weekday_non_holiday/", "").replace("_df.csv", "")
     df = df[['attraction'] + [col for col in df.columns if col != 'attraction']]
-    df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
+    df['timestamp'] = pd.to_datetime(df['timestamp'])
+    df = df[df['timestamp'].dt.minute == 0]
     df['type_of_day'] = 4
     combined_df_weekday_non_holiday = pd.concat([combined_df_weekday_non_holiday, df])
 
@@ -109,7 +115,8 @@ for csv_file in simulation_output_weekend_non_holiday:
     df.drop(columns = ["fast_pass_waiting_time", "regular_waiting_time"], inplace=True)
     df["attraction"] = csv_file.replace("../data/simulation_output_weekend_non_holiday/", "").replace("_df.csv", "")
     df = df[['attraction'] + [col for col in df.columns if col != 'attraction']]
-    df['timestamp'] = pd.to_datetime(df['timestamp']).dt.time
+    df['timestamp'] = pd.to_datetime(df['timestamp'])
+    df = df[df['timestamp'].dt.minute == 0]
     df['type_of_day'] = 5
     combined_df_weekend_non_holiday = pd.concat([combined_df_weekend_non_holiday, df])
 
@@ -224,7 +231,7 @@ def waiting_time(type, duration, fast_pass_crowd_level, regular_crowd_level, pop
 
 combined_data = pd.DataFrame()
 
-wait_time_key_X_features = ['type', 'duration', 'fast_pass_crowd_level', 'regular_crowd_level',
+wait_time_key_X_features = ['duration', 'fast_pass_crowd_level', 'regular_crowd_level',
                             'popularity', 'capacity', 'rain', 'staff', 'outdoor']
 wait_time_X_combined = pd.DataFrame()
 wait_time_y_synthetic = pd.DataFrame() # generate wait times based on X
@@ -241,10 +248,9 @@ for entry in wait_time_X_combined.itertuples():
                                        entry.popularity, entry.capacity, entry.rain, entry.staff, entry.outdoor)
     wait_time_y_synthetic = pd.concat([wait_time_y_synthetic,
                                        pd.DataFrame({"waiting_time": [actual_waiting_time]})], ignore_index=True)
-    print(wait_time_y_synthetic)
 
 combined_data = combined_data.reset_index(drop=True)  # Reset index to ensure alignment
-wait_time_y_synthetic = wait_time_y_synthetic.reset_index(drop=True)
+wait_time_y_synthetic = wait_time_y_synthetic.reset_index(drop = True)
 combined_data['waiting_time'] = wait_time_y_synthetic['waiting_time']
 
 # Train a Random Forest regressor to evaluate importance of each feature
@@ -263,12 +269,11 @@ plt.ylabel('Feature')
 plt.show()
 
 # Apply weights based on feature importances
-wait_time_X_importance = wait_time_X[wait_time_key_X_features] * wait_time_importances # Each column in X is scaled by its corresponding importance from the random forest model
+wait_time_X_importance = wait_time_X_combined[wait_time_key_X_features] * wait_time_importances # Each column in X is scaled by its corresponding importance from the random forest model
 
 # Train the linear regression model with the coefficients accounting for the importance
 wait_time_ml_model = LinearRegression()
 wait_time_ml_model.fit(wait_time_X_importance, wait_time_y_synthetic)
-print(wait_time_ml_model)
 
 
 ####################################
@@ -283,22 +288,20 @@ def satisfaction_score(fast_pass_crowd_level, regular_crowd_level, affordability
     # we input a first guess of the coefficients here first
     # score is between 0 and 100, but we assume that there are no extremes.
     # it is impossible for a customer to be 100% satisfied or 100% dissatisfied.
-    satisfaction_score_lr = max(5,
-                                min(95,
-                                    (50 # average satisfaction score
-                                     - 5 * (fast_pass_crowd_level + regular_crowd_level) # higher crowd level results in lower satisfaction score
-                                     + 4 * affordability # more affordable items results in higher satisfaction score
-                                     + 2 * cleanliness # better cleanliness results in higher satisfaction score
-                                     + 2 * capacity # higher capacity results in higher satisfaction score
-                                     - 5 * waiting_time # longer wait time results in lower satisfaction score
-                                     - 5 * temperature # higher temperatures results in lower satisfaction score
-                                     - 5 * rain # rain results in lower satisfaction score
-                                     )
-                                    )
-                                )
+    satisfaction_score = max(5, min(95, (50 # average satisfaction score
+                                            - 5 * (fast_pass_crowd_level + regular_crowd_level) # higher crowd level results in lower satisfaction score
+                                            + 4 * affordability # more affordable items results in higher satisfaction score
+                                            + 2 * cleanliness # better cleanliness results in higher satisfaction score
+                                            + 2 * capacity # higher capacity results in higher satisfaction score
+                                            - 5 * waiting_time # longer wait time results in lower satisfaction score
+                                            - 5 * temperature # higher temperatures results in lower satisfaction score
+                                            - 5 * rain # rain results in lower satisfaction score
+                                            )))
     return satisfaction_score
 
-satisfaction_score_X_key_features = ['crowd_level', 'affordability', 'cleanliness', 'capacity']
+satisfaction_score_X_key_features = ['fast_pass_crowd_level', 'regular_crowd_level',
+                                     'affordability', 'cleanliness', 'capacity',
+                                     "waiting_time", "Temp", 'rain']
 satisfaction_score_X_combined = pd.DataFrame()
 satisfaction_score_y_synthetic = pd.DataFrame() # generate satisfaction scores based on X
 
@@ -306,7 +309,7 @@ combined_data["popularity"] = (combined_data["popularity"] - combined_data["popu
 combined_data["staff"] = (combined_data["staff"] - combined_data["staff"].min()) / (combined_data["staff"].max() - combined_data["staff"].min())
 combined_data["affordability"] = (combined_data["affordability"] - combined_data["affordability"].min()) / (combined_data["affordability"].max() - combined_data["affordability"].min())
 combined_data["cleanliness"] = (combined_data["cleanliness"] - combined_data["cleanliness"].min()) / (combined_data["cleanliness"].max() - combined_data["cleanliness"].min())
-combined_data["temperature"] = combined_data["temperature"] - 30 # for temperature, we normalise the values where 30 degrees is zero, anything above has positive value, anything below has negative value
+combined_data["Temp"] = combined_data["Temp"] - 30 # for temperature, we normalise the values where 30 degrees is zero, anything above has positive value, anything below has negative value
 
 # Normalisation & Standardisation of Data
 for combined_df in combined_dfs:
@@ -318,10 +321,9 @@ for combined_df in combined_dfs:
 
 for entry in satisfaction_score_X_combined.itertuples():
     actual_satisfaction_score = satisfaction_score(entry.fast_pass_crowd_level, entry.regular_crowd_level, entry.affordability,
-                                                   entry.cleanliness, entry.capacity, entry.waiting_time, entry.temperature, entry.rain)
+                                                   entry.cleanliness, entry.capacity, entry.waiting_time, entry.Temp, entry.rain)
     satisfaction_score_y_synthetic = pd.concat([satisfaction_score_y_synthetic,
                                                 pd.DataFrame({"satisfaction_score": [actual_satisfaction_score]})], ignore_index=True)
-    print(satisfaction_score_y_synthetic)
 
 # Train a Random Forest regressor to evaluate importance of each feature
 satisfaction_score_rf_model = RandomForestRegressor(n_estimators = 10)
@@ -331,7 +333,7 @@ satisfaction_score_importances = satisfaction_score_rf_model.feature_importances
 
 # Plot a graph of the importance of each variable
 satisfaction_score_feature_importance = pd.DataFrame({'Feature': satisfaction_score_X_key_features,
-                                                      'Importance': satisfaction_score_importances}.sort_values(by='Importance', ascending = False)) # Sort the DataFrame by importance for a better plot
+                                                      'Importance': satisfaction_score_importances}).sort_values(by='Importance', ascending = False) # Sort the DataFrame by importance for a better plot
 
 plt.figure(figsize=(10, 5))
 sns.barplot(x='Importance', y='Feature', data = satisfaction_score_feature_importance, palette='viridis')
@@ -347,7 +349,6 @@ satisfaction_score_X_importance = satisfaction_score_X_combined[satisfaction_sco
 # Train the linear regression model with the coefficients accounting for the importance
 satisfaction_score_ml_model = LinearRegression()
 satisfaction_score_ml_model.fit(satisfaction_score_X_importance, satisfaction_score_y_synthetic)
-print(satisfaction_score_ml_model)
 
 
 
@@ -367,38 +368,53 @@ print(satisfaction_score_ml_model)
 percentage_changes = np.linspace(-0.5, 0.5, 100)
 
 # Get the mean values of each feature to use as the baseline
-mean_crowd_level = satisfaction_score_X_combined['crowd_level'].mean()
+print(satisfaction_score_X_combined.columns)
+mean_regular_crowd_level = satisfaction_score_X_combined['regular_crowd_level'].mean()
+mean_fast_pass_crowd_level = satisfaction_score_X_combined['fast_pass_crowd_level'].mean()
 mean_affordability = satisfaction_score_X_combined['affordability'].mean()
 mean_cleanliness = satisfaction_score_X_combined['cleanliness'].mean()
 mean_capacity = satisfaction_score_X_combined['capacity'].mean()
+mean_waiting_time = satisfaction_score_X_combined['waiting_time'].mean()
+mean_temperature = satisfaction_score_X_combined['Temp'].mean() + 30
+rain_probability = satisfaction_score_X_combined['rain'].mean()
+
+satisfaction_score(entry.fast_pass_crowd_level, entry.regular_crowd_level, entry.affordability,
+                   entry.cleanliness, entry.capacity, entry.waiting_time, entry.Temp, entry.rain)
 
 # Initialize lists to store satisfaction scores for each feature
 # for weekdays and non-holidays
 satisfaction_scores_crowd = []
+satisfaction_scores_fast_pass_crowd = []
 satisfaction_scores_affordability = []
 satisfaction_scores_cleanliness = []
 satisfaction_scores_capacity = []
 
 # Calculate the satisfaction score for each percentage change in the feature
 for change in percentage_changes:
+    
     # Vary crowd_level while keeping others constant
-    crowd_level = mean_crowd_level * (1 + change)
-    score_crowd = satisfaction_score(crowd_level, mean_affordability, mean_cleanliness, mean_capacity)
+    regular_crowd_level = mean_regular_crowd_level * (1 + change)
+    fast_pass_crowd_level = mean_fast_pass_crowd_level * (1 + change)
+    score_crowd = satisfaction_score(regular_crowd_level, fast_pass_crowd_level, mean_affordability,
+                                     mean_cleanliness, mean_capacity, mean_waiting_time, mean_temperature, rain_probability)
     satisfaction_scores_crowd.append(score_crowd)
 
     # Vary affordability while keeping others constant
     affordability = mean_affordability * (1 + change)
-    score_affordability = satisfaction_score(mean_crowd_level, affordability, mean_cleanliness, mean_capacity)
+    score_affordability = satisfaction_score(mean_regular_crowd_level, mean_fast_pass_crowd_level, affordability,
+                                             mean_cleanliness, mean_capacity, mean_waiting_time, mean_temperature, rain_probability)
     satisfaction_scores_affordability.append(score_affordability)
 
     # Vary cleanliness while keeping others constant
     cleanliness = mean_cleanliness * (1 + change)
-    score_cleanliness = satisfaction_score(mean_crowd_level, mean_affordability, cleanliness, mean_capacity)
+    score_cleanliness = satisfaction_score(mean_regular_crowd_level, mean_fast_pass_crowd_level, mean_affordability,
+                                           cleanliness, mean_capacity, mean_waiting_time, mean_temperature, rain_probability)
     satisfaction_scores_cleanliness.append(score_cleanliness)
     
     # Vary capacity while keeping others constant
     capacity = mean_capacity * (1 + change)
-    score_capacity = satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness, capacity)
+    score_capacity = satisfaction_score(mean_regular_crowd_level, mean_fast_pass_crowd_level, mean_affordability,
+                                        mean_cleanliness, capacity, mean_waiting_time, mean_temperature, rain_probability)
     satisfaction_scores_capacity.append(score_capacity)
 
 # Plotting the results
@@ -408,7 +424,8 @@ plt.figure(figsize=(10, 10))
 plt.subplot(2, 2, 1)
 # for all the graphs, have multiple lines that shows the percentage changes for each type of day
 plt.plot(percentage_changes * 100, satisfaction_scores_crowd, label='Crowd Level', color='blue')
-plt.axhline(y = satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness, mean_capacity),
+plt.axhline(y = satisfaction_score(mean_regular_crowd_level, mean_fast_pass_crowd_level, mean_affordability,
+                                   mean_cleanliness, mean_capacity, mean_waiting_time, mean_temperature, rain_probability),
             color = 'gray', linestyle = '--', label = 'Baseline Score')
 plt.xlabel('% Change in Crowd Level')
 plt.ylabel('Satisfaction Score')
@@ -419,7 +436,8 @@ plt.ylim(0, 60)
 # Plot for affordability
 plt.subplot(2, 2, 2)
 plt.plot(percentage_changes * 100, satisfaction_scores_affordability, label='Affordability', color='green')
-plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness, mean_capacity),
+plt.axhline(y = satisfaction_score(mean_regular_crowd_level, mean_fast_pass_crowd_level, mean_affordability,
+                                   mean_cleanliness, mean_capacity, mean_waiting_time, mean_temperature, rain_probability),
             color='gray', linestyle='--', label='Baseline Score')
 plt.xlabel('% Change in Affordability')
 plt.ylabel('Satisfaction Score')
@@ -430,7 +448,9 @@ plt.ylim(0, 60)
 # Plot for cleanliness
 plt.subplot(2, 2, 3)
 plt.plot(percentage_changes * 100, satisfaction_scores_cleanliness, label='Cleanliness', color='red')
-plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness,mean_capacity), color='gray', linestyle='--', label='Baseline Score')
+plt.axhline(y = satisfaction_score(mean_regular_crowd_level, mean_fast_pass_crowd_level, mean_affordability,
+                                   mean_cleanliness, mean_capacity, mean_waiting_time, mean_temperature, rain_probability),
+            color='gray', linestyle='--', label='Baseline Score')
 plt.xlabel('% Change in Cleanliness')
 plt.ylabel('Satisfaction Score')
 plt.title('Effect of Cleanliness on Satisfaction Score')
@@ -440,7 +460,9 @@ plt.ylim(0, 60)
 # Plot for capacity
 plt.subplot(2, 2, 4)
 plt.plot(percentage_changes * 100, satisfaction_scores_capacity, label='Capacity', color='purple')
-plt.axhline(y=satisfaction_score(mean_crowd_level, mean_affordability, mean_cleanliness,mean_capacity), color='gray', linestyle='--', label='Baseline Score')
+plt.axhline(y = satisfaction_score(mean_regular_crowd_level, mean_fast_pass_crowd_level, mean_affordability,
+                                   mean_cleanliness, mean_capacity, mean_waiting_time, mean_temperature, rain_probability),
+            color='gray', linestyle='--', label='Baseline Score')
 plt.xlabel('% Change in Capacity')
 plt.ylabel('Satisfaction Score')
 plt.title('Effect of Capacity on Satisfaction Score')
